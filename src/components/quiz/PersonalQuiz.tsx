@@ -1,14 +1,17 @@
 import { db } from '../../utils/firebaseInit';
-import { query, collection, where, getDocs } from 'firebase/firestore';
+import { query, collection, getDocs } from 'firebase/firestore';
+// import { query, collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 
 function PersonalQuiz() {
   useEffect(() => {
-    const q = query(collection(db, 'user'), where('name', '==', 'yunning'));
+    const q = query(collection(db, 'user'));
 
     getDocs(q).then((snapshot) => {
-      const data = snapshot.docs[0].data();
-      console.log(data);
+      snapshot.forEach((_doc) => {
+        // console.log(doc.id, ' => ', doc.data());
+        // setDoc(doc(db, 'users', _doc.id), _doc.data());
+      });
     });
   }, []);
 
