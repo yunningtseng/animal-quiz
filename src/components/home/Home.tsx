@@ -1,4 +1,4 @@
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import {
   decrement,
   increment,
