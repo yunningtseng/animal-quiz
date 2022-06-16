@@ -1,14 +1,16 @@
-import { Fragment } from 'react';
-
 import Navigation from './Navigation';
 
-const Layout: React.FC<{ children: JSX.Element }> = (props) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+function Layout({ children }:LayoutProps) {
   return (
-    <Fragment>
+    <>
       <Navigation />
-      <main>{props.children}</main>
-    </Fragment>
+      <main>{children}</main>
+    </>
   );
-};
+}
 
 export default Layout;

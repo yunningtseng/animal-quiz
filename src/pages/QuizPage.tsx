@@ -5,7 +5,7 @@ function QuizPage() {
   const { type } = useParams();
 
   return (
-    <div className='w-screen flex flex-col justify-center items-center'>
+    <div className="w-screen flex flex-col justify-center items-center">
       {type === 'personal' && <PersonalQuiz />}
       {/* {type === 'time' && <TimeQuiz />} */}
     </div>

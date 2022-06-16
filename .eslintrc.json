@@ -1,6 +1,20 @@
 {
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint"],
   "extends": [
-    "react-app",
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
@@ -8,9 +22,10 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "rules": {
+    "linebreak-style": "off",
+    "max-len": "off",
     "react/jsx-filename-extension": 0,
     "react/react-in-jsx-scope": 0,
-    "linebreak-style": "off",
     "no-param-reassign": [
       "error",
       { "props": true, "ignorePropertyModificationsFor": ["state"] }
