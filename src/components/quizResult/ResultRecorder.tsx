@@ -1,69 +1,63 @@
 import { Link } from 'react-router-dom';
-import {
-  query, collection, onSnapshot, where,
-} from 'firebase/firestore';
+import { getDoc, doc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { db } from '../../utils/firebaseInit';
-
-interface Data {
-  answer: number | number[];
-  correct: boolean;
-  questionId:string;
-}
-
-interface Response {
-  id: string;
-  score: number;
-  // startTime:Timestamp;
-  totalTime: string;
-  answer: number;
-  userName:string;
-  data:Data[]
-}
+import { Question } from '../../types/question';
+import { Response } from '../../types/response';
 
 function ResultRecorder() {
   // - 篩出特定玩家的回答
-  const [responseList, setResponseList] = useState<Response[]>([]);
+  const [response, setResponse] = useState<Response>({} as Response);
+  const [questionList, setQuestionList] = useState<Question[]>([]);
 
   useEffect(() => {
-    const q = query(collection(db, 'responses'), where('userName', '==', 'yunning'));
+    // - 某次作答的資料
+    let qIdList: string[];
+    const localQuestionList: Question[] = [];
 
-    onSnapshot(q, (snapshot) => {
-      const list:Response[] = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data() as Response;
-        list.push(data);
-      });
-      setResponseList(list);
-    });
+    getDoc(doc(db, 'responses', 'FGznKE6b3Tg43HpAvzcc'))
+      .then((docSnap) => {
+        const localResponse = docSnap.data() as Response;
+        setResponse(localResponse);
+
+        // - 篩出某次測驗作答所有的 questionId
+        qIdList = localResponse.data.map((answer) => answer.questionId);
+      })
+      .then(() => {
+        // - 根據 questionsId，去 query questions 的題目
+        qIdList.forEach((qId) => {
+          getDoc(doc(db, 'questions', qId))
+            .then((docSnap) => {
+              // - 取得每一個 question
+              const question = docSnap.data() as Question;
+              // - 新增 question 塞進去
+              localQuestionList.push(question);
+            })
+            .catch((e) => console.log(e));
+        });
+      })
+      .then(() => {
+        console.log(localQuestionList);
+
+        setQuestionList(localQuestionList);
+      })
+      .catch((e) => console.log(e));
+
+    // qIdList;
   }, []);
-
-  // console.log(responseList);
-
-  // - 篩出某次測驗作答的 questionId
-  // const questionsId:[] = [];
-  // // ? 要怎麼去篩想要呈現的那一筆的 response
-  // responseList[0]?.data.forEach((qId) => {
-  //   questionsId.push(qId.questionId);
-  // });
-
-  // console.log(questionsId);
-
-  // - 根據 questionsId，去 query firebase questions 的題目
 
   return (
     <div>
       <div>測驗結果</div>
       <div className="flex">
-        {/* ? 目前先寫死 */}
+        {/* 目前先寫死 */}
         <div>
           得分:
-          {responseList[0]?.score}
+          {response.score}
         </div>
         <div>
           時間:
-          {responseList[0]?.totalTime}
-
+          {response.totalTime}
         </div>
       </div>
 

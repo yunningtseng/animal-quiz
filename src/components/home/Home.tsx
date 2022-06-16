@@ -8,7 +8,7 @@ import {
 } from '../../store/counterSlice';
 
 function Home() {
-  const count:number = useAppSelector((state) => state.counter.value);
+  const count: number = useAppSelector((state) => state.counter.value);
   const dispatch = useAppDispatch();
 
   return (
@@ -19,15 +19,21 @@ function Home() {
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
       <div>
         <div>
-          <button type="button" onClick={() => dispatch(decrement())}>-</button>
+          <button type="button" onClick={() => dispatch(decrement())}>
+            -
+          </button>
           <span>{count}</span>
-          <button type="button" onClick={() => dispatch(increment())}>+</button>
+          <button type="button" onClick={() => dispatch(increment())}>
+            +
+          </button>
         </div>
         <div>
           <button type="button" onClick={() => dispatch(incrementByAmount(5))}>
             Add Amount
           </button>
-          <button type="button" onClick={() => dispatch(incrementAsync(5))}>Add Async</button>
+          <button type="button" onClick={() => dispatch(incrementAsync(5))}>
+            Add Async
+          </button>
           <button type="button" onClick={() => dispatch(incrementIfOdd(5))}>
             Add If Odd
           </button>
