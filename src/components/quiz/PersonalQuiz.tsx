@@ -116,7 +116,7 @@ function PersonalQuiz() {
                   type="button"
                   onClick={() => {
                     // TODO saveAnswer
-                    saveAnswer();
+                    // saveAnswer();
                     setCheckAnswer(false);
                     setScore((prev) => prev + 30);
                   }}
