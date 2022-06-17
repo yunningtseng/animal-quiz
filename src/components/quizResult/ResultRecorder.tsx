@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, Firestore } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { db } from '../../utils/firebaseInit';
 import { Question } from '../../types/question';
 import { Response } from '../../types/response';
+import firestoreApi from '../../api/firestore';
 
 function ResultRecorder() {
   // - 篩出特定玩家的回答
@@ -11,39 +12,25 @@ function ResultRecorder() {
   const [questionList, setQuestionList] = useState<Question[]>([]);
 
   useEffect(() => {
-    // - 某次作答的資料
-    let qIdList: string[];
-    const localQuestionList: Question[] = [];
+    const fetchResponseAndQuestions = async () => {
+      const res = await firestoreApi.getResponse('FGznKE6b3Tg43HpAvzcc');
+      setResponse(res);
 
-    getDoc(doc(db, 'responses', 'FGznKE6b3Tg43HpAvzcc'))
-      .then((docSnap) => {
-        const localResponse = docSnap.data() as Response;
-        setResponse(localResponse);
+      // - 篩出某次測驗作答所有的 questionId
+      const qIdList = res.data.map((answer) => answer.questionId);
 
-        // - 篩出某次測驗作答所有的 questionId
-        qIdList = localResponse.data.map((answer) => answer.questionId);
-      })
-      .then(() => {
-        // - 根據 questionsId，去 query questions 的題目
-        qIdList.forEach((qId) => {
-          getDoc(doc(db, 'questions', qId))
-            .then((docSnap) => {
-              // - 取得每一個 question
-              const question = docSnap.data() as Question;
-              // - 新增 question 塞進去
-              localQuestionList.push(question);
-            })
-            .catch((e) => console.log(e));
-        });
-      })
-      .then(() => {
-        console.log(localQuestionList);
+      // - 根據 questionsId，去 query questions 的題目
+      const results: Promise<Question>[] = [];
+      qIdList.forEach((qId) => results.push(firestoreApi.getQuestion(qId)));
+      const questionListLocal = await Promise.all(results);
 
-        setQuestionList(localQuestionList);
-      })
-      .catch((e) => console.log(e));
+      setQuestionList(questionListLocal);
 
-    // qIdList;
+      // console.log(res);
+      // console.log(questionListLocal);
+    };
+
+    fetchResponseAndQuestions();
   }, []);
 
   return (

@@ -32,6 +32,7 @@
       { "props": true, "ignorePropertyModificationsFor": ["state"] }
     ],
     "@typescript-eslint/no-unused-vars": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "@typescript-eslint/no-floating-promises": "off"
   }
 }

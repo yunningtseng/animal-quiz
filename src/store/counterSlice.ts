@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import counterApi from '../api/counterApi';
 import type { AppThunk } from './store';
 
 export interface CounterState {
