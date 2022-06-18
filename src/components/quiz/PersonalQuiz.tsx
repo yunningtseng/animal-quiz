@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-
 import QuizBox from './QuizBox';
 import { fetchQuestionList, QuizState } from '../../store/quizSlice';
 

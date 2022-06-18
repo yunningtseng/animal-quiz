@@ -3,7 +3,7 @@ export interface Question {
   mainPic: string;
   options: Option[];
   title: string;
-  answer: number | number[];
+  answer: number[];
 }
 
 export interface Option {

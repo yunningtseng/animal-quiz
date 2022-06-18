@@ -7,15 +7,16 @@ export interface Response {
   startTime: string;
   totalTime: string;
   userName: string;
-  data: Answer[];
+  // TODO 改成 records
+  data: Record[];
 }
 
 export interface ResponseFS extends Omit<Response, 'startTime'> {
   startTime: Timestamp;
 }
 
-export interface Answer {
-  answer: number | number[];
+export interface Record {
+  answer: number[];
   correct: boolean;
   questionId: string;
 }
