@@ -1,12 +1,12 @@
 export interface Question {
   type: string;
   mainPic: string;
-  options: Options[];
+  options: Option[];
   title: string;
   answer: number | number[];
 }
 
-export interface Options {
+export interface Option {
   pic: string;
   name: string;
 }

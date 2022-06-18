@@ -29,12 +29,12 @@ const counterSlice = createSlice({
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export const incrementIfOdd = (amount: number): AppThunk => (dispatch, getState) => {
-  const currentValue = getState().counter.value;
+  // const currentValue = getState().counter.value;
 
-  if (currentValue % 2 === 1) {
-    dispatch(incrementByAmount(amount));
-    dispatch(incrementByAmount(amount));
-  }
+  // if (currentValue % 2 === 1) {
+  //   dispatch(incrementByAmount(amount));
+  //   dispatch(incrementByAmount(amount));
+  // }
 };
 
 export const incrementAsync = (amount: number): AppThunk => async (dispatch, getState) => {
