@@ -16,7 +16,7 @@ function ResultRecorder() {
     <div>
       <div>測驗結果</div>
       <div className="flex">
-        <div>
+        <div className="mr-5">
           得分:
           {quiz.response.score}
         </div>
@@ -29,7 +29,7 @@ function ResultRecorder() {
       {quiz.questionList.map((question, index) => (
         <RecordBox
           key={index}
-          record={quiz.response.data[index]}
+          record={quiz.response.records[index]}
           question={question}
         />
       ))}

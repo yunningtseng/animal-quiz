@@ -45,12 +45,12 @@ const quizSlice = createSlice({
     startQuiz: (state: QuizState) => {
       // - 創一個 response，裡面有 responseId userName startTime
       const response: Response = {
-        id: 'yun',
+        id: '',
         score: 0,
         startTime: new Date().toISOString(),
         totalTime: 0,
         userName: 'ynt',
-        data: [],
+        records: [],
       };
       state.response = response;
     },
@@ -64,8 +64,8 @@ const quizSlice = createSlice({
         state.currentAnswer.push(toggleAnswer);
       }
     },
-    confirmAnswer: (state: QuizState, action: PayloadAction<number[]>) => {
-      const answer = action.payload;
+    confirmAnswer: (state: QuizState) => {
+      const answer = state.currentAnswer;
       const correctAnswer = state.question.answer;
       // - 判斷回答對錯
       let correct = answer.length === correctAnswer.length;
@@ -85,7 +85,7 @@ const quizSlice = createSlice({
         correct,
         questionId: state.question.id,
       };
-      state.response.data.push(record);
+      state.response.records.push(record);
 
       // - 計算分數
       state.checkAnswer = false;
@@ -128,14 +128,12 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
   const { response } = getState().quiz;
 
   // - 篩出某次測驗作答所有的 questionId
-  const qIdList = response.data.map((answer) => answer.questionId);
+  const qIdList = response.records.map((answer) => answer.questionId);
 
   // - 根據 questionsId，去 query questions 的題目
-  const results: Promise<Question>[] = [];
-  qIdList.forEach((qId) => results.push(firestoreApi.getQuestion(qId)));
-  const questionListLocal = await Promise.all(results);
+  const list = await firestoreApi.getQuestions(qIdList);
 
-  dispatch(setQuestionList(questionListLocal));
+  dispatch(setQuestionList(list));
 };
 
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {

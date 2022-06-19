@@ -1,6 +1,5 @@
 import { useAppSelector } from '../../hooks/redux';
 import { Question } from '../../types/question';
-import ControlBar from './ControlBar';
 import OptionBox from './OptionBox';
 import QuestionBox from './QuestionBox';
 
@@ -20,10 +19,6 @@ function QuizBox() {
             index={index}
           />
         ))}
-      </div>
-
-      <div className="mt-5">
-        <ControlBar />
       </div>
     </div>
   );

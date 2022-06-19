@@ -7,8 +7,7 @@ export interface Response {
   startTime: string;
   totalTime: number;
   userName: string;
-  // TODO 改成 records
-  data: Record[];
+  records: Record[];
 }
 
 export interface ResponseFS extends Omit<Response, 'startTime'> {

@@ -1,11 +1,18 @@
 import { useParams } from 'react-router-dom';
+import { useStopwatch } from 'react-timer-hook';
 import { useAppSelector } from '../hooks/redux';
 import { QuizState } from '../store/quizSlice';
 import PersonalQuiz from '../components/quiz/PersonalQuiz';
+import ControlBar from '../components/quiz/ControlBar';
 
 function QuizPage() {
   const { type } = useParams();
   const quiz: QuizState = useAppSelector((state) => state.quiz);
+  const {
+    seconds, minutes, isRunning, start, pause, reset,
+  } = useStopwatch({
+    autoStart: true,
+  });
 
   return (
     <div className="w-screen mt-10">
@@ -18,7 +25,7 @@ function QuizPage() {
           </div>
           <div>
             <span className="mr-5">時間:</span>
-            {quiz.score}
+            {`${minutes} 分 ${seconds} 秒`}
           </div>
         </div>
       </div>
@@ -26,6 +33,10 @@ function QuizPage() {
       <div className="w-xs sm:w-lg lg:w-4xl">
         {type === 'personal' && <PersonalQuiz />}
         {/* {type === 'time' && <TimeQuiz />} */}
+
+        <div className="mt-5">
+          <ControlBar start={start} pause={pause} reset={reset} />
+        </div>
       </div>
     </div>
   );
