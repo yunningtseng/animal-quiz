@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-import { confirmAnswer, nextQuestion, QuizState } from '../../store/quizSlice';
+import {
+  confirmAnswer, endQuiz, nextQuestion, QuizState,
+} from '../../store/quizSlice';
 
 function ControlBar() {
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ function ControlBar() {
   return (
     <>
       {quiz.checkAnswer && (
-        <button type="button" onClick={() => dispatch(confirmAnswer())}>
+        <button type="button" onClick={() => dispatch(confirmAnswer([1]))}>
           確認
         </button>
       )}
@@ -22,7 +24,13 @@ function ControlBar() {
       )}
 
       {!quiz.checkAnswer && quiz.qId === quiz.questionLength - 1 && (
-        <button type="button" onClick={() => navigate('/quiz-result')}>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(endQuiz());
+            navigate('/quiz-result');
+          }}
+        >
           作答結束
         </button>
       )}

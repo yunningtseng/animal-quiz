@@ -5,7 +5,7 @@ export interface Response {
   score: number;
   // * 要用 string or number 存日期 redux 才不會出問題
   startTime: string;
-  totalTime: string;
+  totalTime: number;
   userName: string;
   // TODO 改成 records
   data: Record[];

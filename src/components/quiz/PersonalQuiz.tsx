@@ -24,7 +24,7 @@ function PersonalQuiz() {
 
       {quiz.qId !== quiz.questionLength && (
         <div>
-          {!quiz.checkAnswer && <p>答對囉</p>}
+          {!quiz.checkAnswer && <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>}
 
           {quiz.question.type && <QuizBox />}
         </div>
