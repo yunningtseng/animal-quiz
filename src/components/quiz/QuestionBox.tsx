@@ -5,7 +5,7 @@ function QuestionBox() {
   const question: Question = useAppSelector((state) => state.quiz.question);
 
   return (
-    <div className="mb-4">
+    <div className="">
       <p>
         <span />
         {'Q: '}

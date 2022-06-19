@@ -4,7 +4,7 @@ function ChooseQuiz() {
   return (
     <div>
       <Link to="/quiz/personal">
-        <button type="button" className="mr-2">
+        <button type="button" className="mr-10">
           單人競賽
         </button>
       </Link>

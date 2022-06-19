@@ -1,10 +1,11 @@
-import { useRef } from 'react';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { QuizState, toggleAnswer } from '../../store/quizSlice';
 import { Option } from '../../types/question';
 
 interface OptionBoxProps {
   option: Option;
   questionType: string;
+  index: number;
 }
 
 const inputType: { [key: string]: string } = {
@@ -13,31 +14,20 @@ const inputType: { [key: string]: string } = {
   trueFalse: 'radio',
 };
 
-function OptionBox({ option, questionType }: OptionBoxProps) {
-  // const dispatch = useAppDispatch();
-
-  // const responseRef = useRef<HTMLInputElement | null>(null);
-  // const responseRef = useRef<Response>({
-  //   id: 'xxx',
-  //   userName: 'xxx',
-  // } as Response);
-
-  // function saveAnswer() {
-  //   const answer: Answer = {
-  //     answer: 4,
-  //     correct: true,
-  //     questionId: 'xxx',
-  //   };
-  //   responseRef.current.data.push(answer);
-  // }
+function OptionBox({ option, questionType, index }: OptionBoxProps) {
+  const quiz: QuizState = useAppSelector((state) => state.quiz);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="flex items-center">
-      <input
-        type={inputType[questionType]}
-        name={inputType[questionType]}
-        // ref={responseRef}
+      <div
+        className={`w-4 h-4 border-2 border-black mr-3 ${
+          quiz.currentAnswer.includes(index) ? 'bg-black' : 'bg-white'
+        }`}
+        onClick={() => dispatch(toggleAnswer(index))}
+        aria-hidden="true"
       />
+
       {option.name}
       {option.pic === '' ? (
         <div />

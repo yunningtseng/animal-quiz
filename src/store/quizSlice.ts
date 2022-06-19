@@ -14,6 +14,7 @@ export interface QuizState {
   score: number;
   response: Response;
   correct: boolean;
+  currentAnswer: number[];
 }
 
 const initialState: QuizState = {
@@ -25,6 +26,7 @@ const initialState: QuizState = {
   score: 0,
   response: {} as Response,
   correct: false,
+  currentAnswer: [],
 };
 
 const quizSlice = createSlice({
@@ -52,10 +54,19 @@ const quizSlice = createSlice({
       };
       state.response = response;
     },
+    // - toggle answer
+    toggleAnswer: (state: QuizState, action: PayloadAction<number>) => {
+      const toggleAnswer = action.payload;
+      const index = state.currentAnswer.indexOf(toggleAnswer);
+      if (index !== -1) {
+        state.currentAnswer.splice(index, 1);
+      } else {
+        state.currentAnswer.push(toggleAnswer);
+      }
+    },
     confirmAnswer: (state: QuizState, action: PayloadAction<number[]>) => {
       const answer = action.payload;
       const correctAnswer = state.question.answer;
-
       // - 判斷回答對錯
       let correct = answer.length === correctAnswer.length;
       if (correct) {
@@ -86,6 +97,7 @@ const quizSlice = createSlice({
       state.qId += 1;
       state.question = state.questionList[state.qId];
       state.checkAnswer = true;
+      state.currentAnswer = [];
     },
     setResponseScoreAndTotalTime: (state: QuizState) => {
       // TODO score totalTime
@@ -98,6 +110,7 @@ export const {
   setQuestionList,
   setResponse,
   startQuiz,
+  toggleAnswer,
   confirmAnswer,
   nextQuestion,
   setResponseScoreAndTotalTime,
