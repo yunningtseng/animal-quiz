@@ -3,7 +3,7 @@ import { query, collection, onSnapshot } from 'firebase/firestore';
 import { useState, useEffect, useRef } from 'react';
 import { db } from '../../utils/firebaseInit';
 import { Question } from '../../types/question';
-import { Answer, Response } from '../../types/response';
+import { Response } from '../../types/response';
 
 const inputType: { [key: string]: string } = {
   single: 'radio',
@@ -62,16 +62,6 @@ function PersonalQuiz() {
         <div />
       </div>
     ));
-  }
-
-  // TODO 每回答一題，包成 Answer，存進 Response 中的 data
-  function saveAnswer() {
-    const answer: Answer = {
-      answer: 4,
-      correct: true,
-      questionId: 'xxx',
-    };
-    responseRef.current.data.push(answer);
   }
 
   return (
