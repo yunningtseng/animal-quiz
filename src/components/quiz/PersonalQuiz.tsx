@@ -1,89 +1,27 @@
-import { query, collection, getDocs } from 'firebase/firestore';
-// import { query, collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
-import { db } from '../../utils/firebaseInit';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import QuizBox from './QuizBox';
+import { fetchQuestionList, QuizState } from '../../store/quizSlice';
 
 function PersonalQuiz() {
-  useEffect(() => {
-    const q = query(collection(db, 'user'));
+  const quiz: QuizState = useAppSelector((state) => state.quiz);
+  const dispatch = useAppDispatch();
 
-    // getDocs(q).then((snapshot) => {
-    //   snapshot.forEach((_doc) => {
-    //     // console.log(doc.id, ' => ', doc.data());
-    //     // setDoc(doc(db, 'users', _doc.id), _doc.data());
-    //   });
-    // });
-  }, []);
+  useEffect(() => {
+    dispatch(fetchQuestionList());
+  }, [dispatch]);
 
   return (
-    <div>
-      <div>Animal Quiz</div>
-      <div className="flex">
-        <div>得分:</div>
-        <div>時間:</div>
-      </div>
-      {/* 複選 */}
-      <div>
-        <p>答對囉</p>
-        <p>Q: 請問下列哪些是台灣黑熊的特徵?</p>
-        <div className="flex items-center">
-          <input type="checkbox" className="" />
-          <div>熊</div>
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" />
-          <div>熊</div>
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" />
-          <div>熊</div>
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" />
-          <div>熊</div>
-        </div>
-        <button type="button">確認</button>
-        <button type="button">下一題</button>
-      </div>
+    <div className="flex justify-center">
+      {quiz.qId !== quiz.questionLength && (
+        <div className="w-96 md:w-150 lg:w-225 mt-5 flex flex-col justify-start">
+          {quiz.question.type && <QuizBox />}
 
-      {/* 單選 */}
-      <div>
-        <p>答對囉</p>
-        <p>Q: 請問下列哪個是台灣黑熊的特徵?</p>
-        <div className="flex items-center">
-          <input type="radio" className="" />
-          <div>熊</div>
+          <div className="mt-5">
+            {!quiz.checkAnswer && <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>}
+          </div>
         </div>
-        <div className="flex items-center">
-          <input type="radio" />
-          <div>熊</div>
-        </div>
-        <div className="flex items-center">
-          <input type="radio" />
-          <div>熊</div>
-        </div>
-        <div className="flex items-center">
-          <input type="radio" />
-          <div>熊</div>
-        </div>
-        <button type="button">確認</button>
-        <button type="button">下一題</button>
-      </div>
-
-      {/* 是非 */}
-      <div>
-        <p>Q: 請問下列特徵是否正確?</p>
-        <div className="flex items-center">
-          <input type="radio" className="" />
-          <div>O</div>
-        </div>
-        <div className="flex items-center">
-          <input type="radio" />
-          <div>X</div>
-        </div>
-        <button type="button">確認</button>
-        <button type="button">下一題</button>
-      </div>
+      )}
     </div>
   );
 }

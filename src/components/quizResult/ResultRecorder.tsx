@@ -1,29 +1,42 @@
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { fetchResponseAndQuestions, QuizState } from '../../store/quizSlice';
+import RecordBox from './RecordBox';
+
 function ResultRecorder() {
+  const quiz: QuizState = useAppSelector((state) => state.quiz);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchResponseAndQuestions());
+  }, [dispatch]);
+
   return (
     <div>
       <div>測驗結果</div>
       <div className="flex">
-        <div>得分:</div>
-        <div>時間:</div>
-      </div>
-      <div>
-        <div className="flex">
-          <p>(O)</p>
-          <div>
-            <p>Q: XXXXXXXXXXXX</p>
-            <p>A: XXXXXXX</p>
-          </div>
+        <div className="mr-5">
+          得分:
+          {quiz.response.score}
         </div>
+        <div>
+          時間:
+          {quiz.response.totalTime}
+        </div>
+      </div>
 
-        <div className="flex">
-          <p>(O)</p>
-          <div>
-            <p>Q: XXXXXXXXXXXX</p>
-            <p>A: XXXXXXX</p>
-          </div>
-        </div>
-      </div>
-      <button type="button">返回遊戲選單</button>
+      {quiz.questionList.map((question, index) => (
+        <RecordBox
+          key={index}
+          record={quiz.response.records[index]}
+          question={question}
+        />
+      ))}
+
+      <Link to="/quiz">
+        <button type="button">返回遊戲選單</button>
+      </Link>
     </div>
   );
 }
