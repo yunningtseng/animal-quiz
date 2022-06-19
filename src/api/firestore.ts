@@ -14,7 +14,7 @@ import { Question } from '../types/question';
 
 function randomNumbers(max: number, length: number) {
   const arr: number[] = [];
-  for (let i = 0, j = length; i < j; i += 1) {
+  while (arr.length < length) {
     const numNumber = Math.floor(Math.random() * (max - 1) + 1);
     if (!arr.includes(numNumber)) {
       arr.push(numNumber);
