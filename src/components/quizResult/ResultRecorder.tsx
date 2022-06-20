@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-import { fetchResponseAndQuestions, QuizState } from '../../store/quizSlice';
+import { clearAnswer, fetchResponseAndQuestions, QuizState } from '../../store/quizSlice';
 import RecordBox from './RecordBox';
 
 function ResultRecorder() {
@@ -35,7 +35,14 @@ function ResultRecorder() {
       ))}
 
       <Link to="/quiz">
-        <button type="button">返回遊戲選單</button>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(clearAnswer());
+          }}
+        >
+          返回遊戲選單
+        </button>
       </Link>
     </div>
   );

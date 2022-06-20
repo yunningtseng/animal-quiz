@@ -24,8 +24,8 @@ function ControlBar({ start, pause, reset }: ControlBarProps) {
         <button
           type="button"
           onClick={() => {
-            pause();
             dispatch(confirmAnswer());
+            pause();
           }}
         >
           確認

@@ -66,6 +66,9 @@ const quizSlice = createSlice({
     },
     confirmAnswer: (state: QuizState) => {
       const answer = state.currentAnswer;
+      // TODO 檢查漏答，計時器暫停再打開
+      // if (answer.length === 0) {
+      // }
       const correctAnswer = state.question.answer;
       // - 判斷回答對錯
       let correct = answer.length === correctAnswer.length;
@@ -103,6 +106,13 @@ const quizSlice = createSlice({
       // TODO score totalTime
       state.response.score = state.score;
     },
+    // - 遊戲結束清除紀錄
+    clearAnswer: (state: QuizState) => {
+      state.response.score = 0;
+      state.score = 0;
+      state.checkAnswer = true;
+      state.currentAnswer = [];
+    },
   },
 });
 
@@ -114,6 +124,7 @@ export const {
   confirmAnswer,
   nextQuestion,
   setResponseScoreAndTotalTime,
+  clearAnswer,
 } = quizSlice.actions;
 
 export const fetchQuestionList = (): AppThunk => async (dispatch) => {
@@ -135,7 +146,6 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
 
   dispatch(setQuestionList(list));
 };
-
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   dispatch(setResponseScoreAndTotalTime());
   const { response } = getState().quiz;
