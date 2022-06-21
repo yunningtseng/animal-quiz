@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import {
   confirmAnswer,
   endQuiz,
-  nextQuestion,
+  setQuestion,
   QuizState,
 } from '../../store/quizSlice';
 
@@ -29,7 +29,9 @@ function ControlBar() {
         <button
           type="button"
           onClick={() => {
-            dispatch(nextQuestion());
+            // TODO nextQuestionX
+            // dispatch(nextQuestionX());
+            dispatch(setQuestion());
           }}
         >
           下一題

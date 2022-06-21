@@ -1,20 +1,19 @@
-// import { useParams } from 'react-router-dom';
-import { useStopwatch } from 'react-timer-hook';
+import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { fetchQuestionList, QuizState } from '../store/quizSlice';
+import { startQuiz, QuizState } from '../store/quizSlice';
 import PersonalQuiz from '../components/quiz/PersonalQuiz';
 import ControlBar from '../components/quiz/ControlBar';
 import TimerBox from '../components/quiz/TimerBox';
 
 function QuizPage() {
-  // const { type } = useParams();
+  const { type } = useParams();
   const quiz: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchQuestionList());
-  }, [dispatch]);
+    dispatch(startQuiz(type ?? ''));
+  }, [dispatch, type]);
 
   return (
     <div className="w-screen mt-10">

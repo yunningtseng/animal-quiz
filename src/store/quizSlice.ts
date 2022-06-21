@@ -9,6 +9,7 @@ export interface QuizState {
   questionList: Question[];
   questionLength: number;
   qId: number;
+  qIdList: string[];
   question: Question;
   checkAnswer: boolean;
   score: number;
@@ -17,6 +18,7 @@ export interface QuizState {
   currentAnswer: number[];
   showAlert: boolean;
   time: number;
+  mode: string;
 }
 
 const initialState: QuizState = {
@@ -24,6 +26,7 @@ const initialState: QuizState = {
   questionList: [],
   questionLength: 0,
   qId: 0,
+  qIdList: [],
   question: {} as Question,
   // > answer
   currentAnswer: [],
@@ -34,6 +37,7 @@ const initialState: QuizState = {
   correct: false,
   showAlert: false,
   time: 0,
+  mode: 'normal',
 };
 
 const quizSlice = createSlice({
@@ -49,7 +53,14 @@ const quizSlice = createSlice({
     setResponse: (state: QuizState, action: PayloadAction<Response>) => {
       state.response = action.payload;
     },
-    startQuiz: (state: QuizState) => {
+    initQuiz: (state: QuizState, action: PayloadAction<string>) => {
+      const mode = action.payload;
+
+      let time = 0;
+      if (mode === 'time-challenge') {
+        time = 30;
+      }
+
       // - 創一個 response，裡面有 responseId userName startTime
       const response: Response = {
         id: '',
@@ -59,7 +70,13 @@ const quizSlice = createSlice({
         userName: 'ynt',
         records: [],
       };
-      state.response = response;
+      // * return QuizState 會去覆蓋輸出整個 state
+      return {
+        ...initialState,
+        response,
+        mode,
+        time,
+      };
     },
     // - toggle answer
     toggleAnswer: (state: QuizState, action: PayloadAction<number>) => {
@@ -106,16 +123,20 @@ const quizSlice = createSlice({
         state.score += 10;
       }
     },
-    nextQuestion: (state: QuizState) => {
+    setQuestion: (state: QuizState) => {
+      // setQuestion: (state: QuizState, action: PayloadAction<Question>) => {
       quizTimer.resume();
-      state.qId += 1;
       state.question = state.questionList[state.qId];
+      // state.question = action.payload;
+      state.qId += 1;
+      // state.qId = state.question.id;
+      // state.qIdList.push(state.qId);
       state.checkAnswer = true;
       state.currentAnswer = [];
     },
     setResponseScoreAndTotalTime: (state: QuizState) => {
-      // TODO score totalTime
       state.response.score = state.score;
+      state.response.totalTime = state.time;
     },
     // - 遊戲結束清除紀錄
     clearAnswer: (state: QuizState) => {
@@ -124,6 +145,7 @@ const quizSlice = createSlice({
       state.checkAnswer = true;
       state.currentAnswer = [];
     },
+    // - 設置當前顯示的時間
     setTime: (state: QuizState, action: PayloadAction<number>) => {
       state.time = action.payload;
     },
@@ -133,27 +155,47 @@ const quizSlice = createSlice({
 export const {
   setQuestionList,
   setResponse,
-  startQuiz,
+  initQuiz,
   toggleAnswer,
   confirmAnswer,
-  nextQuestion,
+  setQuestion,
   setResponseScoreAndTotalTime,
   clearAnswer,
   setTime,
 } = quizSlice.actions;
 
-export const startQuizTimer = (): AppThunk => (dispatch) => {
-  dispatch(setTime(0));
-  quizTimer.start(() => {
-    dispatch(setTime(quizTimer.time));
-  });
-};
+export const startQuiz = (type: string): AppThunk => async (dispatch, getState) => {
+  dispatch(initQuiz(type));
 
-export const fetchQuestionList = (): AppThunk => async (dispatch) => {
   const list = await firestoreApi.getQuestions();
   dispatch(setQuestionList(list));
-  dispatch(startQuiz());
-  dispatch(startQuizTimer());
+
+  const startTime = getState().quiz.time;
+
+  // * 開始 quizTimer 來持續改變當前顯示的 time
+  // * 第一個參數的匿名 function 就是 onTimeChange，每秒會去執行
+  quizTimer.start(() => {
+    // * 從 quizTimer 提取當前最新的時間並 setTime
+    dispatch(setTime(quizTimer.time));
+  }, startTime);
+};
+
+export const nextQuestionX = (type: string): AppThunk => async (dispatch, getState) => {
+  const { qIdList } = getState().quiz;
+  const max = 19;
+  let newQId: string | undefined;
+  while (true) {
+    const numNumber = Math.floor(Math.random() * (max - 1) + 1);
+    const numNumberStr = String(numNumber).padStart(4, '0');
+    if (!qIdList.includes(numNumberStr)) {
+      newQId = numNumberStr;
+      break;
+    }
+  }
+  const question = await firestoreApi.getQuestion(newQId);
+
+  // TODO 存起來
+  // dispatch(setQuestion(question));
 };
 
 export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {
