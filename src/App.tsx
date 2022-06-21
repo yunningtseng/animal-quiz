@@ -4,9 +4,10 @@ import HomePage from './pages/HomePage';
 import SelectQuizPage from './pages/SelectQuizPage';
 import QuizPage from './pages/QuizPage';
 import QuizResultPage from './pages/QuizResultPage';
-import AnimalPage from './pages/AnimalPage';
+import AnimalsPage from './pages/AnimalsPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import UserPage from './pages/UserPage';
+import AnimalPage from './pages/AnimalPage';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Route path="/quiz" element={<SelectQuizPage />} />
         <Route path="/quiz/:type" element={<QuizPage />} />
         <Route path="/quiz-result" element={<QuizResultPage />} />
-        <Route path="/animals" element={<AnimalPage />} />
+        <Route path="/animals" element={<AnimalsPage />} />
+        <Route path="/animal/:animalId" element={<AnimalPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/user" element={<UserPage />} />
       </Routes>

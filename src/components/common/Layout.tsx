@@ -7,11 +7,11 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <>
+    <div>
       <Navigation />
       <main>{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }
 
