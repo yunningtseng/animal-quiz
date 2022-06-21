@@ -7,6 +7,10 @@ module.exports = {
         primary: '#FFF2F2',
         secondary: '#F47C7C',
       },
+      width: {
+        150: '38rem',
+        225: '56rem',
+      },
     },
   },
   plugins: [],

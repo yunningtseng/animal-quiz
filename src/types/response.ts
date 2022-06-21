@@ -1,14 +1,21 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Response {
   id: string;
   score: number;
-  startTime: Date;
-  totalTime: string;
+  // * 要用 string or number 存日期 redux 才不會出問題
+  startTime: string;
+  totalTime: number;
   userName: string;
-  data: Answer[];
+  records: Record[];
 }
 
-export interface Answer {
-  answer: number | number[];
+export interface ResponseFS extends Omit<Response, 'startTime'> {
+  startTime: Timestamp;
+}
+
+export interface Record {
+  answer: number[];
   correct: boolean;
   questionId: string;
 }

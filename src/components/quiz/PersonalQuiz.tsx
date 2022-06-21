@@ -1,140 +1,22 @@
-import { useNavigate } from 'react-router-dom';
-import { query, collection, onSnapshot } from 'firebase/firestore';
-import { useState, useEffect, useRef } from 'react';
-import { db } from '../../utils/firebaseInit';
-import { Question } from '../../types/question';
-import { Response } from '../../types/response';
-
-const inputType: { [key: string]: string } = {
-  single: 'radio',
-  multiple: 'checkbox',
-  trueFalse: 'radio',
-};
+import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks/redux';
+import QuizBox from './QuizBox';
+import { QuizState } from '../../store/quizSlice';
 
 function PersonalQuiz() {
-  const navigate = useNavigate();
-
-  const [questionList, setQuestionList] = useState<Question[]>([]);
-  // 題目
-  const [question, setQuestion] = useState<Question>({} as Question);
-  const qIdRef = useRef<number>(0);
-  // 呈現答案
-  const [checkAnswer, setCheckAnswer] = useState<boolean>(true);
-  // 分數
-  const [score, setScore] = useState<number>(0);
-  // 題目長度
-  const questionLength = questionList.length;
-
-  // TODO
-  const responseRef = useRef<Response>({
-    id: 'xxx',
-    userName: 'xxx',
-  } as Response);
-
-  useEffect(() => {
-    const q = query(collection(db, 'questions'));
-
-    onSnapshot(q, (snapshot) => {
-      const list: Question[] = [];
-      snapshot.forEach((docSnap) => {
-        const data = docSnap.data() as Question;
-        list.push(data);
-      });
-      setQuestionList(list);
-      setQuestion(list[0]);
-    });
-  }, []);
-  // console.log(questionList);
-
-  function options() {
-    return question.options.map((option, index) => (
-      <div key={index} className="flex items-center">
-        <input
-          type={inputType[question.type]}
-          name={inputType[question.type]}
-        />
-        {option.name}
-        {question.options[index].pic === '' ? (
-          <div />
-        ) : (
-          <img src={question.options[index].pic} alt="img" className="w-40" />
-        )}
-        <div />
-      </div>
-    ));
-  }
+  const quiz: QuizState = useAppSelector((state) => state.quiz);
 
   return (
-    <div>
-      <div>Animal Quiz</div>
-      <div className="flex justify-between">
-        <div>
-          得分:
-          {score}
-        </div>
-        <div>時間:</div>
-      </div>
+    <div className="flex justify-center">
+      {quiz.qId !== quiz.questionLength && (
+        <div className="w-96 md:w-150 lg:w-225 mt-5 flex flex-col justify-start">
+          {quiz.question.type && <QuizBox />}
 
-      {qIdRef.current !== questionLength && (
-        <div>
-          {!checkAnswer && <p>答對囉</p>}
+          {quiz.showAlert && <div className="mt-3">尚未作答</div>}
 
-          {question.type && (
-            <div>
-              {/* - 題目 */}
-              <div className="mb-4">
-                <p>
-                  <span />
-                  {'Q: '}
-                  {question.title}
-                </p>
-
-                <div>
-                  {question.mainPic === '' ? (
-                    <div />
-                  ) : (
-                    <img src={question.mainPic} alt="img" className="w-48" />
-                  )}
-                </div>
-              </div>
-
-              {/* - 選項 */}
-              <div className="flex flex-wrap">{options()}</div>
-
-              {checkAnswer && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    // TODO saveAnswer
-                    // saveAnswer();
-                    setCheckAnswer(false);
-                    setScore((prev) => prev + 30);
-                  }}
-                >
-                  確認
-                </button>
-              )}
-
-              {!checkAnswer && qIdRef.current < questionLength - 1 && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    qIdRef.current += 1;
-                    setQuestion(questionList[qIdRef.current]);
-                    setCheckAnswer(true);
-                  }}
-                >
-                  下一題
-                </button>
-              )}
-
-              {!checkAnswer && qIdRef.current === questionLength - 1 && (
-                <button type="button" onClick={() => navigate('/quiz-result')}>
-                  作答結束
-                </button>
-              )}
-            </div>
-          )}
+          <div className="mt-5">
+            {!quiz.checkAnswer && <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>}
+          </div>
         </div>
       )}
     </div>
