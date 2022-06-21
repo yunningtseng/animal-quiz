@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Response } from '../types/response';
 import firestoreApi from '../api/firestore';
 import { Question } from '../types/question';
-
 import type { AppThunk } from './store';
+import quizTimer from '../utils/quizTimer';
 
 export interface QuizState {
   questionList: Question[];
@@ -15,18 +15,25 @@ export interface QuizState {
   response: Response;
   correct: boolean;
   currentAnswer: number[];
+  showAlert: boolean;
+  time: number;
 }
 
 const initialState: QuizState = {
+  // > question
   questionList: [],
   questionLength: 0,
   qId: 0,
   question: {} as Question,
+  // > answer
+  currentAnswer: [],
+  response: {} as Response,
+  // > status
   checkAnswer: true,
   score: 0,
-  response: {} as Response,
   correct: false,
-  currentAnswer: [],
+  showAlert: false,
+  time: 0,
 };
 
 const quizSlice = createSlice({
@@ -63,12 +70,15 @@ const quizSlice = createSlice({
       } else {
         state.currentAnswer.push(toggleAnswer);
       }
+      state.showAlert = false;
     },
     confirmAnswer: (state: QuizState) => {
       const answer = state.currentAnswer;
-      // TODO 檢查漏答，計時器暫停再打開
-      // if (answer.length === 0) {
-      // }
+      if (answer.length === 0) {
+        state.showAlert = true;
+        return;
+      }
+      quizTimer.pause();
       const correctAnswer = state.question.answer;
       // - 判斷回答對錯
       let correct = answer.length === correctAnswer.length;
@@ -97,6 +107,7 @@ const quizSlice = createSlice({
       }
     },
     nextQuestion: (state: QuizState) => {
+      quizTimer.resume();
       state.qId += 1;
       state.question = state.questionList[state.qId];
       state.checkAnswer = true;
@@ -113,6 +124,9 @@ const quizSlice = createSlice({
       state.checkAnswer = true;
       state.currentAnswer = [];
     },
+    setTime: (state: QuizState, action: PayloadAction<number>) => {
+      state.time = action.payload;
+    },
   },
 });
 
@@ -125,12 +139,21 @@ export const {
   nextQuestion,
   setResponseScoreAndTotalTime,
   clearAnswer,
+  setTime,
 } = quizSlice.actions;
+
+export const startQuizTimer = (): AppThunk => (dispatch) => {
+  dispatch(setTime(0));
+  quizTimer.start(() => {
+    dispatch(setTime(quizTimer.time));
+  });
+};
 
 export const fetchQuestionList = (): AppThunk => async (dispatch) => {
   const list = await firestoreApi.getQuestions();
   dispatch(setQuestionList(list));
   dispatch(startQuiz());
+  dispatch(startQuizTimer());
 };
 
 export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {
@@ -150,6 +173,8 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   dispatch(setResponseScoreAndTotalTime());
   const { response } = getState().quiz;
   await firestoreApi.setResponse(response);
+  quizTimer.reset();
+  dispatch(setTime(0));
 };
 
 export default quizSlice;

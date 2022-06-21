@@ -1,18 +1,20 @@
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { useStopwatch } from 'react-timer-hook';
-import { useAppSelector } from '../hooks/redux';
-import { QuizState } from '../store/quizSlice';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { fetchQuestionList, QuizState } from '../store/quizSlice';
 import PersonalQuiz from '../components/quiz/PersonalQuiz';
 import ControlBar from '../components/quiz/ControlBar';
+import TimerBox from '../components/quiz/TimerBox';
 
 function QuizPage() {
-  const { type } = useParams();
+  // const { type } = useParams();
   const quiz: QuizState = useAppSelector((state) => state.quiz);
-  const {
-    seconds, minutes, isRunning, start, pause, reset,
-  } = useStopwatch({
-    autoStart: true,
-  });
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchQuestionList());
+  }, [dispatch]);
 
   return (
     <div className="w-screen mt-10">
@@ -23,19 +25,15 @@ function QuizPage() {
             <span className="mr-5">得分:</span>
             {quiz.score}
           </div>
-          <div>
-            <span className="mr-5">時間:</span>
-            {`${minutes} 分 ${seconds} 秒`}
-          </div>
+          <TimerBox />
         </div>
       </div>
 
       <div className="w-xs sm:w-lg lg:w-4xl">
-        {type === 'personal' && <PersonalQuiz />}
-        {/* {type === 'time' && <TimeQuiz />} */}
+        <PersonalQuiz />
 
         <div className="mt-5">
-          <ControlBar start={start} pause={pause} reset={reset} />
+          <ControlBar />
         </div>
       </div>
     </div>
