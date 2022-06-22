@@ -1,18 +1,20 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Animal from '../components/animal/Animal';
-import { useAppSelector } from '../hooks/redux';
-import { AnimalState } from '../store/animalSlice';
+import AnimalBox from '../components/animal/Animal';
+import { useAppDispatch } from '../hooks/redux';
+import { setAnimal } from '../store/animalSlice';
 
 function AnimalPage() {
-  const animals: AnimalState = useAppSelector((state) => state.animal);
+  const { animalId } = useParams();
+  const dispatch = useAppDispatch();
 
-  const params = useParams();
-  const animalId = params;
+  useEffect(() => {
+    dispatch(setAnimal(animalId ?? ''));
+  }, [dispatch, animalId]);
 
   return (
     <div className="flex w-3/4 mx-auto mt-5">
-      {/* <Animal animalId={animalId} animals={animals} /> */}
-      <Animal animals={animals} />
+      <AnimalBox />
     </div>
   );
 }

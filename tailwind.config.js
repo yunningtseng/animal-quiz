@@ -8,6 +8,7 @@ module.exports = {
         secondary: '#F47C7C',
       },
       width: {
+        100: '25rem',
         150: '38rem',
         225: '56rem',
       },

@@ -11,8 +11,8 @@ export interface Animal {
   conservation: string;
   distribution: string;
   habitat: string;
-  feature: string;
-  behavior: string;
+  feature: string[];
+  behavior: string[];
   diet: string;
   mainPic: string;
 }
