@@ -8,7 +8,7 @@ function ChooseQuiz() {
       <button
         type="button"
         className="mr-10"
-        onClick={() => navigate('/quiz/personal')}
+        onClick={() => navigate('/quiz/normal')}
       >
         單人競賽
       </button>

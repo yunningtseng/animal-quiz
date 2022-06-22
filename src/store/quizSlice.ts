@@ -7,8 +7,6 @@ import quizTimer from '../utils/quizTimer';
 
 export interface QuizState {
   questionList: Question[];
-  questionLength: number;
-  qId: number;
   qIdList: string[];
   question: Question;
   checkAnswer: boolean;
@@ -19,13 +17,12 @@ export interface QuizState {
   showAlert: boolean;
   time: number;
   mode: string;
+  quizIsOver: boolean;
 }
 
 const initialState: QuizState = {
   // > question
   questionList: [],
-  questionLength: 0,
-  qId: 0,
   qIdList: [],
   question: {} as Question,
   // > answer
@@ -38,6 +35,7 @@ const initialState: QuizState = {
   showAlert: false,
   time: 0,
   mode: 'normal',
+  quizIsOver: false,
 };
 
 const quizSlice = createSlice({
@@ -47,8 +45,6 @@ const quizSlice = createSlice({
     // - Question[]: 定義 action.payload 的格式
     setQuestionList: (state: QuizState, action: PayloadAction<Question[]>) => {
       state.questionList = action.payload;
-      state.questionLength = state.questionList.length;
-      [state.question] = state.questionList;
     },
     setResponse: (state: QuizState, action: PayloadAction<Response>) => {
       state.response = action.payload;
@@ -123,20 +119,19 @@ const quizSlice = createSlice({
         state.score += 10;
       }
     },
-    setQuestion: (state: QuizState) => {
-      // setQuestion: (state: QuizState, action: PayloadAction<Question>) => {
-      quizTimer.resume();
-      state.question = state.questionList[state.qId];
-      // state.question = action.payload;
-      state.qId += 1;
-      // state.qId = state.question.id;
-      // state.qIdList.push(state.qId);
+    setQuestion: (state: QuizState, action: PayloadAction<Question>) => {
+      state.question = action.payload;
+      state.qIdList.push(state.question.id);
       state.checkAnswer = true;
       state.currentAnswer = [];
     },
     setResponseScoreAndTotalTime: (state: QuizState) => {
       state.response.score = state.score;
-      state.response.totalTime = state.time;
+      if (state.mode === 'time-challenge') {
+        state.response.totalTime = 30;
+      } else {
+        state.response.totalTime = state.time;
+      }
     },
     // - 遊戲結束清除紀錄
     clearAnswer: (state: QuizState) => {
@@ -148,6 +143,10 @@ const quizSlice = createSlice({
     // - 設置當前顯示的時間
     setTime: (state: QuizState, action: PayloadAction<number>) => {
       state.time = action.payload;
+      if (state.time === 0 && state.mode === 'time-challenge') {
+        state.quizIsOver = true;
+        quizTimer.pause();
+      }
     },
   },
 });
@@ -164,26 +163,12 @@ export const {
   setTime,
 } = quizSlice.actions;
 
-export const startQuiz = (type: string): AppThunk => async (dispatch, getState) => {
-  dispatch(initQuiz(type));
+export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
+  quizTimer.resume();
 
-  const list = await firestoreApi.getQuestions();
-  dispatch(setQuestionList(list));
-
-  const startTime = getState().quiz.time;
-
-  // * 開始 quizTimer 來持續改變當前顯示的 time
-  // * 第一個參數的匿名 function 就是 onTimeChange，每秒會去執行
-  quizTimer.start(() => {
-    // * 從 quizTimer 提取當前最新的時間並 setTime
-    dispatch(setTime(quizTimer.time));
-  }, startTime);
-};
-
-export const nextQuestionX = (type: string): AppThunk => async (dispatch, getState) => {
   const { qIdList } = getState().quiz;
   const max = 19;
-  let newQId: string | undefined;
+  let newQId: string;
   while (true) {
     const numNumber = Math.floor(Math.random() * (max - 1) + 1);
     const numNumberStr = String(numNumber).padStart(4, '0');
@@ -194,8 +179,23 @@ export const nextQuestionX = (type: string): AppThunk => async (dispatch, getSta
   }
   const question = await firestoreApi.getQuestion(newQId);
 
-  // TODO 存起來
-  // dispatch(setQuestion(question));
+  dispatch(setQuestion(question));
+};
+
+export const startQuiz = (type: string): AppThunk => (dispatch, getState) => {
+  dispatch(initQuiz(type));
+
+  const startTime = getState().quiz.time;
+
+  // * 開始 quizTimer 來持續改變當前顯示的 time
+  // * 第一個參數的匿名 function 就是 onTimeChange，每秒會去執行
+  quizTimer.start(() => {
+    // * 從 quizTimer 提取當前最新的時間並 setTime
+    dispatch(setTime(quizTimer.time));
+  }, startTime);
+
+  // * 載入第一題
+  dispatch(nextQuestion());
 };
 
 export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {

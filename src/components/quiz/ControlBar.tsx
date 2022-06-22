@@ -3,8 +3,8 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import {
   confirmAnswer,
   endQuiz,
-  setQuestion,
   QuizState,
+  nextQuestion,
 } from '../../store/quizSlice';
 
 function ControlBar() {
@@ -12,9 +12,11 @@ function ControlBar() {
   const quizState: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
 
+  const quizTimeIsOver = quizState.mode === 'time-challenge' && quizState.quizIsOver;
+
   return (
     <div className="w-96 md:w-150 lg:w-225 flex mt-3 mx-auto justify-between">
-      {quizState.checkAnswer && (
+      {quizState.checkAnswer && !quizTimeIsOver && (
         <button
           type="button"
           onClick={() => {
@@ -25,30 +27,33 @@ function ControlBar() {
         </button>
       )}
 
-      {!quizState.checkAnswer && quizState.qId < quizState.questionLength - 1 && (
-        <button
-          type="button"
-          onClick={() => {
-            // TODO nextQuestionX
-            // dispatch(nextQuestionX());
-            dispatch(setQuestion());
-          }}
-        >
-          下一題
-        </button>
-      )}
-
       {!quizState.checkAnswer
-        && quizState.qId === quizState.questionLength - 1 && (
+        && !quizTimeIsOver
+        && (quizState.mode === 'time-challenge'
+          || quizState.qIdList.length < 10) && (
           <button
             type="button"
             onClick={() => {
-              dispatch(endQuiz());
-              navigate('/quiz-result');
+              dispatch(nextQuestion());
             }}
           >
-            作答結束
+            下一題
           </button>
+      )}
+
+      {((!quizState.checkAnswer
+        && quizState.mode === 'normal'
+        && quizState.qIdList.length === 10)
+        || quizTimeIsOver) && (
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(endQuiz());
+            navigate('/quiz-result');
+          }}
+        >
+          作答結束
+        </button>
       )}
     </div>
   );
