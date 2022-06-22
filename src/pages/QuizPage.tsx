@@ -7,10 +7,12 @@ import ControlBar from '../components/quiz/ControlBar';
 import TimerBox from '../components/quiz/TimerBox';
 
 function QuizPage() {
+  // - quiz 的 type
   const { type } = useParams();
   const quiz: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
 
+  // - 判斷 quiz 的 type
   useEffect(() => {
     dispatch(startQuiz(type ?? ''));
   }, [dispatch, type]);

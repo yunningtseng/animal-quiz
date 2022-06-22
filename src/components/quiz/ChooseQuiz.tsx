@@ -12,7 +12,13 @@ function ChooseQuiz() {
       >
         單人競賽
       </button>
-      <button type="button">計時挑戰</button>
+      <button
+        type="button"
+        className="mr-10"
+        onClick={() => navigate('/quiz/time-challenge')}
+      >
+        計時挑戰
+      </button>
     </div>
   );
 }
