@@ -1,12 +1,5 @@
 import {
-  getDoc,
-  doc,
-  query,
-  collection,
-  getDocs,
-  setDoc,
-  Timestamp,
-  limit,
+  getDoc, doc, collection, setDoc, Timestamp,
 } from 'firebase/firestore';
 import { db } from '../utils/firebaseInit';
 import { Response, ResponseFS } from '../types/response';
