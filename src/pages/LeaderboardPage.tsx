@@ -1,15 +1,17 @@
-import Leaderboard from '../components/leaderboard/Leaderboard';
+import RankingBox from '../components/leaderboard/RankingBox';
 import { useAppSelector } from '../hooks/redux';
-import { Rank } from '../types/rank';
+import { User } from '../types/user';
 
 function LeaderboardPage() {
-  const rank: Rank[] = useAppSelector((state) => state.rank.rankList);
+  const rankingList: User[] = useAppSelector(
+    (state) => state.ranking.rankingList,
+  );
 
   return (
     <div>
       <p className="text-center">排行榜</p>
-      {rank.map((rankItem) => (
-        <Leaderboard key={rankItem.userId} rankItem={rankItem} />
+      {rankingList.map((user) => (
+        <RankingBox key={user.id} user={user} />
       ))}
     </div>
   );

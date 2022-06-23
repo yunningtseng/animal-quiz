@@ -1,12 +1,12 @@
 import { useAppSelector } from '../../hooks/redux';
-import { Rank } from '../../types/rank';
+import { User } from '../../types/user';
 
-interface RankProps {
-  rankItem: Rank;
+interface RankingBoxProps {
+  user: User;
 }
 
-function Leaderboard({ rankItem }: RankProps) {
-  if (!rankItem.userId) {
+function RankingBox({ user }: RankingBoxProps) {
+  if (!user.id) {
     return <div />;
   }
   return (
@@ -14,23 +14,23 @@ function Leaderboard({ rankItem }: RankProps) {
       <div>
         <div>
           Top
-          {rankItem.rankNumber}
+          {user.rankingNumber}
         </div>
         <div>
           <span>用戶名稱: </span>
-          {rankItem.userName}
+          {user.name}
         </div>
         <div>
           <span>分數: </span>
-          {rankItem.bestScore}
+          {user.bestScore}
         </div>
         <div>
           <span>時間: </span>
-          {rankItem.totalTime}
+          {user.totalTime}
         </div>
       </div>
     </div>
   );
 }
 
-export default Leaderboard;
+export default RankingBox;

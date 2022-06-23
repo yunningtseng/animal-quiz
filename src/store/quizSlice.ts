@@ -49,8 +49,11 @@ const quizSlice = createSlice({
     setResponse: (state: QuizState, action: PayloadAction<Response>) => {
       state.response = action.payload;
     },
-    initQuiz: (state: QuizState, action: PayloadAction<string>) => {
-      const mode = action.payload;
+    initQuiz: (
+      state: QuizState,
+      action: PayloadAction<{ mode: string; userId: string }>,
+    ) => {
+      const { mode, userId } = action.payload;
 
       let time = 0;
       if (mode === 'time-challenge') {
@@ -63,7 +66,7 @@ const quizSlice = createSlice({
         score: 0,
         startTime: new Date().toISOString(),
         totalTime: 0,
-        userName: 'ynt',
+        userId,
         records: [],
       };
       // * return QuizState 會去覆蓋輸出整個 state
@@ -182,8 +185,9 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   dispatch(setQuestion(question));
 };
 
-export const startQuiz = (type: string): AppThunk => (dispatch, getState) => {
-  dispatch(initQuiz(type));
+export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
+  const userId = getState().auth.user.id;
+  dispatch(initQuiz({ mode, userId }));
 
   const startTime = getState().quiz.time;
 
@@ -211,6 +215,7 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
 
   dispatch(setQuestionList(list));
 };
+
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   dispatch(setResponseScoreAndTotalTime());
   const { response } = getState().quiz;

@@ -1,19 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import firestoreApi from '../api/firestore';
+import { User } from '../types/user';
+import type { AppThunk } from './store';
 
-export interface UserState {
-  userId: string;
-  userName: string;
+export interface AuthState {
+  user: User;
 }
 
-const initialState: UserState = {
-  userId: '',
-  userName: '',
+const initialState: AuthState = {
+  user: {} as User,
 };
 
-const userSlice = createSlice({
-  name: 'user',
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state: AuthState, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
+  },
 });
 
-export default userSlice;
+export const { setUser } = authSlice.actions;
+
+export const initAuth = (): AppThunk => async (dispatch, getState) => {
+  let userId = localStorage.getItem('userId');
+  let user: User | undefined;
+
+  if (!userId) {
+    userId = firestoreApi.generateUniqueId();
+    localStorage.setItem('userId', userId);
+  } else {
+    // - 確認 firestore 上有沒有這個 user
+    user = await firestoreApi.getUser(userId);
+  }
+
+  if (!user) {
+    user = {
+      id: userId,
+    } as User;
+  }
+  dispatch(setUser(user));
+};
+
+export default authSlice;

@@ -1,66 +1,64 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Rank } from '../types/rank';
+import { User } from '../types/user';
 
-export interface RankState {
-  rankList: Rank[];
-  rank: Rank;
+export interface RankingState {
+  rankingList: User[];
 }
 
-const initialState: RankState = {
+const initialState: RankingState = {
   // - 取前十名
-  rankList: [
+  rankingList: [
     {
-      userId: '0001',
-      userName: 'ynt',
+      id: '0001',
+      name: 'ynt',
       bestScore: 90,
       bestScoreResponseId: '31231',
       totalTime: 10,
-      rankNumber: 1,
+      rankingNumber: 1,
     },
     {
-      userId: '00002',
-      userName: 'ning',
+      id: '00002',
+      name: 'ning',
       bestScore: 80,
       bestScoreResponseId: '351464',
       totalTime: 20,
-      rankNumber: 2,
+      rankingNumber: 2,
     },
     {
-      userId: '00003',
-      userName: 'Ning',
+      id: '00003',
+      name: 'Ning',
       bestScore: 70,
       bestScoreResponseId: '351464',
       totalTime: 20,
-      rankNumber: 3,
+      rankingNumber: 3,
     },
     {
-      userId: '00004',
-      userName: 'N',
+      id: '00004',
+      name: 'N',
       bestScore: 60,
       bestScoreResponseId: '351464',
       totalTime: 20,
-      rankNumber: 4,
+      rankingNumber: 4,
     },
     {
-      userId: '00005',
-      userName: 'Y',
+      id: '00005',
+      name: 'Y',
       bestScore: 50,
       bestScoreResponseId: '351464',
       totalTime: 20,
-      rankNumber: 5,
+      rankingNumber: 5,
     },
   ],
-  rank: {} as Rank,
 };
 
-const rankSlice = createSlice({
-  name: 'rank',
+const rankingSlice = createSlice({
+  name: 'ranking',
   initialState,
   reducers: {
     // TODO query bestScore，排序，取前十
     // setLeaderboard: (state: RankState, action: PayloadAction<string>) => {
     //   const rank = action.payload;
-    //   const player = state.rankList.find((e) => e.rankNumber === rank);
+    //   const player = state.rankList.find((e) => e.rankingNumber === rank);
     //   if (player) {
     //     state.rank = player;
     //   }
@@ -68,4 +66,4 @@ const rankSlice = createSlice({
   },
 });
 
-export default rankSlice;
+export default rankingSlice;

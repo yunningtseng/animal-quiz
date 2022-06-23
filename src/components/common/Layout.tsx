@@ -7,7 +7,7 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <div>
+    <div className="relative min-h-screen">
       <Navigation />
       <main>{children}</main>
       <Footer />

@@ -4,6 +4,7 @@ import {
 import { db } from '../utils/firebaseInit';
 import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
+import { User } from '../types/user';
 
 function randomNumbers(max: number, length: number) {
   const arr: number[] = [];
@@ -17,6 +18,8 @@ function randomNumbers(max: number, length: number) {
 }
 
 const firestoreApi = {
+  // - 產生 firestore 自創的 unique id
+  generateUniqueId: () => doc(collection(db, 'users')).id,
   // - 取得測驗題目
   // * 若 idList 為 undefined 則會 random 題目加進 qIdList
   // * 若 idList 不為 undefined，則 qIdList 即為 idList
@@ -62,6 +65,11 @@ const firestoreApi = {
       // * Timestamp 轉 string
       startTime: data.startTime.toDate().toISOString(),
     };
+  },
+  getUser: async (id: string): Promise<User | undefined> => {
+    const docRef = doc(db, 'users', id);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data() as User | undefined;
   },
 };
 

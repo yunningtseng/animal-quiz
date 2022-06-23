@@ -7,8 +7,9 @@ function AnimalList() {
 
   function renderAnimalList() {
     return animals.animalList.map((animal) => (
-      <div key={animal.id}>
+      <div key={animal.id} className="mt-5">
         <Link to={`/animal/${animal.id}`}>
+          <img src={animal.mainPic} alt="img" className="w-40" />
           <p>{animal.nameCh}</p>
         </Link>
       </div>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import AnimalBox from '../components/animal/Animal';
+import AnimalBox from '../components/animal/AnimalBox';
 import { useAppDispatch } from '../hooks/redux';
 import { setAnimal } from '../store/animalSlice';
 
