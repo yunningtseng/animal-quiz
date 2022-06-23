@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { startQuiz, QuizState } from '../store/quizSlice';
-import PersonalQuiz from '../components/quiz/PersonalQuiz';
+import QuizBox from '../components/quiz/QuizBox';
 import ControlBar from '../components/quiz/ControlBar';
 import TimerBox from '../components/quiz/TimerBox';
 
@@ -31,7 +31,23 @@ function QuizPage() {
       </div>
 
       <div className="w-xs sm:w-lg lg:w-4xl">
-        <PersonalQuiz />
+        {quiz.question.id ? (
+          <div className="flex justify-center">
+            <div className="w-96 md:w-150 lg:w-225 mt-5 flex flex-col justify-start">
+              {quiz.question.type && <QuizBox />}
+
+              {quiz.showAlert && <div className="mt-3">尚未作答</div>}
+
+              <div className="mt-5">
+                {!quiz.checkAnswer && (
+                  <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div />
+        )}
 
         <div className="mt-5">
           <ControlBar />
