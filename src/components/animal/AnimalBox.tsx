@@ -11,7 +11,7 @@ function AnimalBox() {
   return (
     <div>
       <div className="flex justify-between">
-        <img src={animal.mainPic} alt="img" className="w-1/2" />
+        <img src={animal.mainPic} alt="img" className="w-1/2 rounded-lg" />
         <div className="pr-20">
           <div>
             <p className="text-4xl">{animal.nameCh}</p>
@@ -41,6 +41,12 @@ function AnimalBox() {
         特徵:
         {animal.feature.map((feature, index) => (
           <div key={index}>{feature}</div>
+        ))}
+      </div>
+      <div>
+        行為:
+        {animal.behavior.map((behavior, index) => (
+          <div key={index}>{behavior}</div>
         ))}
       </div>
       <div>

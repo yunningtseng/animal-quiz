@@ -8,7 +8,7 @@ function AnimalsPage() {
         <div>快來探索動物吧</div>
         <div className="flex justify-between">
           <div>
-            <select className="w-80 p-3 rounded-lg bg-primary">
+            <select className="w-80 p-3 rounded-lg bg-light">
               <option>所有動物</option>
               <option>Dog</option>
               <option>Cat</option>
@@ -16,7 +16,7 @@ function AnimalsPage() {
           </div>
           <div>
             <input
-              className="w-80 p-3 rounded-lg bg-primary"
+              className="w-80 p-3 rounded-lg bg-light"
               placeholder="請輸入關鍵字"
             />
           </div>

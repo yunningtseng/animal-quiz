@@ -9,7 +9,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <div className="relative min-h-screen">
       <Navigation />
-      <main>{children}</main>
+      <main className="pb-16">{children}</main>
       <Footer />
     </div>
   );
