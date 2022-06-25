@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import {
   clearAnswer,
@@ -7,6 +7,7 @@ import {
   QuizState,
 } from '../../store/quizSlice';
 import RecordBox from './RecordBox';
+import { confirmUserName, setUserName } from '../../store/authSlice';
 
 function ResultRecorder() {
   const quiz: QuizState = useAppSelector((state) => state.quiz);
@@ -16,8 +17,27 @@ function ResultRecorder() {
     dispatch(fetchResponseAndQuestions());
   }, [dispatch]);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div>
+      <div className="flex">
+        <div className="mr-3">輸入玩家名稱:</div>
+        <input className="border-2" ref={inputRef} />
+        <button
+          type="button"
+          onClick={() => {
+            const userName = inputRef.current?.value;
+            if (userName) {
+              dispatch(setUserName(userName));
+              dispatch(confirmUserName());
+            }
+          }}
+        >
+          確認
+        </button>
+      </div>
+
       <div>測驗結果</div>
       <div className="flex">
         <div className="mr-5">

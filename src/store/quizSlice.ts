@@ -63,8 +63,9 @@ const quizSlice = createSlice({
         score: 0,
         startTime: new Date().toISOString(),
         totalTime: 0,
-        userName: 'ynt',
+        userId: '',
         records: [],
+        mode,
       };
       // * return QuizState 會去覆蓋輸出整個 state
       return {
@@ -118,6 +119,9 @@ const quizSlice = createSlice({
       if (correct) {
         state.score += 10;
       }
+      if (state.qIdList.length === 19) {
+        state.quizIsOver = true;
+      }
     },
     setQuestion: (state: QuizState, action: PayloadAction<Question>) => {
       state.question = action.payload;
@@ -125,8 +129,13 @@ const quizSlice = createSlice({
       state.checkAnswer = true;
       state.currentAnswer = [];
     },
-    setResponseScoreAndTotalTime: (state: QuizState) => {
+    setResponseScoreAndTotalTime: (
+      state: QuizState,
+      action: PayloadAction<string>,
+    ) => {
+      const userId = action.payload;
       state.response.score = state.score;
+      state.response.userId = userId;
       if (state.mode === 'time-challenge') {
         state.response.totalTime = 30;
       } else {
@@ -183,8 +192,8 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   }
 };
 
-export const startQuiz = (type: string): AppThunk => (dispatch, getState) => {
-  dispatch(initQuiz(type));
+export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
+  dispatch(initQuiz(mode));
 
   const startTime = getState().quiz.time;
 
@@ -213,7 +222,8 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
   dispatch(setQuestionList(list));
 };
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
-  dispatch(setResponseScoreAndTotalTime());
+  const userId = getState().auth.user.id;
+  dispatch(setResponseScoreAndTotalTime(userId));
   const { response } = getState().quiz;
   await firestoreApi.setResponse(response);
   quizTimer.reset();
