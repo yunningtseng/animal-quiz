@@ -1,18 +1,21 @@
 import { useParams } from 'react-router-dom';
-import { useStopwatch } from 'react-timer-hook';
-import { useAppSelector } from '../hooks/redux';
-import { QuizState } from '../store/quizSlice';
-import PersonalQuiz from '../components/quiz/PersonalQuiz';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { startQuiz, QuizState } from '../store/quizSlice';
+import QuizBox from '../components/quiz/QuizBox';
 import ControlBar from '../components/quiz/ControlBar';
+import TimerBox from '../components/quiz/TimerBox';
 
 function QuizPage() {
-  const { type } = useParams();
+  // - quiz 的 type
+  const { mode } = useParams();
   const quiz: QuizState = useAppSelector((state) => state.quiz);
-  const {
-    seconds, minutes, isRunning, start, pause, reset,
-  } = useStopwatch({
-    autoStart: true,
-  });
+  const dispatch = useAppDispatch();
+
+  // - 判斷 quiz 的 type
+  useEffect(() => {
+    dispatch(startQuiz(mode ?? ''));
+  }, [dispatch, mode]);
 
   return (
     <div className="w-screen mt-10">
@@ -23,19 +26,31 @@ function QuizPage() {
             <span className="mr-5">得分:</span>
             {quiz.score}
           </div>
-          <div>
-            <span className="mr-5">時間:</span>
-            {`${minutes} 分 ${seconds} 秒`}
-          </div>
+          <TimerBox />
         </div>
       </div>
 
       <div className="w-xs sm:w-lg lg:w-4xl">
-        {type === 'personal' && <PersonalQuiz />}
-        {/* {type === 'time' && <TimeQuiz />} */}
+        {quiz.question.id ? (
+          <div className="flex justify-center">
+            <div className="w-96 md:w-150 lg:w-225 mt-5 flex flex-col justify-start">
+              {quiz.question.type && <QuizBox />}
+
+              {quiz.showAlert && <div className="mt-3">尚未作答</div>}
+
+              <div className="mt-5">
+                {!quiz.checkAnswer && (
+                  <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div />
+        )}
 
         <div className="mt-5">
-          <ControlBar start={start} pause={pause} reset={reset} />
+          <ControlBar />
         </div>
       </div>
     </div>

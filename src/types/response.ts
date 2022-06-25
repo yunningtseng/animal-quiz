@@ -6,8 +6,9 @@ export interface Response {
   // * 要用 string or number 存日期 redux 才不會出問題
   startTime: string;
   totalTime: number;
-  userName: string;
+  userId: string;
   records: Record[];
+  mode: string;
 }
 
 export interface ResponseFS extends Omit<Response, 'startTime'> {

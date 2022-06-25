@@ -13,23 +13,25 @@ function RecordBox({ record, question }: RecordBoxProps) {
       {record.correct ? '(O)' : '(X)'}
       <div className="items-center">
         <div className="flex">
-          Q:
+          <span className="mr-3">Q:</span>
           {question.title}
         </div>
 
-        <div className="flex items-center">
-          A:
-          {question.options.map((option, index) => (
-            <div key={index} className="ml-0.5">
-              {question.answer.includes(index) && (
-                <OptionBox
-                  option={option}
-                  questionType={question.type}
-                  index={index}
-                />
-              )}
-            </div>
-          ))}
+        <div className="block md:flex items-start">
+          <span className="mr-3">正確答案:</span>
+          <div>
+            {question.options.map((option, index) => (
+              <div key={index} className="ml-0.5">
+                {question.answer.includes(index) && (
+                  <OptionBox
+                    option={option}
+                    questionType={question.type}
+                    index={index}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,14 +1,24 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ChooseQuiz() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <Link to="/quiz/personal">
-        <button type="button" className="mr-10">
-          單人競賽
-        </button>
-      </Link>
-      <button type="button">計時挑戰</button>
+      <button
+        type="button"
+        className="mr-10"
+        onClick={() => navigate('/quiz/normal')}
+      >
+        單人競賽
+      </button>
+      <button
+        type="button"
+        className="mr-10"
+        onClick={() => navigate('/quiz/time-challenge')}
+      >
+        計時挑戰
+      </button>
     </div>
   );
 }
