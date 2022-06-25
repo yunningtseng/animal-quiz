@@ -168,18 +168,19 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
 
   const { qIdList } = getState().quiz;
   const max = 19;
-  let newQId: string;
-  while (true) {
-    const numNumber = Math.floor(Math.random() * (max - 1) + 1);
+  let newQId: string | undefined;
+  while (qIdList.length !== max) {
+    const numNumber = Math.floor(Math.random() * max + 1);
     const numNumberStr = String(numNumber).padStart(4, '0');
     if (!qIdList.includes(numNumberStr)) {
       newQId = numNumberStr;
       break;
     }
   }
-  const question = await firestoreApi.getQuestion(newQId);
-
-  dispatch(setQuestion(question));
+  if (newQId) {
+    const question = await firestoreApi.getQuestion(newQId);
+    dispatch(setQuestion(question));
+  }
 };
 
 export const startQuiz = (type: string): AppThunk => (dispatch, getState) => {
