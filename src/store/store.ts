@@ -1,9 +1,9 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import counterSlice from './counterSlice';
+import quizSlice from './quizSlice';
 
 const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer,
+    quiz: quizSlice.reducer,
   },
 });
 
