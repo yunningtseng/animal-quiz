@@ -49,11 +49,8 @@ const quizSlice = createSlice({
     setResponse: (state: QuizState, action: PayloadAction<Response>) => {
       state.response = action.payload;
     },
-    initQuiz: (
-      state: QuizState,
-      action: PayloadAction<{ mode: string; userId: string }>,
-    ) => {
-      const { mode, userId } = action.payload;
+    initQuiz: (state: QuizState, action: PayloadAction<string>) => {
+      const mode = action.payload;
 
       let time = 0;
       if (mode === 'time-challenge') {
@@ -66,8 +63,9 @@ const quizSlice = createSlice({
         score: 0,
         startTime: new Date().toISOString(),
         totalTime: 0,
-        userId,
+        userId: '',
         records: [],
+        mode,
       };
       // * return QuizState 會去覆蓋輸出整個 state
       return {
@@ -121,6 +119,9 @@ const quizSlice = createSlice({
       if (correct) {
         state.score += 10;
       }
+      if (state.qIdList.length === 19) {
+        state.quizIsOver = true;
+      }
     },
     setQuestion: (state: QuizState, action: PayloadAction<Question>) => {
       state.question = action.payload;
@@ -128,8 +129,13 @@ const quizSlice = createSlice({
       state.checkAnswer = true;
       state.currentAnswer = [];
     },
-    setResponseScoreAndTotalTime: (state: QuizState) => {
+    setResponseScoreAndTotalTime: (
+      state: QuizState,
+      action: PayloadAction<string>,
+    ) => {
+      const userId = action.payload;
       state.response.score = state.score;
+      state.response.userId = userId;
       if (state.mode === 'time-challenge') {
         state.response.totalTime = 30;
       } else {
@@ -171,23 +177,23 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
 
   const { qIdList } = getState().quiz;
   const max = 19;
-  let newQId: string;
-  while (true) {
-    const numNumber = Math.floor(Math.random() * (max - 1) + 1);
+  let newQId: string | undefined;
+  while (qIdList.length !== max) {
+    const numNumber = Math.floor(Math.random() * max + 1);
     const numNumberStr = String(numNumber).padStart(4, '0');
     if (!qIdList.includes(numNumberStr)) {
       newQId = numNumberStr;
       break;
     }
   }
-  const question = await firestoreApi.getQuestion(newQId);
-
-  dispatch(setQuestion(question));
+  if (newQId) {
+    const question = await firestoreApi.getQuestion(newQId);
+    dispatch(setQuestion(question));
+  }
 };
 
 export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
-  const userId = getState().auth.user.id;
-  dispatch(initQuiz({ mode, userId }));
+  dispatch(initQuiz(mode));
 
   const startTime = getState().quiz.time;
 
@@ -217,7 +223,8 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
 };
 
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
-  dispatch(setResponseScoreAndTotalTime());
+  const userId = getState().auth.user.id;
+  dispatch(setResponseScoreAndTotalTime(userId));
   const { response } = getState().quiz;
   await firestoreApi.setResponse(response);
   quizTimer.reset();

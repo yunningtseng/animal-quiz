@@ -8,6 +8,7 @@ export interface Response {
   totalTime: number;
   userId: string;
   records: Record[];
+  mode: string;
 }
 
 export interface ResponseFS extends Omit<Response, 'startTime'> {

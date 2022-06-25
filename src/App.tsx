@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/quiz" element={<SelectQuizPage />} />
-        <Route path="/quiz/:type" element={<QuizPage />} />
+        <Route path="/quiz/:mode" element={<QuizPage />} />
         <Route path="/quiz-result" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
         <Route path="/animal/:animalId" element={<AnimalPage />} />

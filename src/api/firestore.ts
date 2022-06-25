@@ -71,6 +71,11 @@ const firestoreApi = {
     const docSnap = await getDoc(docRef);
     return docSnap.data() as User | undefined;
   },
+  setUser: async (user: User): Promise<void> => {
+    // - 將 doc 的 id 設為 user.id，非自動產生的 random id
+    const docRef = doc(db, 'users', user.id);
+    await setDoc(docRef, user);
+  },
 };
 
 export default firestoreApi;

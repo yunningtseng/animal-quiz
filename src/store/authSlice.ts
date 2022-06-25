@@ -18,10 +18,13 @@ const authSlice = createSlice({
     setUser: (state: AuthState, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    setUserName: (state: AuthState, action: PayloadAction<string>) => {
+      state.user.name = action.payload;
+    },
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setUserName } = authSlice.actions;
 
 export const initAuth = (): AppThunk => async (dispatch, getState) => {
   let userId = localStorage.getItem('userId');
@@ -41,6 +44,11 @@ export const initAuth = (): AppThunk => async (dispatch, getState) => {
     } as User;
   }
   dispatch(setUser(user));
+};
+
+export const confirmUserName = (): AppThunk => async (dispatch, getState) => {
+  const { user } = getState().auth;
+  await firestoreApi.setUser(user);
 };
 
 export default authSlice;
