@@ -25,6 +25,8 @@ function randomNumbers(max: number, length: number) {
 
 const firestoreApi = {
   // - 取得測驗題目
+  // * 若 idList 為 undefined 則會 random 題目加進 qIdList
+  // * 若 idList 不為 undefined，則 qIdList 即為 idList
   getQuestions: async (idList?: string[]): Promise<Question[]> => {
     let qIdList: string[];
     if (idList === undefined) {
@@ -35,6 +37,7 @@ const firestoreApi = {
 
     const results: Promise<Question>[] = [];
     qIdList.forEach((qId) => results.push(firestoreApi.getQuestion(qId)));
+    // - 待所有題目載入完成才會 return
     const questionListLocal = await Promise.all(results);
 
     return questionListLocal;

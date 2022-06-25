@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-import { fetchResponseAndQuestions, QuizState } from '../../store/quizSlice';
+import {
+  clearAnswer,
+  fetchResponseAndQuestions,
+  QuizState,
+} from '../../store/quizSlice';
 import RecordBox from './RecordBox';
 
 function ResultRecorder() {
@@ -17,12 +21,13 @@ function ResultRecorder() {
       <div>測驗結果</div>
       <div className="flex">
         <div className="mr-5">
-          得分:
+          <span>得分: </span>
           {quiz.response.score}
         </div>
         <div>
-          時間:
+          <span>時間: </span>
           {quiz.response.totalTime}
+          <span> 秒</span>
         </div>
       </div>
 
@@ -35,7 +40,15 @@ function ResultRecorder() {
       ))}
 
       <Link to="/quiz">
-        <button type="button">返回遊戲選單</button>
+        <button
+          type="button"
+          className="mt-3"
+          onClick={() => {
+            dispatch(clearAnswer());
+          }}
+        >
+          返回遊戲選單
+        </button>
       </Link>
     </div>
   );
