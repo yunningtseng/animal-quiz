@@ -9,7 +9,7 @@ function Home() {
   );
   const navigate = useNavigate();
   return (
-    <div className="w-2/3 mx-auto mt-5">
+    <div className="w-225 mx-auto mt-5">
       <div className="flex justify-between">
         <div className="relative">
           <button
@@ -46,7 +46,7 @@ function Home() {
             alt="img"
             className="w-125 h-80 bg-contain rounded-lg"
           />
-          <div className="w-72  p-5 text-lg font-bold rounded-md bg-third text-white">
+          <div className="w-72 p-5 text-lg rounded-md border">
             <div className="mb-3">哺乳類</div>
             <div className="mb-5">Mammals</div>
             <button
@@ -60,7 +60,7 @@ function Home() {
         </div>
 
         <div className="flex justify-between mb-10">
-          <div className="w-72  p-5 text-lg font-bold rounded-md bg-third text-white">
+          <div className="w-72 p-5 text-lg rounded-md border">
             <div className="mb-3">鳥類</div>
             <div className="mb-5">Birds</div>
             <button
@@ -84,7 +84,7 @@ function Home() {
             alt="img"
             className="w-125 h-88 rounded-lg"
           />
-          <div className="w-72 p-5 text-lg font-bold rounded-md bg-third text-white">
+          <div className="w-72 p-5 text-lg rounded-md border">
             <div className="mb-3">變溫動物</div>
             <div className="mb-5">Ectotherms</div>
             <button

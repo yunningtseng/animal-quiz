@@ -1,7 +1,7 @@
 function UserPage() {
   return (
     <div>
-      <div className="w-3/4 mx-auto mt-5">
+      <div className="w-225 mx-auto mt-5">
         <div className="p-3">遊戲紀錄</div>
 
         <div className="border-solid border-black border-2 p-5">
