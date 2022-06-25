@@ -8,14 +8,14 @@ import TimerBox from '../components/quiz/TimerBox';
 
 function QuizPage() {
   // - quiz 的 type
-  const { mode } = useParams()
+  const { mode } = useParams();
   const quiz: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
 
   // - 判斷 quiz 的 type
   useEffect(() => {
     dispatch(startQuiz(mode ?? ''));
-  }, [dispatch, mode])
+  }, [dispatch, mode]);
 
   return (
     <div className="w-screen mt-10">
