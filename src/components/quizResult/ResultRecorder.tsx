@@ -29,7 +29,6 @@ function ResultRecorder() {
             <input
               type="text"
               className="border-b-2 focus:outline-none"
-              defaultValue={name}
               ref={inputRef}
             />
           </div>

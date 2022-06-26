@@ -14,8 +14,8 @@ function AnimalBox() {
         <img src={animal.mainPic} alt="img" className="w-1/2 rounded-lg" />
         <div className="pr-20">
           <div>
-            <p className="text-4xl">{animal.nameCh}</p>
-            <p>{animal.nameEn}</p>
+            <p className="text-4xl">{animal.name}</p>
+            <p>{animal.enName}</p>
           </div>
           <div className="flex">
             綱目:
