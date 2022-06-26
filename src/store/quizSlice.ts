@@ -157,6 +157,8 @@ const quizSlice = createSlice({
         quizTimer.pause();
       }
     },
+    // TODO
+    setResponses: (state: QuizState) => {},
   },
 });
 
@@ -226,8 +228,16 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   dispatch(setResponseScoreAndTotalTime(userId));
   const { response } = getState().quiz;
   await firestoreApi.setResponse(response);
+  // TODO 從 firestore 的 users 取個人最佳紀錄
+  // await firestoreApi.getUser();
+
+  // TODO 比較這個 response 跟最佳紀錄
+
+  // TODO 若這個 response 分數較高，則 set 新 users 內的資料
   quizTimer.reset();
   dispatch(setTime(0));
 };
+// TODO
+export const fetchResponses = (): AppThunk => async (dispatch, getState) => {};
 
 export default quizSlice;

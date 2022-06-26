@@ -8,7 +8,7 @@ function LeaderboardPage() {
   );
 
   return (
-    <div className="w-1/2 mx-auto mt-5">
+    <div className="w-225 mx-auto mt-5">
       <p className="text-center font-bold text-2xl">排行榜</p>
       <div>
         <div className="flex">

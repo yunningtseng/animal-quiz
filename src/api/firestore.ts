@@ -1,6 +1,14 @@
 import {
-  getDoc, doc, collection, setDoc, Timestamp,
+  getDoc,
+  doc,
+  collection,
+  setDoc,
+  Timestamp,
+  getDocs,
+  limit,
+  query,
 } from 'firebase/firestore';
+import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
 import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
@@ -76,6 +84,26 @@ const firestoreApi = {
     const docRef = doc(db, 'users', user.id);
     await setDoc(docRef, user);
   },
+  getAnimals: async (): Promise<SimpleAnimal[]> => {
+    const collectionRef = collection(db, 'animals');
+    const q = query(collectionRef, limit(20));
+    const querySnapshot = await getDocs(q);
+    const list: SimpleAnimal[] = [];
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data() as SimpleAnimal;
+      list.push(data);
+    });
+    return list;
+  },
+  getAnimal: async (id: string): Promise<Animal> => {
+    const docRef = doc(db, 'animals', id);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data() as Animal;
+  },
+  // TODO 取個人歷史紀錄頁面
+  // TODO query firestore response(類似 getAnimals)
+  // TODO 篩出某 userId 的 response
+  // TODO 用 where
 };
 
 export default firestoreApi;

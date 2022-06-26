@@ -18,27 +18,46 @@ function ResultRecorder() {
   }, [dispatch]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const name: string = useAppSelector((state) => state.auth.user.name);
 
   return (
-    <div>
+    <div className="mt-10">
       <div className="flex">
-        <div className="mr-3">輸入玩家名稱:</div>
-        <input className="border-2" ref={inputRef} />
-        <button
-          type="button"
-          onClick={() => {
-            const userName = inputRef.current?.value;
-            if (userName) {
-              dispatch(setUserName(userName));
-              dispatch(confirmUserName());
-            }
-          }}
-        >
-          確認
-        </button>
+        {!name && (
+          <div className="flex">
+            <div className="mr-3">請輸入玩家名稱:</div>
+            <input
+              type="text"
+              className="border-b-2 focus:outline-none"
+              ref={inputRef}
+            />
+          </div>
+        )}
+        {name && (
+          <div className="flex">
+            <div className="mr-3">玩家名稱:</div>
+            {name}
+          </div>
+        )}
+
+        {!name && (
+          <button
+            type="button"
+            className="ml-5"
+            onClick={() => {
+              const userName = inputRef.current?.value;
+              if (userName) {
+                dispatch(setUserName(userName));
+                dispatch(confirmUserName());
+              }
+            }}
+          >
+            確認
+          </button>
+        )}
       </div>
 
-      <div>測驗結果</div>
+      <div className="mt-5">測驗結果</div>
       <div className="flex">
         <div className="mr-5">
           <span>得分: </span>

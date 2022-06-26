@@ -4,5 +4,5 @@ export interface User {
   bestScore: number;
   bestScoreResponseId: string;
   totalTime: number;
-  rankingNumber: number;
+  rankingNumber?: number;
 }
