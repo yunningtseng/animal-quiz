@@ -9,6 +9,7 @@ import AnimalsPage from './pages/AnimalsPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import UserPage from './pages/UserPage';
 import AnimalPage from './pages/AnimalPage';
+import LoginPage from './pages/LoginPage';
 import { useAppDispatch } from './hooks/redux';
 import { initAuth } from './store/authSlice';
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/animal/:animalId" element={<AnimalPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Layout>
   );
