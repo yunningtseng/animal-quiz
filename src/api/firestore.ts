@@ -8,6 +8,7 @@ import {
   limit,
   query,
   where,
+  Query,
 } from 'firebase/firestore';
 import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
@@ -86,9 +87,14 @@ const firestoreApi = {
     const docRef = doc(db, 'users', user.id);
     await setDoc(docRef, user);
   },
-  getAnimals: async (): Promise<SimpleAnimal[]> => {
+  getAnimals: async (className: string): Promise<SimpleAnimal[]> => {
     const collectionRef = collection(db, 'animals');
-    const q = query(collectionRef, limit(20));
+    let q: Query;
+    if (className !== '') {
+      q = query(collectionRef, where('class', '==', className), limit(20));
+    } else {
+      q = query(collectionRef, limit(20));
+    }
     const querySnapshot = await getDocs(q);
     const list: SimpleAnimal[] = [];
     querySnapshot.forEach((docSnap) => {
@@ -102,9 +108,7 @@ const firestoreApi = {
     const docSnap = await getDoc(docRef);
     return docSnap.data() as Animal;
   },
-  // TODO 取個人歷史紀錄頁面
-  // TODO query firestore response(類似 getAnimals)
-  // TODO 篩出某 userId 的 response
+  // - 取個人歷史紀錄頁面
   getResponses: async (userId: string): Promise<Response[]> => {
     const collectionRef = collection(db, 'responses');
     const q = query(collectionRef, where('userId', '==', userId));
