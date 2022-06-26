@@ -4,6 +4,7 @@ import firestoreApi from '../api/firestore';
 import { Question } from '../types/question';
 import type { AppThunk } from './store';
 import quizTimer from '../utils/quizTimer';
+import { updateUser } from './authSlice';
 
 export interface QuizState {
   questionList: Question[];
@@ -56,7 +57,7 @@ const quizSlice = createSlice({
 
       let time = 0;
       if (mode === 'time-challenge') {
-        time = 30;
+        time = 15;
       }
 
       // - 創一個 response，裡面有 responseId userName startTime
@@ -139,7 +140,7 @@ const quizSlice = createSlice({
       state.response.score = state.score;
       state.response.userId = userId;
       if (state.mode === 'time-challenge') {
-        state.response.totalTime = 30;
+        state.response.totalTime = 15;
       } else {
         state.response.totalTime = state.time;
       }
@@ -159,7 +160,6 @@ const quizSlice = createSlice({
         quizTimer.pause();
       }
     },
-    // TODO
     // - 儲存玩家所有作答紀錄
     setResponses: (state: QuizState, action: PayloadAction<Response[]>) => {
       state.responses = action.payload;
@@ -186,8 +186,10 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   const { qIdList } = getState().quiz;
   const max = 19;
   let newQId: string | undefined;
+  const demoList = [1, 2, 7, 15, 16, 17, 18, 19, 3, 4, 5];
   while (qIdList.length !== max) {
-    const numNumber = Math.floor(Math.random() * max + 1);
+    const numNumber = demoList[qIdList.length];
+    // const numNumber = Math.floor(Math.random() * max + 1);
     const numNumberStr = String(numNumber).padStart(4, '0');
     if (!qIdList.includes(numNumberStr)) {
       newQId = numNumberStr;
@@ -227,23 +229,35 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
 
   dispatch(setQuestionList(list));
 };
+
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
   dispatch(setResponseScoreAndTotalTime(userId));
   const { response } = getState().quiz;
   await firestoreApi.setResponse(response);
-  // TODO 從 firestore 的 users 取個人最佳紀錄
-  await firestoreApi.getUser(userId);
-  // TODO 比較這個 response 跟最佳紀錄
-  // if(){
 
-  // }
+  // - 從 firestore 取最新的 user 資料
+  let user = await firestoreApi.getUser(userId);
+  // - 如果沒有則讀 store 的資料
+  if (!user) {
+    user = getState().auth.user;
+  }
 
-  // TODO 若這個 response 分數較高，則 set 新 users 內的資料
+  // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
+  //  就更新 user(最佳成績資訊)
+  if (!user.bestScore || response.score > user.bestScore) {
+    const newUser = { ...user };
+    newUser.bestScore = response.score;
+    newUser.bestScoreResponseId = response.id;
+    newUser.totalTime = response.totalTime;
+
+    dispatch(updateUser(newUser));
+  }
+
   quizTimer.reset();
   dispatch(setTime(0));
 };
-// TODO
+
 export const fetchResponses = (userId: string): AppThunk => async (dispatch) => {
   const data = await firestoreApi.getResponses(userId);
   dispatch(setResponses(data));

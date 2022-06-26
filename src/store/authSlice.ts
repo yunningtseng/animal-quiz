@@ -38,17 +38,21 @@ export const initAuth = (): AppThunk => async (dispatch, getState) => {
     user = await firestoreApi.getUser(userId);
   }
 
-  if (!user) {
-    user = {
-      id: userId,
-    } as User;
-  }
+  user ??= {
+    id: userId,
+  };
+
   dispatch(setUser(user));
 };
 
-export const confirmUserName = (userName:string): AppThunk => async (dispatch, getState) => {
+export const confirmUserName = (userName: string): AppThunk => async (dispatch, getState) => {
   dispatch(setUserName(userName));
   const { user } = getState().auth;
+  await firestoreApi.setUser(user);
+};
+
+export const updateUser = (user: User): AppThunk => async (dispatch, getState) => {
+  dispatch(setUser(user));
   await firestoreApi.setUser(user);
 };
 

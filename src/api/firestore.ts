@@ -9,6 +9,7 @@ import {
   query,
   where,
   Query,
+  orderBy,
 } from 'firebase/firestore';
 import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
@@ -91,13 +92,13 @@ const firestoreApi = {
     const collectionRef = collection(db, 'animals');
     let q: Query;
     if (className !== '') {
-      q = query(collectionRef, where('class', '==', className), limit(20));
+      q = query(collectionRef, where('class', '==', className), limit(30));
     } else {
-      q = query(collectionRef, limit(20));
+      q = query(collectionRef, limit(30));
     }
-    const querySnapshot = await getDocs(q);
+    const querySnap = await getDocs(q);
     const list: SimpleAnimal[] = [];
-    querySnapshot.forEach((docSnap) => {
+    querySnap.forEach((docSnap) => {
       const data = docSnap.data() as SimpleAnimal;
       list.push(data);
     });
@@ -111,15 +112,36 @@ const firestoreApi = {
   // - 取個人歷史紀錄頁面
   getResponses: async (userId: string): Promise<Response[]> => {
     const collectionRef = collection(db, 'responses');
-    const q = query(collectionRef, where('userId', '==', userId));
-    const querySnapshot = await getDocs(q);
+    const q = query(
+      collectionRef,
+      where('userId', '==', userId),
+      orderBy('startTime', 'desc'),
+    );
+    const querySnap = await getDocs(q);
     const list: Response[] = [];
-    querySnapshot.forEach((docSnap) => {
+    querySnap.forEach((docSnap) => {
       const data = docSnap.data() as ResponseFS;
       list.push({
         ...data,
         startTime: data.startTime.toDate().toISOString(),
       });
+    });
+    return list;
+  },
+  getRankingList: async (): Promise<User[]> => {
+    const collectionRef = collection(db, 'users');
+    const q = query(
+      collectionRef,
+      orderBy('bestScore', 'desc'),
+      orderBy('totalTime'),
+      // * 代表必須要有 name
+      orderBy('name'),
+      limit(10),
+    );
+    const querySnap = await getDocs(q);
+    const list: User[] = [];
+    querySnap.forEach((docSnap) => {
+      list.push(docSnap.data() as User);
     });
     return list;
   },
