@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import AnimalBox from '../components/animal/AnimalBox';
 import { useAppDispatch } from '../hooks/redux';
-import { setAnimal } from '../store/animalSlice';
+import { fetchAnimal } from '../store/animalSlice';
 
 function AnimalPage() {
   const { animalId } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setAnimal(animalId ?? ''));
+    dispatch(fetchAnimal(animalId ?? ''));
   }, [dispatch, animalId]);
 
   return (

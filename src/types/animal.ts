@@ -1,18 +1,28 @@
 export interface Animal {
   id: string;
-  nameCh: string;
+  name: string;
   location: string;
-  nameEn: string;
-  nameLatin: string;
+  enName: string;
+  latinName: string;
   phylum: string;
   class: string;
   order: string;
   family: string;
   conservation: string;
-  distribution: string;
-  habitat: string;
+  distribution: string[];
+  habitat: string[];
   feature: string[];
   behavior: string[];
-  diet: string;
+  diet: string[];
+  mainPic: string;
+  alsoknown: string[];
+  pics: string[];
+  geo: string;
+}
+
+export interface SimpleAnimal {
+  id: string;
+  name: string;
+  class: string;
   mainPic: string;
 }

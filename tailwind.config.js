@@ -17,6 +17,9 @@ module.exports = {
         150: '38rem',
         225: '56rem',
       },
+      fontFamily: {
+        bpm: ['BpmfGenSenRounded-R'],
+      },
     },
   },
   plugins: [],

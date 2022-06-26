@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux';
-import { AnimalState } from '../../store/animalSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { AnimalState, fetchAnimals } from '../../store/animalSlice';
 
 function AnimalList() {
   const animals: AnimalState = useAppSelector((state) => state.animal);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAnimals());
+  }, [dispatch]);
 
   function renderAnimalList() {
     return animals.animalList.map((animal) => (
@@ -17,7 +24,7 @@ function AnimalList() {
             />
           </div>
           <div className="mt-3">
-            <p className="text-center">{animal.nameCh}</p>
+            <p className="text-center">{animal.name}</p>
           </div>
         </Link>
       </div>

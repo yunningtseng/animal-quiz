@@ -14,8 +14,8 @@ function AnimalBox() {
         <img src={animal.mainPic} alt="img" className="w-1/2 rounded-lg" />
         <div className="pr-20">
           <div>
-            <p className="text-4xl">{animal.nameCh}</p>
-            <p>{animal.nameEn}</p>
+            <p className="text-4xl">{animal.name}</p>
+            <p>{animal.enName}</p>
           </div>
           <div className="flex">
             綱目:
@@ -35,7 +35,9 @@ function AnimalBox() {
       </div>
       <div>
         棲息地:
-        {animal.habitat}
+        {animal.habitat.map((habitat, index) => (
+          <div key={index}>{habitat}</div>
+        ))}
       </div>
       <div>
         特徵:
@@ -51,7 +53,9 @@ function AnimalBox() {
       </div>
       <div>
         飲食:
-        {animal.diet}
+        {animal.diet.map((diet, index) => (
+          <div key={index}>{diet}</div>
+        ))}
       </div>
     </div>
   );

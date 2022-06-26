@@ -1,3 +1,4 @@
+// import { useEffect } from 'react';
 import AnimalList from '../components/animal/AnimalList';
 
 function AnimalsPage() {
