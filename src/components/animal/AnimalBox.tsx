@@ -35,7 +35,9 @@ function AnimalBox() {
       </div>
       <div>
         棲息地:
-        {animal.habitat}
+        {animal.habitat.map((habitat, index) => (
+          <div key={index}>{habitat}</div>
+        ))}
       </div>
       <div>
         特徵:
@@ -51,7 +53,9 @@ function AnimalBox() {
       </div>
       <div>
         飲食:
-        {animal.diet}
+        {animal.diet.map((diet, index) => (
+          <div key={index}>{diet}</div>
+        ))}
       </div>
     </div>
   );

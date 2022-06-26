@@ -1,7 +1,5 @@
 // import { useEffect } from 'react';
 import AnimalList from '../components/animal/AnimalList';
-// import { useAppDispatch } from '../hooks/redux';
-// import { setAnimals } from '../store/animalSlice';
 
 function AnimalsPage() {
   return (
