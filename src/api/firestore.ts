@@ -7,6 +7,7 @@ import {
   getDocs,
   limit,
   query,
+  where,
 } from 'firebase/firestore';
 import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
@@ -60,6 +61,7 @@ const firestoreApi = {
     await setDoc(docRef, {
       ...response,
       id: docRef.id,
+      // * string 轉 Date object 再轉 Timestamp
       startTime: Timestamp.fromDate(new Date(response.startTime)),
     });
   },
@@ -103,7 +105,20 @@ const firestoreApi = {
   // TODO 取個人歷史紀錄頁面
   // TODO query firestore response(類似 getAnimals)
   // TODO 篩出某 userId 的 response
-  // TODO 用 where
+  getResponses: async (userId: string): Promise<Response[]> => {
+    const collectionRef = collection(db, 'responses');
+    const q = query(collectionRef, where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+    const list: Response[] = [];
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data() as ResponseFS;
+      list.push({
+        ...data,
+        startTime: data.startTime.toDate().toISOString(),
+      });
+    });
+    return list;
+  },
 };
 
 export default firestoreApi;

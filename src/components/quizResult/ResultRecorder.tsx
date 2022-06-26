@@ -47,8 +47,7 @@ function ResultRecorder() {
             onClick={() => {
               const userName = inputRef.current?.value;
               if (userName) {
-                dispatch(setUserName(userName));
-                dispatch(confirmUserName());
+                dispatch(confirmUserName(userName));
               }
             }}
           >

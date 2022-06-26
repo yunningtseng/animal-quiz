@@ -1,11 +1,15 @@
-export interface Animal {
+export interface SimpleAnimal {
   id: string;
   name: string;
+  class: string;
+  mainPic: string;
+}
+
+export interface Animal extends SimpleAnimal {
   location: string;
   enName: string;
   latinName: string;
   phylum: string;
-  class: string;
   order: string;
   family: string;
   conservation: string;
@@ -14,15 +18,7 @@ export interface Animal {
   feature: string[];
   behavior: string[];
   diet: string[];
-  mainPic: string;
   alsoknown: string[];
   pics: string[];
   geo: string;
-}
-
-export interface SimpleAnimal {
-  id: string;
-  name: string;
-  class: string;
-  mainPic: string;
 }

@@ -46,7 +46,8 @@ export const initAuth = (): AppThunk => async (dispatch, getState) => {
   dispatch(setUser(user));
 };
 
-export const confirmUserName = (): AppThunk => async (dispatch, getState) => {
+export const confirmUserName = (userName:string): AppThunk => async (dispatch, getState) => {
+  dispatch(setUserName(userName));
   const { user } = getState().auth;
   await firestoreApi.setUser(user);
 };

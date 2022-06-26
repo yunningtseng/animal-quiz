@@ -12,6 +12,7 @@ export interface QuizState {
   checkAnswer: boolean;
   score: number;
   response: Response;
+  responses: Response[];
   correct: boolean;
   currentAnswer: number[];
   showAlert: boolean;
@@ -28,6 +29,7 @@ const initialState: QuizState = {
   // > answer
   currentAnswer: [],
   response: {} as Response,
+  responses: [],
   // > status
   checkAnswer: true,
   score: 0,
@@ -158,7 +160,10 @@ const quizSlice = createSlice({
       }
     },
     // TODO
-    setResponses: (state: QuizState) => {},
+    // - 儲存玩家所有作答紀錄
+    setResponses: (state: QuizState, action: PayloadAction<Response[]>) => {
+      state.responses = action.payload;
+    },
   },
 });
 
@@ -172,6 +177,7 @@ export const {
   setResponseScoreAndTotalTime,
   clearAnswer,
   setTime,
+  setResponses,
 } = quizSlice.actions;
 
 export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
@@ -211,8 +217,6 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
 };
 
 export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {
-  // const response = await firestoreApi.getResponse('FGznKE6b3Tg43HpAvzcc');
-  // dispatch(setResponse(response));
   const { response } = getState().quiz;
 
   // - 篩出某次測驗作答所有的 questionId
@@ -229,15 +233,20 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const { response } = getState().quiz;
   await firestoreApi.setResponse(response);
   // TODO 從 firestore 的 users 取個人最佳紀錄
-  // await firestoreApi.getUser();
-
+  await firestoreApi.getUser(userId);
   // TODO 比較這個 response 跟最佳紀錄
+  // if(){
+
+  // }
 
   // TODO 若這個 response 分數較高，則 set 新 users 內的資料
   quizTimer.reset();
   dispatch(setTime(0));
 };
 // TODO
-export const fetchResponses = (): AppThunk => async (dispatch, getState) => {};
+export const fetchResponses = (userId: string): AppThunk => async (dispatch) => {
+  const data = await firestoreApi.getResponses(userId);
+  dispatch(setResponses(data));
+};
 
 export default quizSlice;
