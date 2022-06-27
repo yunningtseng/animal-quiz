@@ -10,7 +10,6 @@ export interface RankingState {
 const initialState: RankingState = {
   // - 取前十名
   rankingList: [],
-};
 
 const rankingSlice = createSlice({
   name: 'ranking',
