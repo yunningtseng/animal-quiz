@@ -17,7 +17,11 @@ function RankingBox({ user, index }: RankingBoxProps) {
         {index + 1}
       </div>
 
-      <div className="w-68">{`玩家名稱: ${user.name}`}</div>
+      {/* <div className="w-68">{`玩家名稱: ${user.name}`}</div> */}
+      <span className="w-68">
+        玩家名稱:
+        {user.name}
+      </span>
 
       <div>
         <div className="mb-3">
