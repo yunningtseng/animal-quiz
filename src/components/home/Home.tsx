@@ -27,10 +27,9 @@ function Home() {
             排行榜
           </div>
           <div className="px-3">
-            {rankingList.map((user) => (
+            {rankingList.map((user, index) => (
               <div key={user.id} className="my-1.5">
-                <span>Top </span>
-                {user.rankingNumber}
+                {`Top ${index + 1}`}
                 <span className="mr-1">: </span>
                 {user.name}
               </div>

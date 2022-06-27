@@ -1,5 +1,5 @@
-// import { useEffect } from 'react';
 import AnimalList from '../components/animal/AnimalList';
+import AnimalClass from '../components/animal/AnimalClass';
 
 function AnimalsPage() {
   return (
@@ -7,19 +7,7 @@ function AnimalsPage() {
       <p className="text-3xl">快來探索動物吧!</p>
 
       <div className="flex justify-between items-center mt-5">
-        <div>
-          <select className="w-80 p-3 rounded-lg bg-light focus:outline-none">
-            <option>所有動物</option>
-            <option>哺乳綱</option>
-            <option>昆蟲綱</option>
-            <option>爬蟲綱</option>
-            <option>唇竹綱</option>
-            <option>蛛形綱</option>
-            <option>鳥綱</option>
-            <option>軟骨魚綱</option>
-            <option>硬骨魚綱</option>
-          </select>
-        </div>
+        <AnimalClass />
 
         <div>
           <input
