@@ -12,10 +12,10 @@ module.exports = {
         light: '#F3E9DD',
       },
       width: {
-        100: '25rem',
-        125: '31rem',
-        150: '38rem',
-        225: '56rem',
+        100: '25rem', //400
+        125: '31rem', // 500
+        150: '38rem', //600
+        225: '56rem', //900
       },
       fontFamily: {
         bpm: ['BpmfGenSenRounded-R'],

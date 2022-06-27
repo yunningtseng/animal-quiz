@@ -13,7 +13,7 @@ function AnimalPage() {
   }, [dispatch, animalId]);
 
   return (
-    <div className="flex w-225 mx-auto mt-5">
+    <div className="flex max-w-4xl mx-auto mt-5">
       <AnimalBox />
     </div>
   );
