@@ -9,7 +9,7 @@ function AnimalList() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAnimals());
+    dispatch(fetchAnimals(''));
   }, [dispatch]);
 
   function renderAnimalList() {

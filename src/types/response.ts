@@ -11,6 +11,7 @@ export interface Response {
   mode: string;
 }
 
+// * extends 延伸使用 Response，Omit 忽略 startTime 這個 key，再把 startTime 覆蓋成 Timestamp
 export interface ResponseFS extends Omit<Response, 'startTime'> {
   startTime: Timestamp;
 }

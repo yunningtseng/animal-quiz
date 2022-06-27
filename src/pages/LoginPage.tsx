@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import login from '../images/login.jpg';
+// import login from '../images/login.jpg';
 
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,9 +9,9 @@ function LoginPage() {
       <div
         className={`flex items-center${isLogin ? ' flex-row-reverse' : ''}`}
       >
-        <div>
+        {/* <div>
           <img src={login} alt="img" className="h-96" />
-        </div>
+        </div> */}
 
         <div className="flex border p-6">
           {isLogin && (

@@ -18,7 +18,7 @@ function ResultRecorder() {
   }, [dispatch]);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const name: string = useAppSelector((state) => state.auth.user.name);
+  const name = useAppSelector((state) => state.auth.user.name);
 
   return (
     <div className="mt-10">
@@ -47,8 +47,7 @@ function ResultRecorder() {
             onClick={() => {
               const userName = inputRef.current?.value;
               if (userName) {
-                dispatch(setUserName(userName));
-                dispatch(confirmUserName());
+                dispatch(confirmUserName(userName));
               }
             }}
           >
