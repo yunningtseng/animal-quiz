@@ -1,8 +1,12 @@
+import { Hit as AlgoliaHit } from 'instantsearch.js';
+
 export interface SimpleAnimal {
   id: string;
   name: string;
-  class: string;
   mainPic: string;
+  class: string;
+  order: string;
+  family: string;
 }
 
 export interface Animal extends SimpleAnimal {
@@ -10,8 +14,6 @@ export interface Animal extends SimpleAnimal {
   enName: string;
   latinName: string;
   phylum: string;
-  order: string;
-  family: string;
   conservation: string;
   distribution: string[];
   habitat: string[];
@@ -22,3 +24,5 @@ export interface Animal extends SimpleAnimal {
   pics: string[];
   geo: string;
 }
+
+export interface SimpleAnimalHit extends SimpleAnimal, AlgoliaHit {}
