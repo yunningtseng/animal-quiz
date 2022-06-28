@@ -11,28 +11,19 @@ function RankingBox({ user, index }: RankingBoxProps) {
   }
 
   return (
-    <div className="flex justify-between mb-3">
+    <div className="flex justify-between mb-10 border rounded-2xl p-3 shadow-lg">
       <div className="mr-5">
         Top
         {index + 1}
       </div>
 
-      {/* <div className="w-68">{`玩家名稱: ${user.name}`}</div> */}
-      <span className="w-68">
-        玩家名稱:
-        {user.name}
-      </span>
+      <div className="w-68">{user.name}</div>
+
+      <div className="mb-3">{user.bestScore}</div>
 
       <div>
-        <div className="mb-3">
-          <span>分數: </span>
-          {user.bestScore}
-        </div>
-        <div>
-          <span>時間: </span>
-          {user.totalTime}
-          <span> 秒</span>
-        </div>
+        {user.totalTime}
+        <span> 秒</span>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ function AnimalBox() {
           alt="img"
           className="w-full h-full md:w-1/2 lg:w-2/3 rounded-lg object-center object-cover"
         />
-        <div className="w-full mt-5 ml-0 sm:ml-5 tracking-wider font-bold  text-text">
+        <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 tracking-wider font-bold  text-text">
           <div>
             <p className="mt-5 sm:mt-0 text-4xl">{animal.name}</p>
             <p className="text-2xl mt-3">{`英文名: ${animal.enName}`}</p>
@@ -27,12 +27,18 @@ function AnimalBox() {
             <p className="mt-3">{`綱: ${animal.class}`}</p>
             <p className="mt-3">{`目: ${animal.order}`}</p>
             <p className="mt-3">{`科: ${animal.family}`}</p>
-            <p className="mt-3">{`保育分級: ${animal.conservation}`}</p>
-            <img
-              src={conservation}
-              alt="img"
-              className="w-full rounded-lg object-center object-cover mt-3"
-            />
+            {animal.conservation !== '' ? (
+              <div>
+                <p className="mt-3">{`保育分級: ${animal.conservation}`}</p>
+                <img
+                  src={conservation}
+                  alt="img"
+                  className="w-full rounded-lg object-center object-cover mt-3"
+                />
+              </div>
+            ) : (
+              <div />
+            )}
           </div>
           <div />
         </div>
