@@ -12,10 +12,7 @@ function RankingBox({ user, index }: RankingBoxProps) {
 
   return (
     <div className="flex justify-between mb-10 border rounded-2xl p-3 shadow-lg">
-      <div className="mr-5">
-        Top
-        {index + 1}
-      </div>
+      <div className="mr-5">{index + 1}</div>
 
       <div className="w-68">{user.name}</div>
 

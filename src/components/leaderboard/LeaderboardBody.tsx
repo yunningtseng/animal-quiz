@@ -82,8 +82,8 @@ function LeaderboardBody() {
         <p>時間</p>
       </div> */}
 
-      {rankingList.map((user, index) => (
-        <RankingBox key={user.id} user={user} index={index} />
+      {rankingList.slice(3).map((user, index) => (
+        <RankingBox key={user.id} user={user} index={index + 3} />
       ))}
     </div>
   );

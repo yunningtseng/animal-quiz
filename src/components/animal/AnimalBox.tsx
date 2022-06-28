@@ -19,14 +19,14 @@ function AnimalBox() {
         />
         <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 tracking-wider font-bold  text-text">
           <div>
-            <p className="mt-5 sm:mt-0 text-4xl">{animal.name}</p>
-            <p className="text-2xl mt-3">{`英文名: ${animal.enName}`}</p>
-            <p className="text-2xl mt-3">{`拉丁名: ${animal.latinName}`}</p>
+            <p className="mt-5 sm:mt-0 text-3xl lg:text-4xl">{animal.name}</p>
+            <p className="text-lg lg:text-xl mt-3">{animal.enName}</p>
+            <p className="text-lg lg:text-xl mt-3">{animal.latinName}</p>
           </div>
           <div className="mt-8 text-xl">
-            <p className="mt-3">{`綱: ${animal.class}`}</p>
-            <p className="mt-3">{`目: ${animal.order}`}</p>
-            <p className="mt-3">{`科: ${animal.family}`}</p>
+            <p className="mt-3">{animal.class}</p>
+            <p className="mt-3">{animal.order}</p>
+            <p className="mt-3">{animal.family}</p>
             {animal.conservation !== '' ? (
               <div>
                 <p className="mt-3">{`保育分級: ${animal.conservation}`}</p>
@@ -128,8 +128,13 @@ function AnimalBox() {
         )}
       </div>
       <div className="mt-10">
-        {animal.pics.map((pic) => (
-          <img src={pic} alt="img" className="w-full rounded-lg mt-3" />
+        {animal.pics.map((pic, index) => (
+          <img
+            key={index}
+            src={pic}
+            alt="img"
+            className="w-2/3 rounded-lg mt-3"
+          />
         ))}
       </div>
     </div>
