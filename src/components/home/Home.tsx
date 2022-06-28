@@ -9,7 +9,7 @@ function Home() {
   );
   const navigate = useNavigate();
   return (
-    <div className="w-225 mx-auto mt-5">
+    <div className="max-w-4xl mx-auto mt-5">
       <div className="flex justify-between">
         <div className="relative">
           <button

@@ -4,12 +4,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // primary: '#FFF2F2',
         primary: '#FFEBC1',
-        // secondary: '#F47C7C',
         secondary: '#A64B2A',
         third: '#BF9270',
         light: '#F3E9DD',
+        text: '#845460',
+        'text-light': '#766161',
+        'text-dark': '#B67171',
       },
       width: {
         100: '25rem', //400
@@ -19,6 +20,13 @@ module.exports = {
       },
       fontFamily: {
         bpm: ['BpmfGenSenRounded-R'],
+      },
+      screens: {
+        xs: '360px',
+        sm: '576px',
+        md: '768px',
+        lg: '992px',
+        xl: '1440px',
       },
     },
   },

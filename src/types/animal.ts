@@ -23,6 +23,7 @@ export interface Animal extends SimpleAnimal {
   alsoknown: string[];
   pics: string[];
   geo: string;
+  crisis: string[];
 }
 
 export interface SimpleAnimalHit extends SimpleAnimal, AlgoliaHit {}

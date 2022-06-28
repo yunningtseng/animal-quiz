@@ -10,7 +10,7 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
   return (
     <div className="mt-5">
       <Link to={`/animal/${hit.objectID}`}>
-        <div className="rounded-full w-28 h-28 sm:w-36 sm:h-36 border-2 overflow-hidden mx-auto">
+        <div className="rounded-full w-32 h-32 xs:w-36 xs:h-36 border-2 overflow-hidden mx-auto">
           <img
             src={hit.mainPic}
             alt="img"

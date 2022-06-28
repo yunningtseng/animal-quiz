@@ -27,7 +27,7 @@ function SearchAnimalBox() {
 
   return (
     <input
-      className="w-80 p-3 rounded-lg bg-light focus:outline-none"
+      className="w-full p-3 border rounded-lg focus:outline-none"
       ref={inputRef}
       type="text"
       placeholder="請輸入關鍵字"

@@ -28,7 +28,7 @@ function AnimalHitBoxList() {
   }, [isLastPage, showMore]);
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {hits.map((e, index) => (
         <AnimalHitBox key={index} hit={e} />
       ))}
