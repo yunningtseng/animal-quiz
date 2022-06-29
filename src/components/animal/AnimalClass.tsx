@@ -11,7 +11,7 @@ function AnimalClass() {
   return (
     <div>
       <select
-        className="w-80 p-3 rounded-lg bg-light focus:outline-none"
+        className="w-80 p-3 rounded-lg focus:outline-none"
         ref={selectRef}
         onChange={() => {
           dispatch(fetchAnimals(selectRef.current?.value ?? ''));

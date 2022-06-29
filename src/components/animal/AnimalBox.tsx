@@ -21,7 +21,7 @@ function AnimalBox() {
           <div>
             <p className="mt-5 sm:mt-0 text-3xl lg:text-4xl">{animal.name}</p>
             <p className="text-lg lg:text-xl mt-3">{animal.enName}</p>
-            <p className="text-lg lg:text-xl mt-3">{animal.latinName}</p>
+            <p className="text-lg lg:text-xl mt-3 italic">{animal.latinName}</p>
           </div>
           <div className="mt-8 text-xl">
             <p className="mt-3">{animal.class}</p>

@@ -4,13 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#F8F0DF',
-        secondary: '#A64B2A',
-        third: '#BF9270',
-        light: '#F3E9DD',
-        text: '#845460',
-        'text-light': '#766161',
-        'text-dark': '#B67171',
+        primary: '#F8F0DF', //navbar and footer bg
+        secondary: '#A64B2A', //navbar and footer text
+        light: '#F0EBE3',
+        text: '#845460', //detail 大標題文字顏色
+        'text-light': '#766161',  //detail 小項目內文顏色 
+        'text-dark': '#B67171', //detail 小項目標題文字顏色
       },
       width: {
         100: '25rem', //400
