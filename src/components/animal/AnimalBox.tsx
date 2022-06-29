@@ -13,11 +13,13 @@ function AnimalBox() {
   return (
     <div>
       <div className="md:flex justify-between">
-        <img
-          src={IMG_BASE_URL + animal.mainPic}
-          alt="img"
-          className="w-full h-full md:w-1/2 lg:w-2/3 rounded-lg object-center object-cover"
-        />
+        {animal.mainPic && (
+          <img
+            src={IMG_BASE_URL + animal.mainPic}
+            alt="img"
+            className="w-full h-full md:w-1/2 lg:w-2/3 rounded-lg object-center object-cover"
+          />
+        )}
         <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 tracking-wider font-bold  text-text">
           <div>
             <p className="mt-5 sm:mt-0 text-3xl lg:text-4xl">{animal.name}</p>

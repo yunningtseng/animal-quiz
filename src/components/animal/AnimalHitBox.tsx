@@ -12,11 +12,13 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
     <div className="mt-5">
       <Link to={`/animal/${hit.objectID}`}>
         <div className="rounded-full w-32 h-32 xs:w-36 xs:h-36 border-2 overflow-hidden mx-auto">
-          <img
-            src={IMG_BASE_URL + hit.thumbnail}
-            alt="img"
-            className="h-full mx-auto object-cover object-center"
-          />
+          {hit.thumbnail && (
+            <img
+              src={IMG_BASE_URL + hit.thumbnail}
+              alt="img"
+              className="h-full mx-auto object-cover object-center"
+            />
+          )}
         </div>
         <div className="mt-3 text-center">
           <Highlight hit={hit} attribute="name" />

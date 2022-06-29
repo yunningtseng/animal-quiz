@@ -1,37 +1,22 @@
-import {
-  ClearRefinements,
-  HierarchicalMenu,
-  Menu,
-  RefinementList,
-} from 'react-instantsearch-hooks-web';
+import { Menu, RefinementList } from 'react-instantsearch-hooks-web';
+import ClearFilterButton from './ClearFilterButton';
+import CurrentFilterBox from './CurrentFilterBox';
+import TaxonomicBox from './TaxonomicBox';
 
 function AnimalFilterBox() {
   return (
     <div className="flex justify-between mt-5">
       <div className="text-sm w-56">
-        <ClearRefinements />
-        <HierarchicalMenu
-          attributes={['class', 'classOrder', 'classOrderFamily']}
-          sortBy={['count', 'name:asc']}
-          className="p-3 rounded-lg mt-5 border"
-          classNames={{
-            list: '',
-            item: 'mt-2',
-            selectedItem: 'text-secondary text-bold',
-            parentItem: '',
-            link: 'flex justify-between',
-            label: '',
-            count: 'text-xs w-7 h-5 border rounded-xl px-1 text-center',
-          }}
-        />
-
+        <ClearFilterButton />
+        <CurrentFilterBox />
+        <TaxonomicBox />
         <RefinementList
           attribute="conservation"
           className="p-3 rounded-lg mt-5 border"
           classNames={{
             list: 'relative',
             item: 'mt-2',
-            selectedItem: 'text-bold',
+            selectedItem: 'text-secondary font-bold',
             label: '',
             checkbox: 'mr-1',
             labelText: '',
@@ -46,7 +31,7 @@ function AnimalFilterBox() {
           classNames={{
             list: '',
             item: 'mt-2',
-            selectedItem: 'text-secondary text-bold',
+            selectedItem: 'text-secondary font-bold',
             link: 'flex justify-between',
             label: '',
             count: 'text-xs w-7 h-5 border rounded-xl px-1 text-center',
