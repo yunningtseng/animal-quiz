@@ -1,5 +1,6 @@
 import { Highlight, Snippet } from 'react-instantsearch-hooks-web';
 import { Link } from 'react-router-dom';
+import IMG_BASE_URL from '../../api/url';
 import { SimpleAnimalHit } from '../../types/animal';
 
 interface AnimalHitBoxProps {
@@ -12,7 +13,7 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
       <Link to={`/animal/${hit.objectID}`}>
         <div className="rounded-full w-32 h-32 xs:w-36 xs:h-36 border-2 overflow-hidden mx-auto">
           <img
-            src={hit.mainPic}
+            src={IMG_BASE_URL + hit.thumbnail}
             alt="img"
             className="h-full mx-auto object-cover object-center"
           />

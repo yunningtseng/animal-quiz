@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 import { User } from '../../types/user';
 import banner from '../../images/banner.png';
+import IMG_BASE_URL from '../../api/url';
 
 function Home() {
   const rankingList: User[] = useAppSelector(
@@ -41,7 +42,7 @@ function Home() {
       <div className="mt-10">
         <div className="flex justify-between mb-10">
           <img
-            src="https://www.zoo.gov.tw/iTAP/03_Animals/PangolinDome/0_PangolinDome/LTS/Linnaeus'sTwo_toedSloth01.JPG"
+            src={`${IMG_BASE_URL}Choloepus-didactylus-01.jpg`}
             alt="img"
             className="w-125 h-80 bg-contain rounded-lg"
           />
@@ -71,7 +72,7 @@ function Home() {
             </button>
           </div>
           <img
-            src="http://www.zoo.gov.tw/iTAP/03_Animals/BirdWorld/Toucan/Toucan_Pic01.jpg"
+            src={`${IMG_BASE_URL}Ramphastos-toco-01.jpg`}
             alt="img"
             className="w-125 h-88 rounded-lg"
           />
@@ -79,7 +80,7 @@ function Home() {
 
         <div className="flex justify-between">
           <img
-            src="https://www.zoo.gov.tw/iTAP/03_Animals/InsectHouse/0_InsectHouse/LBSMB/LiuchiouBlueSpottedMilkweedButterfly.jpg"
+            src={`${IMG_BASE_URL}Ideopsis-similis-01.jpg`}
             alt="img"
             className="w-125 h-88 rounded-lg"
           />

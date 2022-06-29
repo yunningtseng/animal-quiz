@@ -3,13 +3,14 @@ import { Hit as AlgoliaHit } from 'instantsearch.js';
 export interface SimpleAnimal {
   id: string;
   name: string;
-  mainPic: string;
+  thumbnail: string;
   class: string;
   order: string;
   family: string;
 }
 
 export interface Animal extends SimpleAnimal {
+  mainPic: string;
   location: string;
   enName: string;
   latinName: string;

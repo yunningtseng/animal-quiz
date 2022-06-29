@@ -1,60 +1,57 @@
-import { useState } from 'react';
 import { InstantSearch } from 'react-instantsearch-hooks-web';
 import AnimalFilterBox from '../components/animal/AnimalFilterBox';
 import AnimalHitBoxList from '../components/animal/AnimalHitBoxList';
 import SearchAnimalBox from '../components/animal/SearchAnimalBox';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { setFilter } from '../store/animalSlice';
 import { searchClient } from '../utils/algolia';
 
 function AnimalsPage() {
-  const [expand, isExpand] = useState(false);
-  const [filter, isFilter] = useState(false);
+  const dispatch = useAppDispatch();
+  const showFilterBox: boolean = useAppSelector(
+    (state) => state.animal.showFilterBox,
+  );
 
   return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mx-auto mt-10 p-3 relative">
-      <p className="text-3xl">快來探索動物吧!</p>
-      <InstantSearch searchClient={searchClient} indexName="animals">
-        <div className="flex justify-between mt-5 items-center">
-          {!filter && (
+    <div>
+      {showFilterBox && (
+        <div
+          className="absolute top-0 left-0 z-20 w-screen h-full bg-black opacity-70 lg:hidden"
+          aria-hidden="true"
+          onClick={() => {
+            dispatch(setFilter(false));
+          }}
+        />
+      )}
+      <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mx-auto mt-10 p-3 relative">
+        <p className="text-3xl">快來探索動物吧!</p>
+        <InstantSearch searchClient={searchClient} indexName="animals">
+          <div className="flex justify-between mt-5 items-center">
             <button
               type="button"
               className="lg:hidden border px-2 rounded-2xl h-8 mr-3"
               onClick={() => {
-                isFilter((prevState) => !prevState);
-                isExpand((prevState) => !prevState);
+                dispatch(setFilter(true));
               }}
             >
               filter
             </button>
-          )}
-          {filter && (
-            <button
-              type="button"
-              className="lg:hidden border px-2 rounded-2xl h-8 mr-3"
-              onClick={() => {
-                isFilter((prevState) => !prevState);
-                isExpand((prevState) => !prevState);
-              }}
-            >
-              返回
-            </button>
-          )}
-          <SearchAnimalBox />
-        </div>
-
-        <div className="flex justify-between">
-          <div
-            className={`${
-              expand
-                ? 'flex absolute z-20 bg-white w-screen'
-                : 'hidden'
-            } lg:flex`}
-          >
-            <AnimalFilterBox />
+            <SearchAnimalBox />
           </div>
-
-          <AnimalHitBoxList />
-        </div>
-      </InstantSearch>
+          <div className="flex justify-between">
+            <div
+              className={`${
+                showFilterBox
+                  ? 'flex fixed z-30 left-0 top-0 w-auto h-full px-8 bg-white overflow-auto'
+                  : 'hidden'
+              } lg:flex lg:relative lg:z-0 lg:w-96 lg:px-0 lg:bg-transparent`}
+            >
+              <AnimalFilterBox />
+            </div>
+            <AnimalHitBoxList />
+          </div>
+        </InstantSearch>
+      </div>
     </div>
   );
 }

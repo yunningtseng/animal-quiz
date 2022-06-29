@@ -1,6 +1,7 @@
 import { useAppSelector } from '../../hooks/redux';
 import { Animal } from '../../types/animal';
 import conservation from '../../images/conservation.jpg';
+import IMG_BASE_URL from '../../api/url';
 
 function AnimalBox() {
   const animal: Animal = useAppSelector((state) => state.animal.animal);
@@ -13,7 +14,7 @@ function AnimalBox() {
     <div>
       <div className="md:flex justify-between">
         <img
-          src={animal.mainPic}
+          src={IMG_BASE_URL + animal.mainPic}
           alt="img"
           className="w-full h-full md:w-1/2 lg:w-2/3 rounded-lg object-center object-cover"
         />
@@ -131,7 +132,7 @@ function AnimalBox() {
         {animal.pics.map((pic, index) => (
           <img
             key={index}
-            src={pic}
+            src={IMG_BASE_URL + pic}
             alt="img"
             className="w-2/3 rounded-lg mt-3"
           />
