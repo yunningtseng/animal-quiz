@@ -128,10 +128,11 @@ const firestoreApi = {
     });
     return list;
   },
-  getRankingList: async (): Promise<User[]> => {
+  getRankingList: async (mode: string): Promise<User[]> => {
     const collectionRef = collection(db, 'users');
     const q = query(
       collectionRef,
+      where('mode', '==', mode),
       orderBy('bestScore', 'desc'),
       orderBy('totalTime'),
       // * 代表必須要有 name

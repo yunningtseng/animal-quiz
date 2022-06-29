@@ -67,7 +67,7 @@ function UserPage() {
 
       {responses.map((response) => (
         <div key={response.id}>
-          <ResponseBox responseBox={response} />
+          <ResponseBox response={response} />
         </div>
       ))}
     </div>

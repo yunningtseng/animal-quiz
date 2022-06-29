@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useAppDispatch } from '../../hooks/redux';
+import { fetchRankingList } from '../../store/rankSlice';
 
 function LeaderboardBar() {
   const [normal, isNormal] = useState(true);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="flex justify-center sm:justify-between items-center">
@@ -18,6 +21,7 @@ function LeaderboardBar() {
           }`}
           onClick={() => {
             isNormal(true);
+            dispatch(fetchRankingList('normal'));
           }}
         >
           一般模式
@@ -31,6 +35,7 @@ function LeaderboardBar() {
           }`}
           onClick={() => {
             isNormal(false);
+            dispatch(fetchRankingList('time-challenge'));
           }}
         >
           限時挑戰

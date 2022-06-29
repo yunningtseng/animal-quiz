@@ -12,7 +12,7 @@ function LeaderboardBody() {
   );
 
   useEffect(() => {
-    dispatch(fetchRankingList());
+    dispatch(fetchRankingList('normal'));
   }, [dispatch]);
 
   return (
