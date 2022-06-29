@@ -22,11 +22,25 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
           <br />
           <Highlight hit={hit} attribute="latinName" className="text-xs" />
           <br />
-          <p>{hit.class}</p>
-          <p>{hit.order}</p>
-          <p>{hit.family}</p>
+          <button
+            type="button"
+            className="border rounded-full px-2 text-xs mt-1 w-20"
+          >
+            {hit.class}
+          </button>
+          <button
+            type="button"
+            className="border rounded-full px-2 text-xs mt-1 w-20"
+          >
+            {hit.order}
+          </button>
+          <button
+            type="button"
+            className="border rounded-full px-2 text-xs mt-1 w-20"
+          >
+            {hit.family}
+          </button>
         </div>
-        {/* <Snippet hit={hit} attribute="feature" className="text-sm" /> */}
       </Link>
     </div>
   );
