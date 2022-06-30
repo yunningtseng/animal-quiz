@@ -25,7 +25,7 @@ function AnimalsPage() {
         />
       )}
       <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mx-auto mt-10 p-3 relative">
-        <p className="text-3xl">快來探索動物吧!</p>
+        <p className="text-3xl font-bold text-text-light">快來探索動物吧!</p>
         <InstantSearch searchClient={searchClient} indexName="animals">
           <div className="flex justify-between mt-5 items-center">
             <div

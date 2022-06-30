@@ -8,16 +8,16 @@ function LeaderboardBar() {
 
   return (
     <div className="flex justify-center sm:justify-between items-center">
-      <p className="hidden sm:block text-3xl pl-5 text-text-light font-bold tracking-widest">
+      <p className="hidden sm:block text-3xl text-text-light font-bold tracking-widest">
         排行榜
       </p>
-      <div className="flex justify-evenly bg-text-light rounded-3xl text-white px-3 py-2 w-full sm:w-56">
+      <div className="flex justify-evenly border rounded-xl w-auto">
         <button
           type="button"
-          className={`font-bold tracking-widest px-3 py-1 rounded-2xl ${
+          className={`font-bold tracking-widest px-3 py-1 rounded-xl ${
             normal
-              ? 'bg-white text-text-light'
-              : 'bg-text-light text-text-white'
+              ? 'bg-text-light text-white'
+              : 'bg-white text-text-light'
           }`}
           onClick={() => {
             isNormal(true);
@@ -28,10 +28,10 @@ function LeaderboardBar() {
         </button>
         <button
           type="button"
-          className={`font-bold tracking-widest px-3 py-1 rounded-2xl ${
+          className={`font-bold tracking-widest px-3 py-1 rounded-xl ${
             !normal
-              ? 'bg-white text-text-light'
-              : 'bg-text-light text-text-white'
+              ? 'bg-text-light text-white'
+              : 'bg-white text-text-light'
           }`}
           onClick={() => {
             isNormal(false);

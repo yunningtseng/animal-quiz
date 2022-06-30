@@ -16,16 +16,24 @@ function ResponseBox({ response }: ResponseBoxProps) {
   const dateStr = date.toLocaleDateString();
   const timeStr = date.toLocaleTimeString();
 
+  let game = '';
+  if (response.mode === 'normal') {
+    game = '一般模式';
+  } else {
+    game = '限時挑戰';
+  }
+
   return (
-    <div className="border-solid border-black border-2 p-3 mt-5">
-      <ul>
-        <li>{`作答時間: ${dateStr} ${timeStr}`}</li>
+    <div className="flex border-b mt-3 justify-between">
+      <ul className="text-text-light font-bold">
+        <li>{`遊戲模式: ${game}`}</li>
+        <li className="mt-3">{`作答時間: ${dateStr} ${timeStr}`}</li>
         <li className="mt-3">
           <span>分數: </span>
           {response.score}
           <span> 分</span>
         </li>
-        <li className="mt-3">
+        <li className="my-3">
           <span>花費時間: </span>
           {response.totalTime}
           <span> 秒</span>
@@ -33,7 +41,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
       </ul>
       <button
         type="button"
-        className="text-xs mt-3 border p-1 rounded-lg"
+        className="h-8 text-sm bg-text-light text-white px-2 py-1 rounded-xl hover:bg-white hover:border hover:text-text-light cursor-pointer"
         onClick={() => {
           dispatch(setResponse(response));
           navigate('/quiz-result');
