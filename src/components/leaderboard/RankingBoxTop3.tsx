@@ -13,7 +13,7 @@ function RankingBoxTop3({ user, index }: RankingBoxTop3Props) {
   return (
     <div className="text-center text-sm sm:text-base">
       <div className="flex justify-center items-center mx-auto mb-1">
-        <p className="text-text font-bold">{index + 1}</p>
+        <p className="text-secondary font-bold">{index + 1}</p>
       </div>
 
       <div className="rounded-full w-24 h-24 sm:w-36 sm:h-36 border-2 overflow-hidden mx-auto ">
@@ -24,19 +24,15 @@ function RankingBoxTop3({ user, index }: RankingBoxTop3Props) {
         />
       </div>
 
-      <div className="mt-1 text-text font-bold">{user.name}</div>
-      <div className="text-text font-bold">
-        <span>{user.bestScore}</span>
-        <span> 分 </span>
-        <span> / </span>
-        <span>{user.totalTime}</span>
-        <span> 秒 </span>
-        {/* <button
-          type="button"
-          className="w-28 ml-3 border rounded-2xl px-2 py-1 text-white bg-text-light"
-        >
-          挑戰 !
-        </button> */}
+      <div className="text-secondary font-bold text-sm sm:text-base">
+        <div className="mt-1">{user.name}</div>
+        <div>
+          <span>{user.bestScore}</span>
+          <span> 分 </span>
+          <span> / </span>
+          <span>{user.totalTime}</span>
+          <span> 秒 </span>
+        </div>
       </div>
     </div>
   );

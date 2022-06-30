@@ -28,19 +28,19 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
         <br />
         <button
           type="button"
-          className="border rounded-full px-2 text-xs mt-1 w-20"
+          className="border rounded-full px-2 text-xs mt-1 w-20 hover:bg-light"
         >
           {hit.class}
         </button>
         <button
           type="button"
-          className="border rounded-full px-2 text-xs mt-1 w-20"
+          className="border rounded-full px-2 text-xs mt-1 w-20 hover:bg-light"
         >
           {hit.order}
         </button>
         <button
           type="button"
-          className="border rounded-full px-2 text-xs mt-1 w-20"
+          className="border rounded-full px-2 text-xs mt-1 w-20 hover:bg-light"
         >
           {hit.family}
         </button>

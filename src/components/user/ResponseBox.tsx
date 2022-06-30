@@ -24,8 +24,8 @@ function ResponseBox({ response }: ResponseBoxProps) {
   }
 
   return (
-    <div className="flex border-b mt-3 justify-between">
-      <ul className="text-text-light font-bold">
+    <div className="block sm:flex border-b mt-3 justify-between">
+      <ul className="text-dark text-sm sm:text-base font-bold">
         <li>{`遊戲模式: ${game}`}</li>
         <li className="mt-3">{`作答時間: ${dateStr} ${timeStr}`}</li>
         <li className="mt-3">
@@ -33,7 +33,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
           {response.score}
           <span> 分</span>
         </li>
-        <li className="my-3">
+        <li className="mt-3 mb-5">
           <span>花費時間: </span>
           {response.totalTime}
           <span> 秒</span>
@@ -41,7 +41,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
       </ul>
       <button
         type="button"
-        className="h-8 text-sm bg-text-light text-white px-2 py-1 rounded-xl hover:bg-white hover:border hover:text-text-light cursor-pointer"
+        className="mb-5 h-8 text-xs sm:text-sm font-bold px-2 py-1 cursor-pointer border rounded-xl text-dark hover:bg-dark hover:text-white "
         onClick={() => {
           dispatch(setResponse(response));
           navigate('/quiz-result');

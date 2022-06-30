@@ -26,7 +26,11 @@ function TaxonomicBox() {
                 refine(item.value);
               }}
             >
-              <span className="flex justify-between hover:bg-primary">
+              <span
+                className={`flex justify-between hover:bg-primary ${
+                  item.isRefined ? 'font-bold bg-primary' : ''
+                }`}
+              >
                 <span className={item.isRefined ? 'font-bold bg-primary' : ''}>
                   {item.label}
                 </span>

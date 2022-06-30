@@ -27,6 +27,7 @@ function AnimalFilterBox() {
         <Menu
           attribute="location"
           sortBy={['count', 'name:asc']}
+          limit={10}
           className="p-3 rounded-lg mt-5 border"
           classNames={{
             list: '',

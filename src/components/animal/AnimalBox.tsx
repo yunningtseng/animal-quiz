@@ -20,7 +20,7 @@ function AnimalBox() {
             className="w-full h-full md:w-1/2 lg:w-2/3 rounded-lg object-center object-cover"
           />
         )}
-        <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 tracking-wider font-bold  text-text">
+        <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 tracking-wider font-bold  text-dark">
           <div>
             <p className="mt-5 sm:mt-0 text-3xl lg:text-4xl">{animal.name}</p>
             <p className="text-lg lg:text-xl mt-3">{animal.enName}</p>
@@ -47,11 +47,11 @@ function AnimalBox() {
         </div>
       </div>
 
-      <div className="my-5 sm:my-10 text-lg tracking-wider font-bold  text-text-light border-y-2">
+      <div className="my-5 sm:my-10 text-lg tracking-wider font-bold  text-dark border-y-2">
         <div className="flex">
           {animal.alsoknown.length !== 0 ? (
             <div className="mt-3">
-              <span className="mr-3 text-text-dark">別稱:</span>
+              <span className="mr-3 text-secondary">別稱:</span>
               {animal.alsoknown.map((alsoknown, index) => (
                 <div key={index}>
                   <span>- </span>
@@ -66,7 +66,7 @@ function AnimalBox() {
 
         {animal.diet.length !== 0 ? (
           <div className="my-3">
-            <span className="mr-3 text-text-dark">飲食:</span>
+            <span className="mr-3 text-secondary">飲食:</span>
             {animal.diet.map((diet, index) => (
               <div key={index}>
                 <span>- </span>
@@ -79,7 +79,7 @@ function AnimalBox() {
         )}
         {animal.habitat.length !== 0 ? (
           <div className="my-3">
-            <span className="mr-3 text-text-dark">棲息地:</span>
+            <span className="mr-3 text-secondary">棲息地:</span>
             {animal.habitat.map((habitat, index) => (
               <div key={index}>
                 <span>- </span>
@@ -92,7 +92,7 @@ function AnimalBox() {
         )}
         {animal.feature.length !== 0 ? (
           <div className="my-3">
-            <span className="mr-3 text-text-dark">特徵:</span>
+            <span className="mr-3 text-secondary">特徵:</span>
             {animal.feature.map((feature, index) => (
               <div key={index}>
                 <span>- </span>
@@ -105,7 +105,7 @@ function AnimalBox() {
         )}
         {animal.behavior.length !== 0 ? (
           <div className="my-3">
-            <span className="mr-3 text-text-dark">行為:</span>
+            <span className="mr-3 text-secondary">行為:</span>
             {animal.behavior.map((behavior, index) => (
               <div key={index}>
                 <span>- </span>
@@ -118,7 +118,7 @@ function AnimalBox() {
         )}
         {animal.crisis.length !== 0 ? (
           <div className="my-3">
-            <span className="mr-3 text-text-dark">危機:</span>
+            <span className="mr-3 text-secondary">危機:</span>
             {animal.crisis.map((crisis, index) => (
               <div key={index}>
                 <span>- </span>

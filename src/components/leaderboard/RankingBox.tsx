@@ -13,7 +13,7 @@ function RankingBox({ user, index }: RankingBoxProps) {
 
   return (
     <div className="flex justify-between items-center mb-5">
-      <div className="flex justify-between items-center border rounded-2xl py-3 px-3 sm:px-10 shadow-md bg-light text-secondary w-full text-sm sm:text-base font-bold">
+      <div className="flex justify-between items-center border rounded-2xl py-3 px-3 sm:px-10 shadow-md text-dark bg-light w-full text-sm sm:text-base font-bold">
         <div className="flex">
           <div className="mr-5">{index + 1}</div>
           {user.name}
