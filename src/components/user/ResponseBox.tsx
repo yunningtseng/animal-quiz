@@ -24,7 +24,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
   }
 
   return (
-    <div className="block sm:flex border-b mt-3 justify-between">
+    <div className="block sm:flex border-b border-light mt-3 justify-between">
       <ul className="text-dark text-sm sm:text-base font-bold">
         <li>{`遊戲模式: ${game}`}</li>
         <li className="mt-3">{`作答時間: ${dateStr} ${timeStr}`}</li>

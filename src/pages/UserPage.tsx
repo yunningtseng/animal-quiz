@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { MdEdit } from 'react-icons/md';
+import { BsCheckLg } from 'react-icons/bs';
 import ResponseBox from '../components/user/ResponseBox';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { confirmUserName } from '../store/authSlice';
@@ -31,27 +33,25 @@ function UserPage() {
           {isEdit && (
             <input
               placeholder={user.name}
-              className="border-b border-black focus:outline-none mr-5"
+              className="border-b border-black focus:outline-none"
               ref={userNameRef}
             />
           )}
         </div>
-        <div>
+        <div className="flex items-center justify-center p-1 w-7 h-7 rounded-2xl hover:bg-primary ml-3 text-lg">
           {!isEdit && (
             <button
               type="button"
-              className="w-16 ml-0 mt-3 sm:ml-5 sm:mt-0 font-bold border rounded-lg p-1 text-xs text-dark hover:bg-dark hover:text-white"
               onClick={() => {
                 setIsEdit(true);
               }}
             >
-              更改名稱
+              <MdEdit />
             </button>
           )}
           {isEdit && (
             <button
               type="button"
-              className="w-16 ml-0 mt-3 sm:ml-5 sm:mt-0 font-bold border rounded-lg p-1 text-xs text-dark hover:bg-dark hover:text-white"
               onClick={() => {
                 setIsEdit(false);
                 const userName = userNameRef.current?.value;
@@ -60,7 +60,7 @@ function UserPage() {
                 }
               }}
             >
-              儲存
+              <BsCheckLg />
             </button>
           )}
         </div>
