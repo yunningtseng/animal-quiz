@@ -229,7 +229,6 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
 
   dispatch(setQuestionList(list));
 };
-
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
   dispatch(setResponseScoreAndTotalTime(userId));
@@ -250,6 +249,7 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
     newUser.bestScore = response.score;
     newUser.bestScoreResponseId = response.id;
     newUser.totalTime = response.totalTime;
+    newUser.mode = response.mode;
 
     dispatch(updateUser(newUser));
   }

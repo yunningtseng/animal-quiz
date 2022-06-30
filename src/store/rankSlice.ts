@@ -24,8 +24,8 @@ const rankingSlice = createSlice({
 
 export const { setRankingList } = rankingSlice.actions;
 
-export const fetchRankingList = (): AppThunk => async (dispatch, getState) => {
-  const list = await firestoreApi.getRankingList();
+export const fetchRankingList = (mode: string): AppThunk => async (dispatch, getState) => {
+  const list = await firestoreApi.getRankingList(mode);
   dispatch(setRankingList(list));
 };
 

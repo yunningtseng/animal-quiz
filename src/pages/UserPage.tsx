@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { MdEdit } from 'react-icons/md';
+import { BsCheckLg } from 'react-icons/bs';
 import ResponseBox from '../components/user/ResponseBox';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { confirmUserName } from '../store/authSlice';
@@ -21,55 +23,56 @@ function UserPage() {
   const responses: Response[] = useAppSelector((state) => state.quiz.responses);
 
   return (
-    <div className="w-225 mx-auto mt-5">
-      <div>
-        <div className=" p-1">
-          <div>遊戲紀錄</div>
-          <div className="flex mt-3">
-            <p className="mr-3">玩家名稱:</p>
-            {!isEdit && <p>{user.name}</p>}
-            {isEdit && (
-              <input
-                placeholder={user.name}
-                className="border-b border-black focus:outline-none mr-5"
-                ref={userNameRef}
-              />
-            )}
-            {!isEdit && (
-              <button
-                type="button"
-                className="ml-5 border rounded-lg p-1 text-xs"
-                onClick={() => {
-                  setIsEdit(true);
-                }}
-              >
-                更改名稱
-              </button>
-            )}
-            {isEdit && (
-              <button
-                type="button"
-                className="ml-5 border rounded-lg p-1 text-xs"
-                onClick={() => {
-                  setIsEdit(false);
-                  const userName = userNameRef.current?.value;
-                  if (userName) {
-                    dispatch(confirmUserName(userName));
-                  }
-                }}
-              >
-                儲存
-              </button>
-            )}
-          </div>
+    <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10">
+      <div className="block sm:flex mt-3 items-center">
+        <div className="flex">
+          <p className="mr-3 text-dark text-base sm:text-lg font-bold">
+            玩家名稱:
+          </p>
+          {!isEdit && <p>{user.name}</p>}
+          {isEdit && (
+            <input
+              placeholder={user.name}
+              className="border-b border-black focus:outline-none"
+              ref={userNameRef}
+            />
+          )}
+        </div>
+        <div className="flex items-center justify-center p-1 w-7 h-7 rounded-2xl hover:bg-primary ml-3 text-lg">
+          {!isEdit && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsEdit(true);
+              }}
+            >
+              <MdEdit />
+            </button>
+          )}
+          {isEdit && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsEdit(false);
+                const userName = userNameRef.current?.value;
+                if (userName) {
+                  dispatch(confirmUserName(userName));
+                }
+              }}
+            >
+              <BsCheckLg />
+            </button>
+          )}
         </div>
       </div>
 
-      {responses.map((response) => (
-        <div key={response.id}>
-          <ResponseBox responseBox={response} />
-        </div>
-      ))}
+      <div className="border rounded-lg mt-5 shadow-md px-10 pt-3">
+        {responses.map((response) => (
+          <div key={response.id}>
+            <ResponseBox response={response} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

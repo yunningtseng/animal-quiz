@@ -1,19 +1,10 @@
+import LeaderboardBar from '../components/leaderboard/LeaderboardBar';
 import LeaderboardBody from '../components/leaderboard/LeaderboardBody';
 
 function LeaderboardPage() {
   return (
-    <div className="w-225 mx-auto mt-5">
-      <p className="text-center font-bold text-2xl">排行榜</p>
-      <div>
-        {/* <div className="flex">
-          <div className="bg-white text-black font-bold px-3 py-1 hover:bg-black hover:text-white">
-            一般
-          </div>
-          <div className="bg-white text-black font-bold px-3 py-1 hover:bg-black hover:text-white">
-            限時
-          </div>
-        </div> */}
-      </div>
+    <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10">
+      <LeaderboardBar />
       <LeaderboardBody />
     </div>
   );

@@ -4,4 +4,5 @@ export interface User {
   bestScore?: number;
   bestScoreResponseId?: string;
   totalTime?: number;
+  mode?: string;
 }

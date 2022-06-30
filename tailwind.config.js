@@ -4,21 +4,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // primary: '#FFF2F2',
-        primary: '#FFEBC1',
-        // secondary: '#F47C7C',
-        secondary: '#A64B2A',
-        third: '#BF9270',
-        light: '#F3E9DD',
+        primary: '#F8F0DF', //淺背景色
+        secondary: '#A64B2A', //深文字色
+        dark: '#766161', //內文文字
+        // dark: '#8A857A',
+        light: '#F0EBE3', // 其他淺背景色
       },
       width: {
-        100: '25rem',
-        125: '31rem',
-        150: '38rem',
-        225: '56rem',
+        100: '25rem', //400
+        112: '28rem', //450
+        125: '31rem', // 500
+        150: '38rem', //600
+        225: '56rem', //900
       },
       fontFamily: {
         bpm: ['BpmfGenSenRounded-R'],
+      },
+      screens: {
+        xs: '360px',
+        sm: '576px',
+        md: '768px',
+        lg: '992px',
+        xl: '1440px',
       },
     },
   },
