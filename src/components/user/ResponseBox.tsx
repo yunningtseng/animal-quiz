@@ -16,6 +16,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
   const dateStr = date.toLocaleDateString();
   const timeStr = date.toLocaleTimeString();
 
+  // test
   let game = '';
   if (response.mode === 'normal') {
     game = '一般模式';
