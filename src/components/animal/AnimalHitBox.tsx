@@ -20,31 +20,31 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
             />
           )}
         </div>
-        <div className="mt-3 text-center">
-          <Highlight hit={hit} attribute="name" />
-          <br />
-          <Highlight hit={hit} attribute="latinName" className="text-xs" />
-          <br />
-          <button
-            type="button"
-            className="border rounded-full px-2 text-xs mt-1 w-20"
-          >
-            {hit.class}
-          </button>
-          <button
-            type="button"
-            className="border rounded-full px-2 text-xs mt-1 w-20"
-          >
-            {hit.order}
-          </button>
-          <button
-            type="button"
-            className="border rounded-full px-2 text-xs mt-1 w-20"
-          >
-            {hit.family}
-          </button>
-        </div>
       </Link>
+      <div className="mt-3 text-center">
+        <Highlight hit={hit} attribute="name" />
+        <br />
+        <Highlight hit={hit} attribute="latinName" className="text-xs" />
+        <br />
+        <button
+          type="button"
+          className="border rounded-full px-2 text-xs mt-1 w-20"
+        >
+          {hit.class}
+        </button>
+        <button
+          type="button"
+          className="border rounded-full px-2 text-xs mt-1 w-20"
+        >
+          {hit.order}
+        </button>
+        <button
+          type="button"
+          className="border rounded-full px-2 text-xs mt-1 w-20"
+        >
+          {hit.family}
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { InstantSearch } from 'react-instantsearch-hooks-web';
+import { FiFilter } from 'react-icons/fi';
 import AnimalFilterBox from '../components/animal/AnimalFilterBox';
 import AnimalHitBoxList from '../components/animal/AnimalHitBoxList';
 import SearchAnimalBox from '../components/animal/SearchAnimalBox';
@@ -27,15 +28,18 @@ function AnimalsPage() {
         <p className="text-3xl">快來探索動物吧!</p>
         <InstantSearch searchClient={searchClient} indexName="animals">
           <div className="flex justify-between mt-5 items-center">
-            <button
-              type="button"
-              className="lg:hidden border px-2 rounded-2xl h-8 mr-3"
+            <div
+              className="flex lg:hidden text-text items-center justify-around sm:w-20 font-bold mr-3 cursor-pointer rounded-xl px-1 py-0.5 hover:bg-primary"
               onClick={() => {
                 dispatch(setFilter(true));
               }}
+              aria-hidden="true"
             >
-              filter
-            </button>
+              <FiFilter className="text-center" />
+              <button type="button" className="ml-2 hidden sm:flex">
+                篩選
+              </button>
+            </div>
             <SearchAnimalBox />
           </div>
           <div className="flex justify-between">
@@ -48,7 +52,9 @@ function AnimalsPage() {
             >
               <AnimalFilterBox />
             </div>
-            <AnimalHitBoxList />
+            <div>
+              <AnimalHitBoxList />
+            </div>
           </div>
         </InstantSearch>
       </div>

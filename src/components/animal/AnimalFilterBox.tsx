@@ -6,7 +6,7 @@ import TaxonomicBox from './TaxonomicBox';
 function AnimalFilterBox() {
   return (
     <div className="flex justify-between mt-5">
-      <div className="text-sm w-56">
+      <div className="text-sm w-60">
         <ClearFilterButton />
         <CurrentFilterBox />
         <TaxonomicBox />
@@ -15,9 +15,9 @@ function AnimalFilterBox() {
           className="p-3 rounded-lg mt-5 border"
           classNames={{
             list: 'relative',
-            item: 'mt-2',
-            selectedItem: 'text-secondary font-bold',
-            label: '',
+            item: 'mt-2 hover:bg-primary',
+            selectedItem: 'bg-primary font-bold',
+            label: 'flex items-center',
             checkbox: 'mr-1',
             labelText: '',
             count:
@@ -30,8 +30,8 @@ function AnimalFilterBox() {
           className="p-3 rounded-lg mt-5 border"
           classNames={{
             list: '',
-            item: 'mt-2',
-            selectedItem: 'text-secondary font-bold',
+            item: 'mt-2 hover:bg-primary',
+            selectedItem: 'bg-primary font-bold',
             link: 'flex justify-between',
             label: '',
             count: 'text-xs w-7 h-5 border rounded-xl px-1 text-center',
