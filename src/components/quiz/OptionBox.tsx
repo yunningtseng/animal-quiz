@@ -19,22 +19,24 @@ function OptionBox({ option, questionType, index }: OptionBoxProps) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex items-center">
+    <div className="flex justify-start items-start mt-5 max-w-xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl">
       <div
-        className={`w-4 h-4 border-2 border-black mr-3 ${
+        className={`w-4 h-4 border-2 border-black mt-1 ${
           quiz.currentAnswer.includes(index) ? 'bg-black' : 'bg-white'
         }`}
         onClick={() => dispatch(toggleAnswer(index))}
         aria-hidden="true"
       />
-
-      {option.name}
-      {option.pic === '' ? (
-        <div />
-      ) : (
-        <img src={option.pic} alt="img" className="w-40" />
-      )}
       <div />
+
+      <div className="w-72 sm:w-96 md:w-125 ml-3">
+        <p>{option.name}</p>
+        {option.pic === '' ? (
+          <div />
+        ) : (
+          <img src={option.pic} alt="img" className="w-40" />
+        )}
+      </div>
     </div>
   );
 }

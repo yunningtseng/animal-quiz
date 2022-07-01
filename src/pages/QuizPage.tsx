@@ -18,10 +18,10 @@ function QuizPage() {
   }, [dispatch, mode]);
 
   return (
-    <div className="w-screen mt-10">
+    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">
       <div>
         <div className="text-center">Animal Quiz</div>
-        <div className="w-96 md:w-150 lg:w-225 flex mt-5 mx-auto justify-between">
+        <div className="flex mt-5 mx-auto justify-between">
           <div className="mr-20">
             <span className="mr-5">得分:</span>
             {quiz.score}
@@ -30,19 +30,15 @@ function QuizPage() {
         </div>
       </div>
 
-      <div className="w-xs sm:w-lg lg:w-4xl">
+      <div>
         {quiz.question.id ? (
-          <div className="flex justify-center">
-            <div className="w-96 md:w-150 lg:w-225 mt-5 flex flex-col justify-start">
-              {quiz.question.type && <QuizBox />}
+          <div className="flex flex-col justify-start">
+            {quiz.question.type && <QuizBox />}
 
-              {quiz.showAlert && <div className="mt-3">尚未作答</div>}
+            {quiz.showAlert && <div className="mt-3">尚未作答</div>}
 
-              <div className="mt-5">
-                {!quiz.checkAnswer && (
-                  <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>
-                )}
-              </div>
+            <div className="mt-5">
+              {!quiz.checkAnswer && <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>}
             </div>
           </div>
         ) : (

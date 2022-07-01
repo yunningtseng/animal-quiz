@@ -15,7 +15,7 @@ function ControlBar() {
   const quizTimeIsOver = quizState.mode === 'time-challenge' && quizState.quizIsOver;
 
   return (
-    <div className="w-96 md:w-150 lg:w-225 flex mt-3 mx-auto justify-between">
+    <div>
       {quizState.checkAnswer && !quizTimeIsOver && (
         <button
           type="button"

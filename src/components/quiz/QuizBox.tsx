@@ -7,7 +7,7 @@ function QuizBox() {
   const question: Question = useAppSelector((state) => state.quiz.question);
 
   return (
-    <div className="w-md sm:w-lg lg:w-4xl mt-5">
+    <div className="mt-5">
       <QuestionBox />
 
       <div className="mt-5">

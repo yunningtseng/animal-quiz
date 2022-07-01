@@ -24,7 +24,7 @@ function UserPage() {
 
   return (
     <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10">
-      <div className="block sm:flex mt-3 items-center">
+      <div className="flex mt-3 items-center">
         <div className="flex">
           <p className="mr-3 text-dark text-base sm:text-lg font-bold">
             玩家名稱:

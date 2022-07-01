@@ -12,7 +12,7 @@ function QuestionBox() {
 
   return (
     <div>
-      <p>
+      <p className="text-lg sm:text-xl font-bold">
         <span />
         {'Q: '}
         {question.title}
@@ -25,7 +25,10 @@ function QuestionBox() {
           <img src={question.mainPic} alt="img" className="w-48" />
         )}
       </div>
-      <div>{inputType[question.type]}</div>
+
+      <div className="w-20 text-center rounded-full px-2 py-1 text-sm sm:text-base mt-3 bg-dark text-white">
+        {inputType[question.type]}
+      </div>
     </div>
   );
 }
