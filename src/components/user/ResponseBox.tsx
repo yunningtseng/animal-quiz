@@ -42,7 +42,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
       </ul>
       <button
         type="button"
-        className="mb-5 h-8 text-xs sm:text-sm font-bold px-2 py-1 cursor-pointer border rounded-xl text-dark hover:bg-dark hover:text-white "
+        className="mb-5 h-8 text-xs sm:text-sm font-bold px-2 py-1 cursor-pointer border rounded-xl text-dark hover:bg-dark hover:text-white"
         onClick={() => {
           dispatch(setResponse(response));
           navigate('/quiz-result');
