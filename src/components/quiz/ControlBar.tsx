@@ -19,6 +19,7 @@ function ControlBar() {
       {quizState.checkAnswer && !quizTimeIsOver && (
         <button
           type="button"
+          className="border rounded-2xl px-3 py-1 hover:bg-dark hover:text-white"
           onClick={() => {
             dispatch(confirmAnswer());
           }}

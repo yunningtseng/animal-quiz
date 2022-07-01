@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { MdOutlineQuiz } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { startQuiz, QuizState } from '../store/quizSlice';
 import QuizBox from '../components/quiz/QuizBox';
@@ -20,10 +21,9 @@ function QuizPage() {
   return (
     <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">
       <div>
-        <div className="text-center">Animal Quiz</div>
-        <div className="flex mt-5 mx-auto justify-between">
-          <div className="mr-20">
-            <span className="mr-5">得分:</span>
+        <div className="flex mt-5 mx-auto justify-between text-lg">
+          <div className="flex items-center">
+            <MdOutlineQuiz className="mr-3" />
             {quiz.score}
           </div>
           <TimerBox />
@@ -34,12 +34,6 @@ function QuizPage() {
         {quiz.question.id ? (
           <div className="flex flex-col justify-start">
             {quiz.question.type && <QuizBox />}
-
-            {quiz.showAlert && <div className="mt-3">尚未作答</div>}
-
-            <div className="mt-5">
-              {!quiz.checkAnswer && <p>{quiz.correct ? '答對囉' : '答錯囉'}</p>}
-            </div>
           </div>
         ) : (
           <div />
