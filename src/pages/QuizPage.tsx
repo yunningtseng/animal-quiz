@@ -39,7 +39,7 @@ function QuizPage() {
           <div />
         )}
 
-        <div className="mt-5">
+        <div className="mt-10">
           <ControlBar />
         </div>
       </div>

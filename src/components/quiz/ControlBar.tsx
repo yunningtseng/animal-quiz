@@ -19,7 +19,7 @@ function ControlBar() {
       {quizState.checkAnswer && !quizTimeIsOver && (
         <button
           type="button"
-          className="border rounded-2xl px-3 py-1 hover:bg-dark hover:text-white"
+          className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
           onClick={() => {
             dispatch(confirmAnswer());
           }}
@@ -34,6 +34,7 @@ function ControlBar() {
           || quizState.qIdList.length < 10) && (
           <button
             type="button"
+            className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
             onClick={() => {
               dispatch(nextQuestion());
             }}
@@ -48,6 +49,7 @@ function ControlBar() {
         || quizTimeIsOver) && (
         <button
           type="button"
+          className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
           onClick={() => {
             dispatch(endQuiz());
             navigate('/quiz-result');

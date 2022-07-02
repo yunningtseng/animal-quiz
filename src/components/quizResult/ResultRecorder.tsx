@@ -22,7 +22,7 @@ function ResultRecorder() {
 
   return (
     <div className="mt-10">
-      <div className="flex">
+      <div className="flex text-2xl text-dark font-bold">
         {!name && (
           <div className="flex">
             <div className="mr-3">請輸入玩家名稱:</div>
@@ -56,17 +56,8 @@ function ResultRecorder() {
         )}
       </div>
 
-      <div className="mt-5">測驗結果</div>
-      <div className="flex">
-        <div className="mr-5">
-          <span>得分: </span>
-          {quiz.response.score}
-        </div>
-        <div>
-          <span>時間: </span>
-          {quiz.response.totalTime}
-          <span> 秒</span>
-        </div>
+      <div className="flex mt-5 text-2xl text-dark font-bold">
+        <span>{`測驗結果: ${quiz.response.score} 分 / ${quiz.response.totalTime} 秒`}</span>
       </div>
 
       {quiz.questionList.map((question, index) => (

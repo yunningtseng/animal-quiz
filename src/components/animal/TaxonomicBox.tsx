@@ -1,17 +1,20 @@
 import { HierarchicalMenuItem } from 'instantsearch.js/es/connectors/hierarchical-menu/connectHierarchicalMenu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHierarchicalMenu } from 'react-instantsearch-hooks-web';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 
 function TaxonomicBox() {
   const { items, refine } = useHierarchicalMenu({
     attributes: ['class', 'classOrder', 'classOrderFamily'],
+    // * 位置排序的權重
     sortBy: ['count', 'name:asc'],
   });
   const [hidden, setHidden] = useState(false);
 
+  // console.log(items);
+
   // useEffect(() => {
-  //   refine('鳥綱');
+  //   refine('鳥綱 > 鸚形目');
   // }, [refine]);
 
   function buildItems(items1: HierarchicalMenuItem[], isTop: boolean) {

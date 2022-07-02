@@ -25,7 +25,6 @@ function RecordBox({ record, question }: RecordBoxProps) {
                 {question.answer.includes(index) && (
                   <OptionBox
                     option={option}
-                    questionType={question.type}
                     index={index}
                   />
                 )}
