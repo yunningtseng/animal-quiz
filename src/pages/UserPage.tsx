@@ -23,12 +23,10 @@ function UserPage() {
   const responses: Response[] = useAppSelector((state) => state.quiz.responses);
 
   return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10">
+    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">
       <div className="flex mt-3 items-center">
-        <div className="flex">
-          <p className="mr-3 text-dark text-base sm:text-lg font-bold">
-            玩家名稱:
-          </p>
+        <div className="flex text-dark text-base sm:text-lg font-bold">
+          <p className="mr-3">玩家名稱:</p>
           {!isEdit && <p>{user.name}</p>}
           {isEdit && (
             <input
@@ -66,7 +64,7 @@ function UserPage() {
         </div>
       </div>
 
-      <div className="border rounded-lg mt-5 shadow-md px-10 pt-3">
+      <div className="border rounded-lg mt-5 shadow-md px-3 md:px-10 pt-3">
         {responses.map((response) => (
           <div key={response.id}>
             <ResponseBox response={response} />
