@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
-import { setResponse } from '../../store/quizSlice';
+import { setResponse } from '../../store/resultSlice';
 import { Response } from '../../types/response';
 
 interface ResponseBoxProps {
@@ -16,7 +16,6 @@ function ResponseBox({ response }: ResponseBoxProps) {
   const dateStr = date.toLocaleDateString();
   const timeStr = date.toLocaleTimeString();
 
-  // test
   let game = '';
   if (response.mode === 'normal') {
     game = '一般模式';
@@ -48,7 +47,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
       </ul>
       <button
         type="button"
-        className="mb-5 h-8 text-xs sm:text-sm font-bold px-2 py-1 cursor-pointer border rounded-xl text-dark hover:bg-dark hover:text-white"
+        className="mb-5 h-8 text-xs sm:text-sm font-bold px-2 py-1 border rounded-xl text-dark bg-light hover:bg-dark hover:text-white"
         onClick={() => {
           dispatch(setResponse(response));
           navigate('/quiz-result');

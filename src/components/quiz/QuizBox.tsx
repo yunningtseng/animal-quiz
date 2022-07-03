@@ -1,6 +1,7 @@
+import { createStructuredSelector } from 'reselect';
 import { motion } from 'framer-motion';
 import { useAppSelector } from '../../hooks/redux';
-import { Question } from '../../types/question';
+import { RootState } from '../../store/store';
 import OptionBox from './OptionBox';
 import QuestionBox from './QuestionBox';
 
@@ -16,20 +17,29 @@ const variants = {
   },
 };
 
+const quizBoxSelector = createStructuredSelector({
+  options: (state: RootState) => state.quiz.question.options,
+  questionId: (state: RootState) => state.quiz.question.id,
+});
+
 function QuizBox() {
-  const question: Question = useAppSelector((state) => state.quiz.question);
+  const { options, questionId } = useAppSelector(quizBoxSelector);
+
+  if (!questionId) {
+    return <div />;
+  }
 
   return (
-    <div className="mt-5">
+    <div className="flex flex-col justify-start mt-5 relative">
       <QuestionBox />
 
-      {question.options.length > 0 && (
+      {options.length > 0 && (
         <motion.ul
           className="mt-5"
-          animate={question.options.length > 0 ? 'open' : 'closed'}
+          animate={options.length > 0 ? 'open' : 'closed'}
           variants={variants}
         >
-          {question.options.map((option, index) => (
+          {options.map((option, index) => (
             <OptionBox key={index} option={option} index={index} />
           ))}
         </motion.ul>

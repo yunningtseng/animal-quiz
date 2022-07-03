@@ -22,7 +22,7 @@ function OptionBox({ option, index }: OptionBoxProps) {
 
   return (
     <motion.li
-      className="p-3 cursor-pointer border rounded-lg mt-5 max-w-xs sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl flex"
+      className="p-3 cursor-pointer border rounded-lg mt-5 flex"
       animate={{
         background: isChecked ? '#F0EBE3' : '#ffff',
       }}
@@ -30,13 +30,15 @@ function OptionBox({ option, index }: OptionBoxProps) {
         scale: 1.03,
         background: '#F0EBE3',
       }}
-      whileTap={{ scale: 1 }}
+      whileTap={{ scale: 0.97 }}
       onClick={() => {
         dispatch(toggleAnswer(index));
       }}
       aria-hidden="true"
     >
-      <MotionCheckbox index={index} size={30} />
+      <div>
+        <MotionCheckbox index={index} size={30} />
+      </div>
 
       <div className="max-w-72 sm:max-w-96 md:max-w-125 ml-3">
         <p>{option.name}</p>

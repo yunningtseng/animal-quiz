@@ -24,6 +24,15 @@ function RecordBody({ record, question }: RecordBodyProps) {
         <p>{record.correct ? 'O 正確' : 'X 錯誤'}</p>
       </div>
 
+      {/* <div className="mt-2 sm:mt-3">
+        <span className="mr-3">你的答案:</span>
+        {record.answer.map((option, index) => (
+          <div key={index}>
+            {question.answer.includes(index) && <RecordBox option={option} />}
+          </div>
+        ))}
+      </div> */}
+
       <div className="pb-5 mt-2 sm:mt-3">
         <span className="mr-3">正確答案:</span>
         {question.options.map((option, index) => (

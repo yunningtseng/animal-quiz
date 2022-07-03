@@ -5,32 +5,30 @@ import { Question } from '../types/question';
 import type { AppThunk } from './store';
 import quizTimer from '../utils/quizTimer';
 import { updateUser } from './authSlice';
+import { setResponse } from './resultSlice';
 
 export interface QuizState {
-  questionList: Question[];
   qIdList: string[];
   question: Question;
   checkAnswer: boolean;
   score: number;
   response: Response;
-  responses: Response[];
   correct: boolean;
   currentAnswer: number[];
   showAlert: boolean;
   time: number;
   mode: string;
   quizIsOver: boolean;
+  navigateToResult: boolean;
 }
 
 const initialState: QuizState = {
   // > question
-  questionList: [],
   qIdList: [],
   question: {} as Question,
   // > answer
   currentAnswer: [],
   response: {} as Response,
-  responses: [],
   // > status
   checkAnswer: true,
   score: 0,
@@ -39,19 +37,13 @@ const initialState: QuizState = {
   time: 0,
   mode: 'normal',
   quizIsOver: false,
+  navigateToResult: false,
 };
 
 const quizSlice = createSlice({
   name: 'quiz',
   initialState,
   reducers: {
-    // - Question[]: 定義 action.payload 的格式
-    setQuestionList: (state: QuizState, action: PayloadAction<Question[]>) => {
-      state.questionList = action.payload;
-    },
-    setResponse: (state: QuizState, action: PayloadAction<Response>) => {
-      state.response = action.payload;
-    },
     initQuiz: (state: QuizState, action: PayloadAction<string>) => {
       const mode = action.payload;
 
@@ -117,7 +109,7 @@ const quizSlice = createSlice({
       };
       state.response.records.push(record);
 
-      // - 計算分數
+      // - 計算分數，呈現對錯
       state.checkAnswer = false;
       if (correct) {
         state.score += 10;
@@ -131,19 +123,6 @@ const quizSlice = createSlice({
       state.qIdList.push(state.question.id);
       state.checkAnswer = true;
       state.currentAnswer = [];
-    },
-    setResponseScoreAndTotalTime: (
-      state: QuizState,
-      action: PayloadAction<string>,
-    ) => {
-      const userId = action.payload;
-      state.response.score = state.score;
-      state.response.userId = userId;
-      if (state.mode === 'time-challenge') {
-        state.response.totalTime = 15;
-      } else {
-        state.response.totalTime = state.time;
-      }
     },
     // - 遊戲結束清除紀錄
     clearAnswer: (state: QuizState) => {
@@ -160,24 +139,24 @@ const quizSlice = createSlice({
         quizTimer.pause();
       }
     },
-    // - 儲存玩家所有作答紀錄
-    setResponses: (state: QuizState, action: PayloadAction<Response[]>) => {
-      state.responses = action.payload;
+    setNavigateToResult: (state: QuizState) => {
+      state.navigateToResult = true;
     },
+    clearState: () => initialState,
+    setState: (state: QuizState, action: PayloadAction<QuizState>) => action.payload,
   },
 });
 
 export const {
-  setQuestionList,
-  setResponse,
   initQuiz,
   toggleAnswer,
   confirmAnswer,
   setQuestion,
-  setResponseScoreAndTotalTime,
   clearAnswer,
   setTime,
-  setResponses,
+  setNavigateToResult,
+  clearState,
+  setState,
 } = quizSlice.actions;
 
 export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
@@ -218,22 +197,23 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
   dispatch(nextQuestion());
 };
 
-export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {
-  const { response } = getState().quiz;
-
-  // - 篩出某次測驗作答所有的 questionId
-  const qIdList = response.records.map((answer) => answer.questionId);
-
-  // - 根據 questionsId，去 query questions 的題目
-  const list = await firestoreApi.getQuestions(qIdList);
-
-  dispatch(setQuestionList(list));
-};
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
-  dispatch(setResponseScoreAndTotalTime(userId));
-  const { response } = getState().quiz;
-  await firestoreApi.setResponse(response);
+  const {
+    response: oldResponse, score, mode, time,
+  } = getState().quiz;
+
+  const response = { ...oldResponse, score, userId };
+
+  if (mode === 'time-challenge') {
+    response.totalTime = 15;
+  } else {
+    response.totalTime = time;
+  }
+
+  const responseId = await firestoreApi.setResponse(response);
+  response.id = responseId;
+  dispatch(setResponse(response));
 
   // - 從 firestore 取最新的 user 資料
   let user = await firestoreApi.getUser(userId);
@@ -255,12 +235,8 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   }
 
   quizTimer.reset();
-  dispatch(setTime(0));
-};
-
-export const fetchResponses = (userId: string): AppThunk => async (dispatch) => {
-  const data = await firestoreApi.getResponses(userId);
-  dispatch(setResponses(data));
+  dispatch(setNavigateToResult());
+  dispatch(clearState());
 };
 
 export default quizSlice;

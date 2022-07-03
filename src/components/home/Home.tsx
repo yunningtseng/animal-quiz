@@ -1,99 +1,53 @@
+import { motion } from 'framer-motion';
+import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux';
-import { User } from '../../types/user';
-import banner from '../../images/banner.png';
-import IMG_BASE_URL from '../../api/url';
+import landingBanner from '../../images/landing.jpg';
 
 function Home() {
-  const rankingList: User[] = useAppSelector(
-    (state) => state.ranking.rankingList,
-  );
   const navigate = useNavigate();
   return (
-    <div className="max-w-4xl mx-auto mt-5">
-      <div className="flex justify-between">
-        <div className="relative">
-          <button
-            type="button"
-            className="absolute top-3 left-1/4 font-bold text-2xl"
-            onClick={() => navigate('/quiz')}
+    <div className="relative">
+      <img
+        src={landingBanner}
+        alt="img"
+        className="w-screen h-screen object-center object-cover opacity-50"
+      />
+      <div className="absolute top-1/4 left-1/3 sm:left-1/2">
+        <p className="text-xl sm:text-2xl md:text-4xl font-bold text-dark mt-16">
+          來一場動物奇幻之旅吧!
+        </p>
+
+        <div className="block sm:flex items-center mt-5 md:mt-16 ml-5 text-base sm:text-lg md:text-2xl font-bold text-dark">
+          <div
+            className="flex items-center cursor-pointer hover:text-secondary"
+            onClick={() => navigate('./quiz')}
+            aria-hidden="true"
           >
-            開始來挑戰吧
-          </button>
-          <img src={banner} alt="img" className="w-96" />
-        </div>
-
-        <div className="w-52 mx-10 border ">
-          <div className="bg-black text-white font-bold text-center py-1">
-            排行榜
-          </div>
-          <div className="px-3">
-            {rankingList.map((user, index) => (
-              <div key={user.id} className="my-1.5">
-                {`Top ${index + 1}`}
-                <span className="mr-1">: </span>
-                {user.name}
+            <motion.button
+              type="button"
+              className=""
+              whileHover={{ scale: 1.2 }}
+            >
+              <div className="flex items-center">
+                <FaArrowCircleLeft className="mr-5" />
+                挑戰 Q A
               </div>
-            ))}
+            </motion.button>
           </div>
-        </div>
-      </div>
 
-      <div className="mt-10">
-        <div className="flex justify-between mb-10">
-          <img
-            src={`${IMG_BASE_URL}Choloepus-didactylus-01.jpg`}
-            alt="img"
-            className="w-125 h-80 bg-contain rounded-lg"
-          />
-          <div className="w-72 p-5 text-lg rounded-md border">
-            <div className="mb-3">哺乳類</div>
-            <div className="mb-5">Mammals</div>
-            <button
-              type="button"
-              className="text-sm"
-              onClick={() => navigate('/animals')}
-            >
-              查看更多
-            </button>
-          </div>
-        </div>
+          <span className="hidden sm:block mx-3 md:mx-5">|</span>
 
-        <div className="flex justify-between mb-10">
-          <div className="w-72 p-5 text-lg rounded-md border">
-            <div className="mb-3">鳥類</div>
-            <div className="mb-5">Birds</div>
-            <button
-              type="button"
-              className="text-sm"
-              onClick={() => navigate('/animals')}
-            >
-              查看更多
-            </button>
-          </div>
-          <img
-            src={`${IMG_BASE_URL}Ramphastos-toco-01.jpg`}
-            alt="img"
-            className="w-125 h-88 rounded-lg"
-          />
-        </div>
-
-        <div className="flex justify-between">
-          <img
-            src={`${IMG_BASE_URL}Ideopsis-similis-01.jpg`}
-            alt="img"
-            className="w-125 h-88 rounded-lg"
-          />
-          <div className="w-72 p-5 text-lg rounded-md border">
-            <div className="mb-3">變溫動物</div>
-            <div className="mb-5">Ectotherms</div>
-            <button
-              type="button"
-              className="text-sm"
-              onClick={() => navigate('/animals')}
-            >
-              查看更多
-            </button>
+          <div
+            className="mt-3 sm:mt-0 flex items-center cursor-pointer hover:text-secondary"
+            onClick={() => navigate('./animals')}
+            aria-hidden="true"
+          >
+            <motion.button type="button" whileHover={{ scale: 1.2 }}>
+              <div className="flex items-center">
+                探索動物
+                <FaArrowCircleRight className="ml-5" />
+              </div>
+            </motion.button>
           </div>
         </div>
       </div>

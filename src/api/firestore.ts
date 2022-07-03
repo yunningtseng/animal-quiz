@@ -17,33 +17,13 @@ import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
 
-function randomNumbers(max: number, length: number) {
-  const arr: number[] = [];
-  while (arr.length < length) {
-    const numNumber = Math.floor(Math.random() * (max - 1) + 1);
-    if (!arr.includes(numNumber)) {
-      arr.push(numNumber);
-    }
-  }
-  return arr;
-}
-
 const firestoreApi = {
   // - 產生 firestore 自創的 unique id
   generateUniqueId: () => doc(collection(db, 'users')).id,
   // - 取得測驗題目
-  // * 若 idList 為 undefined 則會 random 題目加進 qIdList
-  // * 若 idList 不為 undefined，則 qIdList 即為 idList
-  getQuestions: async (idList?: string[]): Promise<Question[]> => {
-    let qIdList: string[];
-    if (idList === undefined) {
-      qIdList = randomNumbers(19, 10).map((e) => String(e).padStart(4, '0'));
-    } else {
-      qIdList = [...idList];
-    }
-
+  getQuestions: async (idList: string[]): Promise<Question[]> => {
     const results: Promise<Question>[] = [];
-    qIdList.forEach((qId) => results.push(firestoreApi.getQuestion(qId)));
+    idList.forEach((qId) => results.push(firestoreApi.getQuestion(qId)));
     // - 待所有題目載入完成才會 return
     const questionListLocal = await Promise.all(results);
 
@@ -56,16 +36,19 @@ const firestoreApi = {
     return docSnap.data() as Question;
   },
   // - 儲存作答回應
-  setResponse: async (response: Response): Promise<void> => {
+  setResponse: async (response: Response): Promise<string> => {
     // - 創一個空 doc
     const docRef = doc(collection(db, 'responses'));
     // - docRef.id 是 firestore 自創的 unique id
+    const responseId = docRef.id;
     await setDoc(docRef, {
       ...response,
-      id: docRef.id,
+      id: responseId,
       // * string 轉 Date object 再轉 Timestamp
       startTime: Timestamp.fromDate(new Date(response.startTime)),
     });
+
+    return responseId;
   },
   // - 取得特定作答回應
   getResponse: async (id: string): Promise<Response> => {

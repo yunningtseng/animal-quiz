@@ -5,7 +5,7 @@ function CurrentFilterBox() {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { items, refine } = useCurrentRefinements();
 
-  console.log(items);
+  // console.log(items);
 
   return (
     <div>
@@ -15,6 +15,7 @@ function CurrentFilterBox() {
             type="button"
             className="font-bold px-2 py-0.5 bg-primary rounded-xl"
             key={index}
+              // * 執行 refine，清空篩選
             onClick={() => {
               refine(e);
             }}

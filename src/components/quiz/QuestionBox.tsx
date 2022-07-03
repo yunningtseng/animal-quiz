@@ -4,6 +4,8 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { useAppSelector } from '../../hooks/redux';
 import { QuizState } from '../../store/quizSlice';
 import { Question } from '../../types/question';
+import MotionCircle from './MotionCircle';
+import MotionCross from './MotionCross';
 
 const inputType: { [key: string]: string } = {
   single: '單選題',
@@ -47,6 +49,17 @@ function QuestionBox() {
           </div>
         ) : (
           <div />
+        )}
+
+        {!quiz.checkAnswer && quiz.correct && (
+          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-10">
+            <MotionCircle size={150} />
+          </div>
+        )}
+        {!quiz.checkAnswer && !quiz.correct && (
+          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-10">
+            <MotionCross size={150} />
+          </div>
         )}
 
         {!quiz.checkAnswer && (

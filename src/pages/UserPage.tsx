@@ -4,13 +4,12 @@ import { BsCheckLg } from 'react-icons/bs';
 import ResponseBox from '../components/user/ResponseBox';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { confirmUserName } from '../store/authSlice';
-import { fetchResponses } from '../store/quizSlice';
-import { Response } from '../types/response';
-import { User } from '../types/user';
+import { fetchResponses } from '../store/resultSlice';
 
 function UserPage() {
   const dispatch = useAppDispatch();
-  const user: User = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
+  const responses = useAppSelector((state) => state.result.responses);
   const [isEdit, setIsEdit] = useState(false);
   const userNameRef = useRef<HTMLInputElement>(null);
 
@@ -19,8 +18,6 @@ function UserPage() {
       dispatch(fetchResponses(user.id));
     }
   }, [dispatch, user.id]);
-
-  const responses: Response[] = useAppSelector((state) => state.quiz.responses);
 
   return (
     <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">

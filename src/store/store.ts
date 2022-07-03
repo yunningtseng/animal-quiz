@@ -3,10 +3,12 @@ import quizSlice from './quizSlice';
 import animalSlice from './animalSlice';
 import authSlice from './authSlice';
 import rankingSlice from './rankSlice';
+import resultSlice from './resultSlice';
 
 const store = configureStore({
   reducer: {
     quiz: quizSlice.reducer,
+    result: resultSlice.reducer,
     animal: animalSlice.reducer,
     auth: authSlice.reducer,
     ranking: rankingSlice.reducer,
