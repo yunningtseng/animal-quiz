@@ -1,7 +1,9 @@
 import { useClearRefinements } from 'react-instantsearch-hooks-web';
+import { useNavigate } from 'react-router-dom';
 
 function ClearFilterButton() {
   const { refine, canRefine } = useClearRefinements();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -14,6 +16,7 @@ function ClearFilterButton() {
             // * 執行 refine，清空篩選
             onClick={() => {
               refine();
+              navigate('/animals');
             }}
           >
             清除所有篩選

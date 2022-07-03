@@ -15,6 +15,23 @@ const inputType: { [key: string]: string } = {
   trueFalse: 'radio',
 };
 
+const optionVariants = {
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  hidden: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 function OptionBox({ option, index }: OptionBoxProps) {
   const quiz: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
@@ -31,6 +48,7 @@ function OptionBox({ option, index }: OptionBoxProps) {
         background: '#F0EBE3',
       }}
       whileTap={{ scale: 0.97 }}
+      variants={optionVariants}
       onClick={() => {
         dispatch(toggleAnswer(index));
       }}

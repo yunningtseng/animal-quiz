@@ -10,7 +10,7 @@ function MotionCross({ size }: MotionCrossProps) {
       width={size}
       height={size}
       viewBox="0 0 50 50"
-      stroke="red"
+      stroke="#E11D48"
       strokeWidth="3"
       strokeLinecap="round"
     >

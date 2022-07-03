@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { startQuiz } from '../store/quizSlice';
+import { clearState, startQuiz } from '../store/quizSlice';
 import QuizBox from '../components/quiz/QuizBox';
 import ControlBar from '../components/quiz/ControlBar';
 import TopBar from '../components/quiz/TopBar';
@@ -19,8 +19,9 @@ function QuizPage() {
   useEffect(() => {
     if (navigateToResult) {
       navigate('/quiz-result');
+      dispatch(clearState());
     }
-  }, [navigate, navigateToResult]);
+  }, [navigate, navigateToResult, dispatch]);
 
   // - 判斷 quiz 的 type
   useEffect(() => {

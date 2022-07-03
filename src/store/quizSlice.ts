@@ -236,7 +236,6 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
 
   quizTimer.reset();
   dispatch(setNavigateToResult());
-  dispatch(clearState());
 };
 
 export default quizSlice;

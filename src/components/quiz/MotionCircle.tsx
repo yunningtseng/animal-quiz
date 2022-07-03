@@ -14,7 +14,7 @@ function MotionCircle({ size }: MotionCircleProps) {
         cy="25"
         r="20"
         fill="none"
-        stroke="green"
+        stroke="#16A34A"
         strokeWidth="3"
         // * 線條兩端設定圓角
         strokeLinecap="round"

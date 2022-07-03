@@ -1,19 +1,21 @@
 import { createStructuredSelector } from 'reselect';
-import { motion } from 'framer-motion';
+import { motion, useAnimation, useCycle } from 'framer-motion';
+import { useEffect } from 'react';
 import { useAppSelector } from '../../hooks/redux';
 import { RootState } from '../../store/store';
 import OptionBox from './OptionBox';
 import QuestionBox from './QuestionBox';
 
-const variants = {
-  open: {
-    transition: { staggerChildren: 1, delayChildren: 15 },
+const optionsVariants = {
+  visible: {
+    transition: { staggerChildren: 0.07, delayChildren: 0.2, duration: 1 },
   },
-  closed: {
-    // transition: {
-    //   staggerChildren: 0.05,
-    //   staggerDirection: -1,
-    // },
+  hidden: {
+    transition: {
+      staggerChildren: 0.05,
+      staggerDirection: -1,
+      duration: 1,
+    },
   },
 };
 
@@ -22,8 +24,25 @@ const quizBoxSelector = createStructuredSelector({
   questionId: (state: RootState) => state.quiz.question.id,
 });
 
+let isFistQuestion = true;
+
 function QuizBox() {
   const { options, questionId } = useAppSelector(quizBoxSelector);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    async function animation() {
+      if (!isFistQuestion) {
+        await controls.start('hidden');
+      }
+      await controls.start('visible');
+    }
+    // animation();
+
+    if (isFistQuestion && questionId) {
+      isFistQuestion = false;
+    }
+  }, [controls, questionId]);
 
   if (!questionId) {
     return <div />;
@@ -36,8 +55,8 @@ function QuizBox() {
       {options.length > 0 && (
         <motion.ul
           className="mt-5"
-          animate={options.length > 0 ? 'open' : 'closed'}
-          variants={variants}
+          animate={controls}
+          variants={optionsVariants}
         >
           {options.map((option, index) => (
             <OptionBox key={index} option={option} index={index} />
