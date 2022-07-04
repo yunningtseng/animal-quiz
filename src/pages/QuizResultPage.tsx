@@ -8,9 +8,12 @@ function QuizResultPage() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">
+    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10 relative">
       <div className="block sm:flex justify-between items-start">
-        <Result />
+        <div className="w-150 h-100 absolute bg-primary top-1/2 left-1/3 p-10 rounded-lg shadow-lg">
+          <Result />
+        </div>
+
         <Link to="/quiz">
           <button
             type="button"
