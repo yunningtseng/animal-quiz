@@ -18,9 +18,11 @@ module.exports = {
         225: '56rem', //900
       },
       fontFamily: {
-        bpm: ['BpmfGenSenRounded-R'],
-        bpm1: ['BpmfGenRyuMin-R'],
-        bpm2: ['BpmfGenYoGothic-R'],
+        bpm: ['BpmfGenRyuMin-R'],
+        bpm1: ['BpmfGenSekiGothic-R'],
+        bpm2: ['BpmfGenSenRounded-R'],
+        bpm3: ['BpmfGenYoMin'],
+        bpm4: ['BpmfGenYoGothic-R'],
       },
       screens: {
         xs: '360px',

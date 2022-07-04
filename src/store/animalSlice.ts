@@ -12,7 +12,7 @@ export interface AnimalState {
 const initialState: AnimalState = {
   animal: {} as Animal,
   showFilterBox: false,
-  isPhonetic: true,
+  isPhonetic: false,
 };
 
 const animalSlice = createSlice({

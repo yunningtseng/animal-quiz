@@ -52,12 +52,12 @@ function QuestionBox() {
         )}
 
         {!quiz.checkAnswer && quiz.correct && (
-          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-10">
+          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-8">
             <MotionCircle size={150} />
           </div>
         )}
         {!quiz.checkAnswer && !quiz.correct && (
-          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-10">
+          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-8">
             <MotionCross size={150} />
           </div>
         )}

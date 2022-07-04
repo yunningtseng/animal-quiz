@@ -9,6 +9,7 @@ export interface ResultState {
   response: Response;
   responses: Response[];
   resultState: string;
+  showResultDialog: boolean;
 }
 
 const initialState: ResultState = {
@@ -16,6 +17,7 @@ const initialState: ResultState = {
   response: {} as Response,
   responses: [],
   resultState: 'initial',
+  showResultDialog: true,
 };
 
 const resultSlice = createSlice({
@@ -39,6 +41,9 @@ const resultSlice = createSlice({
     setResultState: (state: ResultState, action: PayloadAction<string>) => {
       state.resultState = action.payload;
     },
+    setResultDialog: (state: ResultState, action: PayloadAction<boolean>) => {
+      state.showResultDialog = action.payload;
+    },
   },
 });
 
@@ -49,6 +54,7 @@ export const {
   clearState,
   setState,
   setResultState,
+  setResultDialog,
 } = resultSlice.actions;
 
 // - 進 QuizResultPage 時觸發
