@@ -6,11 +6,13 @@ import type { AppThunk } from './store';
 export interface AnimalState {
   animal: Animal;
   showFilterBox: boolean;
+  isPhonetic: boolean;
 }
 
 const initialState: AnimalState = {
   animal: {} as Animal,
   showFilterBox: false,
+  isPhonetic: true,
 };
 
 const animalSlice = createSlice({
@@ -23,10 +25,13 @@ const animalSlice = createSlice({
     setFilter: (state: AnimalState, action: PayloadAction<boolean>) => {
       state.showFilterBox = action.payload;
     },
+    setIsPhonetic: (state: AnimalState, action: PayloadAction<boolean>) => {
+      state.isPhonetic = action.payload;
+    },
   },
 });
 
-export const { setAnimal, setFilter } = animalSlice.actions;
+export const { setAnimal, setFilter, setIsPhonetic } = animalSlice.actions;
 
 export const fetchAnimal = (animalId: string): AppThunk => async (dispatch, getState) => {
   const data = await firestoreApi.getAnimal(animalId);

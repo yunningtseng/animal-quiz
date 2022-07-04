@@ -7,6 +7,16 @@
   src: url(./fonts/BpmfGenSenRounded-R.ttf);
 }
 
+@font-face {
+  font-family: BpmfGenRyuMin-R;
+  src: url(./fonts/BpmfGenRyuMin-R.ttf);
+}
+
+@font-face {
+  font-family: BpmfGenYoGothic-R;
+  src: url(./fonts/BpmfGenYoGothic-R.ttf);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
