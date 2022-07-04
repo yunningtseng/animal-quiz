@@ -19,11 +19,7 @@ function QuestionBox() {
 
   return (
     <div>
-      <p className="text-lg sm:text-xl">
-        <span />
-        {'Q: '}
-        {question.title}
-      </p>
+      <p className="text-lg sm:text-xl">{question.title}</p>
 
       <div>
         {question.mainPic === '' ? (
@@ -51,18 +47,14 @@ function QuestionBox() {
           <div />
         )}
 
-        {!quiz.checkAnswer && quiz.correct && (
-          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-8">
-            <MotionCircle size={150} />
-          </div>
-        )}
-        {!quiz.checkAnswer && !quiz.correct && (
-          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-8">
-            <MotionCross size={150} />
+        {!quiz.canAnswer && (
+          <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-10">
+            {quiz.correct && <MotionCircle size={150} />}
+            {!quiz.correct && <MotionCross size={150} />}
           </div>
         )}
 
-        {!quiz.checkAnswer && (
+        {!quiz.canAnswer && (
           <div className="flex items-center">
             <p
               className={`flex items-center ml-5 font-bold text-lg ${

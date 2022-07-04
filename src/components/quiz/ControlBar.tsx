@@ -4,12 +4,12 @@ import { confirmAnswer, endQuiz, nextQuestion } from '../../store/quizSlice';
 import { RootState } from '../../store/store';
 
 const controlBarSelector = createSelector(
-  (state: RootState) => state.quiz.checkAnswer,
+  (state: RootState) => state.quiz.canAnswer,
   (state: RootState) => state.quiz.mode,
   (state: RootState) => state.quiz.quizIsOver,
   (state: RootState) => state.quiz.qIdList,
-  (checkAnswer, mode, quizIsOver, qIdList) => ({
-    checkAnswer,
+  (canAnswer, mode, quizIsOver, qIdList) => ({
+    canAnswer,
     mode,
     quizTimeIsOver: mode === 'time-challenge' && quizIsOver,
     qIdListLength: qIdList.length,
@@ -19,12 +19,12 @@ const controlBarSelector = createSelector(
 function ControlBar() {
   const dispatch = useAppDispatch();
   const {
-    checkAnswer, mode, quizTimeIsOver, qIdListLength,
+    canAnswer, mode, quizTimeIsOver, qIdListLength,
   } = useAppSelector(controlBarSelector);
 
   return (
     <div className="mt-5 sm:mt-10 flex justify-end">
-      {checkAnswer && !quizTimeIsOver && (
+      {canAnswer && !quizTimeIsOver && (
         <button
           type="button"
           className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
@@ -36,7 +36,7 @@ function ControlBar() {
         </button>
       )}
 
-      {!checkAnswer
+      {!canAnswer
         && !quizTimeIsOver
         && (mode === 'time-challenge' || qIdListLength < 10) && (
           <button
@@ -51,7 +51,7 @@ function ControlBar() {
       )}
 
       {/* * TODO 調整樣式  */}
-      {((!checkAnswer && mode === 'normal' && qIdListLength === 10)
+      {((!canAnswer && mode === 'normal' && qIdListLength === 10)
         || quizTimeIsOver) && (
         <div className="w-60 sm:w-64 md:w-100 lg:w-125 h-100 absolute bg-primary top-1/4 left-10 sm:left-32 md:lg:left-48 lg:left-60 xl:left-80 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
           <p>作答已結束</p>

@@ -10,7 +10,7 @@ import { setResponse } from './resultSlice';
 export interface QuizState {
   qIdList: string[];
   question: Question;
-  checkAnswer: boolean;
+  canAnswer: boolean;
   score: number;
   response: Response;
   correct: boolean;
@@ -30,7 +30,7 @@ const initialState: QuizState = {
   currentAnswer: [],
   response: {} as Response,
   // > status
-  checkAnswer: true,
+  canAnswer: true,
   score: 0,
   correct: false,
   showAlert: false,
@@ -72,12 +72,19 @@ const quizSlice = createSlice({
     },
     // - toggle answer
     toggleAnswer: (state: QuizState, action: PayloadAction<number>) => {
+      if (!state.canAnswer) return;
+
       const toggleAnswer = action.payload;
-      const index = state.currentAnswer.indexOf(toggleAnswer);
-      if (index !== -1) {
-        state.currentAnswer.splice(index, 1);
+      const { type } = state.question;
+      if (type === 'multiple') {
+        const index = state.currentAnswer.indexOf(toggleAnswer);
+        if (index !== -1) {
+          state.currentAnswer.splice(index, 1);
+        } else {
+          state.currentAnswer.push(toggleAnswer);
+        }
       } else {
-        state.currentAnswer.push(toggleAnswer);
+        state.currentAnswer = [toggleAnswer];
       }
       state.showAlert = false;
     },
@@ -87,6 +94,8 @@ const quizSlice = createSlice({
         state.showAlert = true;
         return;
       }
+
+      state.canAnswer = false;
       quizTimer.pause();
       const correctAnswer = state.question.answer;
       // - 判斷回答對錯
@@ -110,7 +119,6 @@ const quizSlice = createSlice({
       state.response.records.push(record);
 
       // - 計算分數，呈現對錯
-      state.checkAnswer = false;
       if (correct) {
         state.score += 10;
       }
@@ -121,14 +129,7 @@ const quizSlice = createSlice({
     setQuestion: (state: QuizState, action: PayloadAction<Question>) => {
       state.question = action.payload;
       state.qIdList.push(state.question.id);
-      state.checkAnswer = true;
-      state.currentAnswer = [];
-    },
-    // - 遊戲結束清除紀錄
-    clearAnswer: (state: QuizState) => {
-      state.response.score = 0;
-      state.score = 0;
-      state.checkAnswer = true;
+      state.canAnswer = true;
       state.currentAnswer = [];
     },
     // - 設置當前顯示的時間
@@ -152,7 +153,6 @@ export const {
   toggleAnswer,
   confirmAnswer,
   setQuestion,
-  clearAnswer,
   setTime,
   setNavigateToResult,
   clearState,
