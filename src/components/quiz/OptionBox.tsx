@@ -1,10 +1,11 @@
+import { motion } from 'framer-motion';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { QuizState, toggleAnswer } from '../../store/quizSlice';
 import { Option } from '../../types/question';
+import MotionCheckbox from './MotionCheckbox';
 
 interface OptionBoxProps {
   option: Option;
-  questionType: string;
   index: number;
 }
 
@@ -14,28 +15,58 @@ const inputType: { [key: string]: string } = {
   trueFalse: 'radio',
 };
 
-function OptionBox({ option, questionType, index }: OptionBoxProps) {
+const optionVariants = {
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  hidden: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
+function OptionBox({ option, index }: OptionBoxProps) {
   const quiz: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
+  const isChecked = quiz.currentAnswer.includes(index);
 
   return (
-    <div className="flex items-center">
-      <div
-        className={`w-4 h-4 border-2 border-black mr-3 ${
-          quiz.currentAnswer.includes(index) ? 'bg-black' : 'bg-white'
-        }`}
-        onClick={() => dispatch(toggleAnswer(index))}
-        aria-hidden="true"
-      />
+    <motion.li
+      className="p-3 cursor-pointer border rounded-lg mt-5 flex"
+      animate={{
+        background: isChecked ? '#F0EBE3' : '#ffff',
+      }}
+      whileHover={{
+        scale: 1.03,
+        background: '#F0EBE3',
+      }}
+      whileTap={{ scale: 0.97 }}
+      variants={optionVariants}
+      onClick={() => {
+        dispatch(toggleAnswer(index));
+      }}
+      aria-hidden="true"
+    >
+      <div>
+        <MotionCheckbox index={index} size={30} />
+      </div>
 
-      {option.name}
-      {option.pic === '' ? (
-        <div />
-      ) : (
-        <img src={option.pic} alt="img" className="w-40" />
-      )}
-      <div />
-    </div>
+      <div className="max-w-72 sm:max-w-96 md:max-w-125 ml-3">
+        <p>{option.name}</p>
+        {option.pic === '' ? (
+          <div />
+        ) : (
+          <img src={option.pic} alt="img" className="w-40" />
+        )}
+      </div>
+    </motion.li>
   );
 }
 
