@@ -4,13 +4,12 @@ import { BsCheckLg } from 'react-icons/bs';
 import ResponseBox from '../components/user/ResponseBox';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { confirmUserName } from '../store/authSlice';
-import { fetchResponses } from '../store/quizSlice';
-import { Response } from '../types/response';
-import { User } from '../types/user';
+import { fetchResponses } from '../store/resultSlice';
 
 function UserPage() {
   const dispatch = useAppDispatch();
-  const user: User = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
+  const responses = useAppSelector((state) => state.result.responses);
   const [isEdit, setIsEdit] = useState(false);
   const userNameRef = useRef<HTMLInputElement>(null);
 
@@ -20,15 +19,11 @@ function UserPage() {
     }
   }, [dispatch, user.id]);
 
-  const responses: Response[] = useAppSelector((state) => state.quiz.responses);
-
   return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10">
-      <div className="block sm:flex mt-3 items-center">
-        <div className="flex">
-          <p className="mr-3 text-dark text-base sm:text-lg font-bold">
-            玩家名稱:
-          </p>
+    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">
+      <div className="flex mt-3 items-center">
+        <div className="flex text-dark text-base sm:text-lg font-bold">
+          <p className="mr-3">玩家名稱:</p>
           {!isEdit && <p>{user.name}</p>}
           {isEdit && (
             <input
@@ -66,7 +61,7 @@ function UserPage() {
         </div>
       </div>
 
-      <div className="border rounded-lg mt-5 shadow-md px-10 pt-3">
+      <div className="border rounded-lg mt-5 shadow-md px-3 md:px-10 pt-3">
         {responses.map((response) => (
           <div key={response.id}>
             <ResponseBox response={response} />

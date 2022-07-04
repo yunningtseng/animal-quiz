@@ -15,6 +15,7 @@ function AnimalsPage() {
 
   return (
     <div>
+      {/* * mobile 全版黑屏 */}
       {showFilterBox && (
         <div
           className="absolute top-0 left-0 z-20 w-screen h-full bg-black opacity-70 lg:hidden"
@@ -43,6 +44,7 @@ function AnimalsPage() {
             <SearchAnimalBox />
           </div>
           <div className="flex justify-between">
+            {/* * 控制在 mobile 與 pc 版 filterBox 不同的擺放位置 */}
             <div
               className={`${
                 showFilterBox

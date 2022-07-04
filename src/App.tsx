@@ -28,6 +28,12 @@ function App() {
         <Route path="/quiz/:mode" element={<QuizPage />} />
         <Route path="/quiz-result" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
+        <Route path="/animals/:className" element={<AnimalsPage />} />
+        <Route path="/animals/:className/:order" element={<AnimalsPage />} />
+        <Route
+          path="/animals/:className/:order/:family"
+          element={<AnimalsPage />}
+        />
         <Route path="/animal/:animalId" element={<AnimalPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/user" element={<UserPage />} />

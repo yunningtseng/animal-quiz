@@ -1,4 +1,5 @@
-import { GiSwordman } from 'react-icons/gi';
+// import { GiSwordman } from 'react-icons/gi';
+import { motion } from 'framer-motion';
 import { User } from '../../types/user';
 
 interface RankingBoxProps {
@@ -13,7 +14,10 @@ function RankingBox({ user, index }: RankingBoxProps) {
 
   return (
     <div className="flex justify-between items-center mb-5">
-      <div className="flex justify-between items-center border rounded-2xl py-3 px-3 sm:px-10 shadow-md text-dark bg-light w-full text-sm sm:text-base font-bold">
+      <motion.div
+        className="flex justify-between items-center border rounded-2xl py-3 px-3 sm:px-10 shadow-md text-dark bg-light w-full text-sm sm:text-base font-bold"
+        whileHover={{ scale: 1.03 }}
+      >
         <div className="flex">
           <div className="mr-5">{index + 1}</div>
           {user.name}
@@ -25,8 +29,8 @@ function RankingBox({ user, index }: RankingBoxProps) {
           {user.totalTime}
           <span> 秒</span>
         </div>
-      </div>
-      <GiSwordman className="text-3xl ml-3 text-rose-600 cursor-pointer" />
+      </motion.div>
+      {/* <GiSwordman className="text-3xl ml-3 text-rose-600 cursor-pointer" /> */}
     </div>
   );
 }

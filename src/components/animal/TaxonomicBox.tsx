@@ -1,19 +1,37 @@
 import { HierarchicalMenuItem } from 'instantsearch.js/es/connectors/hierarchical-menu/connectHierarchicalMenu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHierarchicalMenu } from 'react-instantsearch-hooks-web';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
 
 function TaxonomicBox() {
+  const { className, order, family } = useParams();
   const { items, refine } = useHierarchicalMenu({
     attributes: ['class', 'classOrder', 'classOrderFamily'],
+    // * 位置排序的權重
     sortBy: ['count', 'name:asc'],
   });
   const [hidden, setHidden] = useState(false);
 
-  // useEffect(() => {
-  //   refine('鳥綱');
-  // }, [refine]);
+  useEffect(() => {
+    let searchStr = '';
+    if (className) {
+      searchStr += className;
+    }
+    if (order) {
+      searchStr += ' > ';
+      searchStr += order;
+    }
+    if (family) {
+      searchStr += ' > ';
+      searchStr += family;
+    }
+    if (searchStr) {
+      refine(searchStr);
+    }
+  }, [refine, className, order, family]);
 
+  // * 只有最上層的 isTop 為 true
   function buildItems(items1: HierarchicalMenuItem[], isTop: boolean) {
     return (
       <ul className={isTop ? '' : 'ml-4'}>
@@ -43,6 +61,7 @@ function TaxonomicBox() {
                 </span>
               </span>
             </button>
+            {/* - 若 item.data 不為空，則執行 buildItems() */}
             {item.data && buildItems(item.data, false)}
           </li>
         ))}
@@ -64,6 +83,7 @@ function TaxonomicBox() {
           {hidden ? <MdExpandMore /> : <MdExpandLess />}
         </button>
       </div>
+      {/* * 觸發 buildItems */}
       {!hidden && buildItems(items, true)}
     </div>
   );
