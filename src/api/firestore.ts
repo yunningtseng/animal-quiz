@@ -16,6 +16,7 @@ import { db } from '../utils/firebaseInit';
 import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
+import { Multiplayer } from '../types/multiplayer';
 
 const firestoreApi = {
   // - 產生 firestore 自創的 unique id
@@ -129,6 +130,14 @@ const firestoreApi = {
     });
     return list;
   },
+
+  // 創團戰
+  setMultiplayerQuiz: async (multiplayer: Multiplayer): Promise<void> => {
+    const docRef = doc(collection(db, 'multiplayerQuizs'));
+    const quizId = docRef.id;
+    await setDoc(docRef, { ...multiplayer, id: quizId });
+  },
+  // getMultiplayerQuiz() {},
 };
 
 export default firestoreApi;

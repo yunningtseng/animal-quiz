@@ -4,6 +4,7 @@ import animalSlice from './animalSlice';
 import authSlice from './authSlice';
 import rankingSlice from './rankSlice';
 import resultSlice from './resultSlice';
+import multiplayerSlice from './multiplayerSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     animal: animalSlice.reducer,
     auth: authSlice.reducer,
     ranking: rankingSlice.reducer,
+    multiplayer: multiplayerSlice.reducer,
   },
 });
 

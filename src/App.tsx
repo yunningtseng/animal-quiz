@@ -12,6 +12,7 @@ import AnimalPage from './pages/AnimalPage';
 import LoginPage from './pages/LoginPage';
 import { useAppDispatch } from './hooks/redux';
 import { initAuth } from './store/authSlice';
+import MultiplayerMenu from './components/multiPlayer/MultiplayerMenu';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/quiz" element={<SelectQuizPage />} />
         <Route path="/quiz/:mode" element={<QuizPage />} />
+        <Route path="/quiz/multiplayer" element={<MultiplayerMenu />} />
         <Route path="/quiz-result" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
         <Route path="/animals/:className" element={<AnimalsPage />} />
