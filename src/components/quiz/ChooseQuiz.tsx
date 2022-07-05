@@ -28,7 +28,7 @@ function ChooseQuiz() {
         onClick={() => navigate('/quiz/time-challenge')}
         whileHover={{ scale: 1.1 }}
       >
-        <p className="text-center text-xl font-bold text-dark">計時挑戰</p>
+        <p className="text-center text-xl font-bold text-dark">限時挑戰</p>
         <img
           src={time}
           alt="img"

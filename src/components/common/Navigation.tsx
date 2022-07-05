@@ -7,7 +7,7 @@ function Navigation() {
   const user: AuthState = useAppSelector((state) => state.auth);
 
   return (
-    <div className="w-full bg-primary sticky top-0 z-12">
+    <div className="w-full bg-primary sticky top-0 z-20">
       <div className="flex w-3/4 mx-auto justify-center items-center text-lg text-secondary font-bold">
         <ul className="flex items-center">
           <Link to="/quiz">

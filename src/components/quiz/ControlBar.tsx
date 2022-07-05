@@ -50,16 +50,16 @@ function ControlBar() {
           </button>
       )}
 
-      {/* * TODO 調整樣式  */}
       {((!canAnswer && mode === 'normal' && qIdListLength === 10)
         || quizTimeIsOver) && (
-        <div className="w-60 sm:w-64 md:w-100 lg:w-125 h-100 absolute bg-primary top-1/4 left-10 sm:left-32 md:lg:left-48 lg:left-60 xl:left-80 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
-          <p>作答已結束</p>
+        <div className="flex flex-col items-center w-68 sm:w-72 md:w-100 lg:w-125 h-100 absolute bg-primary top-40 left-6 sm:left-28 md:left-48 lg:left-56 xl:left-72 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
+          <p className="text-dark font-bold">作答已結束</p>
           <button
             type="button"
             onClick={() => {
               dispatch(endQuiz());
             }}
+            className="bg-dark text-white py-1 px-3 rounded-xl mt-5"
           >
             確認
           </button>

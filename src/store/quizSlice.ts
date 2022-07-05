@@ -62,7 +62,8 @@ const quizSlice = createSlice({
         records: [],
         mode,
       };
-      // * return QuizState 會去覆蓋輸出整個 state
+
+      // * return QuizState 會去覆蓋輸出整個 state，只保留 response、mode、time
       return {
         ...initialState,
         response,
@@ -162,6 +163,7 @@ export const {
 export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   quizTimer.resume();
 
+  // * 取 QuizState 中的 qIdList
   const { qIdList } = getState().quiz;
   const max = 19;
   let newQId: string | undefined;
