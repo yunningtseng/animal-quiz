@@ -12,7 +12,9 @@ import AnimalPage from './pages/AnimalPage';
 import LoginPage from './pages/LoginPage';
 import { useAppDispatch } from './hooks/redux';
 import { initAuth } from './store/authSlice';
-import MultiplayerMenu from './components/multiPlayer/MultiplayerMenu';
+import RoomMenu from './components/room/RoomMenu';
+import EnterRoom from './components/room/EnterRoom';
+import CreateRoom from './components/room/CreateRoom';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -27,7 +29,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/quiz" element={<SelectQuizPage />} />
         <Route path="/quiz/:mode" element={<QuizPage />} />
-        <Route path="/quiz/multiplayer" element={<MultiplayerMenu />} />
+        <Route path="/quiz/room-menu" element={<RoomMenu />} />
+        <Route path="/quiz/enter-room" element={<EnterRoom />} />
+        <Route path="/quiz/create-room" element={<CreateRoom />} />
         <Route path="/quiz-result" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
         <Route path="/animals/:className" element={<AnimalsPage />} />

@@ -10,13 +10,14 @@ import {
   where,
   Query,
   orderBy,
+  onSnapshot,
 } from 'firebase/firestore';
 import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
 import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
-import { Multiplayer } from '../types/multiplayer';
+import { Room } from '../types/room';
 
 const firestoreApi = {
   // - 產生 firestore 自創的 unique id
@@ -131,13 +132,50 @@ const firestoreApi = {
     return list;
   },
 
-  // 創團戰
-  setMultiplayerQuiz: async (multiplayer: Multiplayer): Promise<void> => {
-    const docRef = doc(collection(db, 'multiplayerQuizs'));
-    const quizId = docRef.id;
-    await setDoc(docRef, { ...multiplayer, id: quizId });
+  // - 創 room
+  setRoom: async (userId: string): Promise<Room> => {
+    const docRef = doc(collection(db, 'rooms'));
+    const roomId = docRef.id;
+    const room = {
+      id: roomId,
+      pin: '1234',
+      status: 'waiting',
+      hostId: userId,
+      userIdList: [userId],
+    };
+
+    await setDoc(docRef, room);
+
+    return room;
   },
-  // getMultiplayerQuiz() {},
+
+  // - 監聽 room doc
+  // * onRoom 是一個 callback function
+  listenRoom: (pin: string, onRoom: (room: Room) => void) => {
+    const q = query(
+      collection(db, 'rooms'),
+      where('pin', '==', pin),
+      where('status', '==', 'waiting'),
+      limit(1),
+    );
+
+    // * 只要 query 資料有變化，就會得到新的 querySnapshot 進來
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const docSnap = querySnapshot.docs[0];
+
+      // - 取得最新的 room 並觸發 callback，去 setRoom
+      const room = docSnap.data() as Room;
+      // console.log(room);
+      onRoom(room);
+
+      // TODO 要等 onRoom 執行完再取消
+      // - 取消監聽
+      if (room.status === 'end') {
+        unsubscribe();
+      }
+    });
+  },
+  // TODO addRoomUserId
 };
 
 export default firestoreApi;
