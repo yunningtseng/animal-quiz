@@ -12,9 +12,9 @@ import AnimalPage from './pages/AnimalPage';
 import LoginPage from './pages/LoginPage';
 import { useAppDispatch } from './hooks/redux';
 import { initAuth } from './store/authSlice';
-import RoomMenu from './components/room/RoomMenu';
-import EnterRoom from './components/room/EnterRoom';
-import CreateRoom from './components/room/CreateRoom';
+import RoomPage from './pages/RoomPage';
+import RoomMenuPage from './pages/RoomMenuPage';
+import RoomCreatePage from './pages/RoomCreatePage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -29,9 +29,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/quiz" element={<SelectQuizPage />} />
         <Route path="/quiz/:mode" element={<QuizPage />} />
-        <Route path="/quiz/room-menu" element={<RoomMenu />} />
-        <Route path="/quiz/enter-room" element={<EnterRoom />} />
-        <Route path="/quiz/create-room" element={<CreateRoom />} />
+        <Route path="/quiz/room-menu" element={<RoomMenuPage />} />
+        <Route path="/quiz/room" element={<RoomPage />} />
+        <Route path="/quiz/create-room" element={<RoomCreatePage />} />
         <Route path="/quiz-result" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
         <Route path="/animals/:className" element={<AnimalsPage />} />

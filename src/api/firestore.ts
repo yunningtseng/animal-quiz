@@ -11,9 +11,11 @@ import {
   Query,
   orderBy,
   onSnapshot,
+  updateDoc,
+  arrayUnion,
 } from 'firebase/firestore';
-import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
+import { Animal, SimpleAnimal } from '../types/animal';
 import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
@@ -175,7 +177,22 @@ const firestoreApi = {
       }
     });
   },
-  // TODO addRoomUserId
+
+  addUserIdToRoom: async (pin: string, userId: string): Promise<void> => {
+    const q = query(
+      collection(db, 'rooms'),
+      where('pin', '==', pin),
+      where('status', '==', 'waiting'),
+      limit(1),
+    );
+    const querySnap = await getDocs(q);
+    const docSnap = querySnap.docs[0];
+    const docRef = docSnap.ref;
+
+    await updateDoc(docRef, {
+      userIdList: arrayUnion(userId),
+    });
+  },
 };
 
 export default firestoreApi;

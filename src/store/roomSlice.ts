@@ -31,11 +31,17 @@ export const createRoom = (): AppThunk => async (dispatch, getState) => {
   // - 監聽 firestore
   // * 當新的 room 進來的時候，會執行匿名 function
   // * 如有其他 user 加入
-  firestoreApi.listenRoom('1234', (newRoom: Room) => {
+  firestoreApi.listenRoom('1234', (newRoom) => {
     // - 有變化時 setRoom
     dispatch(setRoom(newRoom));
   });
 };
-// TODO 輸入 pin 後監聽，同 32 行，加進 userIdList
+export const enterRoom = (): AppThunk => (dispatch, getState) => {
+  const userId = getState().auth.user.id;
+  firestoreApi.addUserIdToRoom('1234', userId);
+  firestoreApi.listenRoom('1234', (newRoom) => {
+    dispatch(setRoom(newRoom));
+  });
+};
 
 export default roomSlice;

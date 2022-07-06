@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import time from '../../images/time.jpg';
-import quiz from '../../images/quiz.jpg';
+import time from '../images/time.jpg';
+import quiz from '../images/quiz.jpg';
 
-function MultiplayerMenu() {
+function RoomMenuPage() {
   return (
     <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10">
       <div className="flex justify-center mt-10">
-        <Link to="/quiz/enter-room">
+        <Link to="/quiz/room">
           <motion.div
             className="flex-col border rounded-xl w-48 h-40 cursor-pointer hover:text-white"
             aria-hidden="true"
@@ -41,4 +41,4 @@ function MultiplayerMenu() {
   );
 }
 
-export default MultiplayerMenu;
+export default RoomMenuPage;

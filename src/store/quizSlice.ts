@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Response } from '../types/response';
-import firestoreApi from '../api/firestore';
 import { Question } from '../types/question';
 import type { AppThunk } from './store';
 import quizTimer from '../utils/quizTimer';
 import { updateUser } from './authSlice';
 import { setResponse } from './resultSlice';
+import firestoreApi from '../api/firestore';
 
 export interface QuizState {
   qIdList: string[];
