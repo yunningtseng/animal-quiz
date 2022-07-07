@@ -13,7 +13,7 @@ function ResultDialog() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="w-68 sm:w-72 md:w-100 lg:w-125 h-100 absolute bg-primary top-24 left-6 sm:left-28 md:left-48 lg:left-56 xl:left-80 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
+    <div className="w-68 sm:w-72 md:w-100 lg:w-125 h-100 absolute bg-light top-24 left-6 sm:left-28 md:left-48 lg:left-56 xl:left-80 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
       <GrClose
         className="ml-auto cursor-pointer"
         onClick={() => {
@@ -27,7 +27,7 @@ function ResultDialog() {
             <div className="mr-3">請輸入玩家名稱:</div>
             <input
               type="text"
-              className="border-b-2 border-dark focus:outline-none bg-primary px-2"
+              className="border-b-2 border-dark focus:outline-none bg-light px-2"
               ref={inputRef}
             />
           </div>

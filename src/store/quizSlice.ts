@@ -201,6 +201,7 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
 
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
+  // ?
   const {
     response: oldResponse, score, mode, time,
   } = getState().quiz;
@@ -212,9 +213,10 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   } else {
     response.totalTime = time;
   }
-
   const responseId = await firestoreApi.setResponse(response);
   response.id = responseId;
+  // TODO reducer 的狀態有存，但 firestore 還沒有
+  response.roomId = getState().room.room.id;
   dispatch(setResponse(response));
 
   // - 從 firestore 取最新的 user 資料

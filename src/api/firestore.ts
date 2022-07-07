@@ -157,7 +157,7 @@ const firestoreApi = {
     const q = query(
       collection(db, 'rooms'),
       where('pin', '==', pin),
-      where('status', '==', 'waiting'),
+      // where('status', '==', 'waiting'),
       limit(1),
     );
 
@@ -167,7 +167,6 @@ const firestoreApi = {
 
       // - 取得最新的 room 並觸發 callback，去 setRoom
       const room = docSnap.data() as Room;
-      // console.log(room);
       onRoom(room);
 
       // TODO 要等 onRoom 執行完再取消
@@ -192,6 +191,16 @@ const firestoreApi = {
     await updateDoc(docRef, {
       userIdList: arrayUnion(userId),
     });
+  },
+
+  // TODO startQuiz
+  startRoom: async (pin: string) => {
+    const q = query(collection(db, 'rooms'), where('pin', '==', pin), limit(1));
+    const querySnap = await getDocs(q);
+    const docSnap = querySnap.docs[0];
+    const docRef = docSnap.ref;
+
+    await updateDoc(docRef, { status: 'start' });
   },
 };
 

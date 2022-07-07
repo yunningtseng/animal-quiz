@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { enterRoom } from '../store/roomSlice';
+import { enterRoom, startRoom } from '../store/roomSlice';
 
 function RoomPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const room = useAppSelector((state) => state.room.room);
-  const { userIdList, pin, status } = room;
+  const host = useAppSelector((state) => state.auth.user.id);
+  const {
+    hostId, userIdList, pin, status,
+  } = room;
   const roomId = room.id;
 
   useEffect(() => {
@@ -18,11 +21,15 @@ function RoomPage() {
 
   function roomEnter() {
     return (
-      <div>
-        <p>請輸入遊戲驗證碼</p>
-        <input className="border mt-5" />
+      <div className="w-60 sm:w-112 text-center bg-light rounded-xl shadow-xl p-6">
+        <div className="flex flex-col sm:flex-row items-center">
+          <p className="text-lg font-bold text-dark">請輸入遊戲驗證碼:</p>
+          <input className="w-40 border-b-2 border-dark bg-light focus:outline-none px-2 py-1 ml-0 sm:ml-3" />
+        </div>
+        <br />
         <button
           type="button"
+          className="w-28 tracking-[.5rem] text-lg font-bold border rounded-2xl px-2 py-1 bg-dark text-white mt-5"
           onClick={() => {
             dispatch(enterRoom());
           }}
@@ -35,26 +42,37 @@ function RoomPage() {
 
   function waitingRoom() {
     return (
-      <div>
-        <div>
-          <p>{pin}</p>
-          <p className="mt-10">快分享給好友吧!</p>
-          <p>等待中</p>
-          <p>已加入</p>
-          {userIdList.map((userId) => (
-            <p key={userId}>{userId}</p>
-          ))}
+      <div className="flex flex-col justify-center items-center w-60 sm:w-112 text-center bg-light rounded-xl shadow-xl p-6">
+        <div className="flex flex-col justify-start items-start w-48">
+          <p className="mt-5 text-dark text-lg font-bold">{`遊戲驗證碼: ${pin} `}</p>
+
+          <div className="mt-10 text-secondary text-xl font-bold">
+            <p>等待夥伴加入中 ...</p>
+          </div>
+
+          <div className="flex flex-col justify-start items-start">
+            <p className="mt-10 text-dark text-lg font-bold">已加入成員:</p>
+            {userIdList.map((userId) => (
+              <p key={userId} className="mt-3">
+                {userId}
+              </p>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-5 ">
-          <span>驗證碼: </span>
-          <span>{pin}</span>
-        </div>
-
-        {/* TODO 只有 host 會出現此 button，點擊改變 status = start */}
-        <button type="button" className="mt-10 cursor-pointer">
-          開始遊戲
-        </button>
+        {host === hostId && (
+          <Link to="/quiz/time-challenge">
+            <button
+              type="button"
+              className="mt-10 cursor-pointer w-32 rounded-lg py-2 bg-dark text-white"
+              onClick={() => {
+                dispatch(startRoom());
+              }}
+            >
+              開始遊戲
+            </button>
+          </Link>
+        )}
       </div>
     );
   }

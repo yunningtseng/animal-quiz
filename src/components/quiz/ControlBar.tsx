@@ -17,6 +17,9 @@ const controlBarSelector = createSelector(
 );
 
 function ControlBar() {
+  // TODO status = end 時，跳出作答已結束
+  const status = useAppSelector((state) => state.room.room.status);
+
   const dispatch = useAppDispatch();
   const {
     canAnswer, mode, quizTimeIsOver, qIdListLength,
@@ -52,7 +55,7 @@ function ControlBar() {
 
       {((!canAnswer && mode === 'normal' && qIdListLength === 10)
         || quizTimeIsOver) && (
-        <div className="flex flex-col items-center w-68 sm:w-72 md:w-100 lg:w-125 h-100 absolute bg-primary top-24 left-6 sm:left-28 md:left-48 lg:left-56 xl:left-72 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
+        <div className="flex flex-col items-center w-68 sm:w-72 md:w-100 lg:w-125 h-100 absolute bg-light top-24 left-24 sm:left-28 md:left-48 lg:left-56 xl:left-72 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
           <p className="text-dark font-bold">作答已結束</p>
           <button
             type="button"

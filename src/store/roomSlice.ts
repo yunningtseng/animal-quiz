@@ -18,6 +18,9 @@ const roomSlice = createSlice({
     setRoom: (state: RoomState, action: PayloadAction<Room>) => {
       state.room = action.payload;
     },
+    // startRoom: (state: RoomState, action: PayloadAction<string>) => {
+    //   state.room.status = action.payload;
+    // },
   },
 });
 
@@ -43,5 +46,11 @@ export const enterRoom = (): AppThunk => (dispatch, getState) => {
     dispatch(setRoom(newRoom));
   });
 };
-
+// TODO
+export const startRoom = (): AppThunk => (dispatch) => {
+  firestoreApi.listenRoom('1234', (newRoom) => {
+    dispatch(setRoom(newRoom));
+  });
+  firestoreApi.startRoom('1234');
+};
 export default roomSlice;
