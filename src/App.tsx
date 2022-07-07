@@ -15,6 +15,7 @@ import { initAuth } from './store/authSlice';
 import RoomPage from './pages/RoomPage';
 import RoomMenuPage from './pages/RoomMenuPage';
 import RoomCreatePage from './pages/RoomCreatePage';
+import RoomLeaderboardPage from './pages/RoomLeaderboard';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -32,6 +33,10 @@ function App() {
         <Route path="/quiz/room-menu" element={<RoomMenuPage />} />
         <Route path="/quiz/room" element={<RoomPage />} />
         <Route path="/quiz/create-room" element={<RoomCreatePage />} />
+        <Route
+          path="/quiz/room-leaderboard/:roomId"
+          element={<RoomLeaderboardPage />}
+        />
         <Route path="/quiz-result" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
         <Route path="/animals/:className" element={<AnimalsPage />} />

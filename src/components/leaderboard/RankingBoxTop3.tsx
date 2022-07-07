@@ -1,12 +1,17 @@
-import { User } from '../../types/user';
-
 interface RankingBoxTop3Props {
-  user: User;
+  name: string;
+  score: number;
+  totalTime: number;
   index: number;
 }
 
-function RankingBoxTop3({ user, index }: RankingBoxTop3Props) {
-  if (!user.id) {
+function RankingBoxTop3({
+  name,
+  score,
+  totalTime,
+  index,
+}: RankingBoxTop3Props) {
+  if (!name) {
     return <div />;
   }
 
@@ -25,12 +30,12 @@ function RankingBoxTop3({ user, index }: RankingBoxTop3Props) {
       </div>
 
       <div className="text-secondary font-bold text-sm sm:text-base">
-        <div className="mt-1">{user.name}</div>
+        <div className="mt-1">{name}</div>
         <div>
-          <span>{user.bestScore}</span>
+          <span>{score}</span>
           <span> 分 </span>
           <span> / </span>
-          <span>{user.totalTime}</span>
+          <span>{totalTime}</span>
           <span> 秒 </span>
         </div>
       </div>

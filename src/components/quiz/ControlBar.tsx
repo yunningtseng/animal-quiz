@@ -11,18 +11,16 @@ const controlBarSelector = createSelector(
   (canAnswer, mode, quizIsOver, qIdList) => ({
     canAnswer,
     mode,
-    quizTimeIsOver: mode === 'time-challenge' && quizIsOver,
+    quizTimeIsOver: mode !== 'normal' && quizIsOver,
     qIdListLength: qIdList.length,
+    hasNextQuestion: mode !== 'normal' || qIdList.length < 10,
   }),
 );
 
 function ControlBar() {
-  // TODO status = end 時，跳出作答已結束
-  const status = useAppSelector((state) => state.room.room.status);
-
   const dispatch = useAppDispatch();
   const {
-    canAnswer, mode, quizTimeIsOver, qIdListLength,
+    canAnswer, mode, quizTimeIsOver, qIdListLength, hasNextQuestion,
   } = useAppSelector(controlBarSelector);
 
   return (
@@ -39,18 +37,16 @@ function ControlBar() {
         </button>
       )}
 
-      {!canAnswer
-        && !quizTimeIsOver
-        && (mode === 'time-challenge' || qIdListLength < 10) && (
-          <button
-            type="button"
-            className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
-            onClick={() => {
-              dispatch(nextQuestion());
-            }}
-          >
-            下一題
-          </button>
+      {!canAnswer && !quizTimeIsOver && hasNextQuestion && (
+        <button
+          type="button"
+          className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
+          onClick={() => {
+            dispatch(nextQuestion());
+          }}
+        >
+          下一題
+        </button>
       )}
 
       {((!canAnswer && mode === 'normal' && qIdListLength === 10)

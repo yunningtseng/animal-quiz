@@ -1,21 +1,32 @@
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { createSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { enterRoom, startRoom } from '../store/roomSlice';
+import { RootState } from '../store/store';
+
+const selector = createSelector(
+  (state: RootState) => state.room.room,
+  (state: RootState) => state.room.enterStatus,
+  (state: RootState) => state.auth.user.id,
+  (room, enterStatus, userId) => ({
+    room,
+    enterStatus,
+    userId,
+  }),
+);
 
 function RoomPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const room = useAppSelector((state) => state.room.room);
-  const host = useAppSelector((state) => state.auth.user.id);
+  const { room, enterStatus, userId } = useAppSelector(selector);
   const {
     hostId, userIdList, pin, status,
   } = room;
-  const roomId = room.id;
 
   useEffect(() => {
     if (status === 'start') {
-      navigate('/quiz/time-challenge');
+      navigate('/quiz/competition');
     }
   }, [navigate, status]);
 
@@ -36,6 +47,8 @@ function RoomPage() {
         >
           確認
         </button>
+
+        {enterStatus === 'error' && <p>查無此遊戲</p>}
       </div>
     );
   }
@@ -52,16 +65,16 @@ function RoomPage() {
 
           <div className="flex flex-col justify-start items-start">
             <p className="mt-10 text-dark text-lg font-bold">已加入成員:</p>
-            {userIdList.map((userId) => (
-              <p key={userId} className="mt-3">
-                {userId}
+            {userIdList.map((id) => (
+              <p key={id} className="mt-3">
+                {id}
               </p>
             ))}
           </div>
         </div>
 
-        {host === hostId && (
-          <Link to="/quiz/time-challenge">
+        {userId === hostId && (
+          <Link to="/quiz/competition">
             <button
               type="button"
               className="mt-10 cursor-pointer w-32 rounded-lg py-2 bg-dark text-white"
@@ -79,8 +92,8 @@ function RoomPage() {
 
   return (
     <div className="flex flex-col items-center justify-center max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-10">
-      {!roomId && roomEnter()}
-      {roomId && waitingRoom()}
+      {!room.id && roomEnter()}
+      {room.id && waitingRoom()}
     </div>
   );
 }

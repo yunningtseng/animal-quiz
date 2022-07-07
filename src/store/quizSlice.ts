@@ -50,6 +50,8 @@ const quizSlice = createSlice({
       let time = 0;
       if (mode === 'time-challenge') {
         time = 15;
+      } else if (mode === 'competition') {
+        time = 15;
       }
 
       // - 創一個 response，裡面有 responseId userName startTime
@@ -97,7 +99,9 @@ const quizSlice = createSlice({
       }
 
       state.canAnswer = false;
-      quizTimer.pause();
+      if (state.mode !== 'competition') {
+        quizTimer.pause();
+      }
       const correctAnswer = state.question.answer;
       // - 判斷回答對錯
       let correct = answer.length === correctAnswer.length;
@@ -136,7 +140,7 @@ const quizSlice = createSlice({
     // - 設置當前顯示的時間
     setTime: (state: QuizState, action: PayloadAction<number>) => {
       state.time = action.payload;
-      if (state.time === 0 && state.mode === 'time-challenge') {
+      if (state.time === 0 && state.mode !== 'normal') {
         state.quizIsOver = true;
         quizTimer.pause();
       }
@@ -186,14 +190,14 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
 export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
   dispatch(initQuiz(mode));
 
-  const startTime = getState().quiz.time;
+  const { time } = getState().quiz;
 
   // * 開始 quizTimer 來持續改變當前顯示的 time
   // * 第一個參數的匿名 function 就是 onTimeChange，每秒會去執行
   quizTimer.start(() => {
     // * 從 quizTimer 提取當前最新的時間並 setTime
     dispatch(setTime(quizTimer.time));
-  }, startTime);
+  }, time);
 
   // * 載入第一題
   dispatch(nextQuestion());
@@ -201,41 +205,46 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
 
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
-  // ?
+
+  // * 把 response 重新命名成 oldResponse
   const {
     response: oldResponse, score, mode, time,
   } = getState().quiz;
 
   const response = { ...oldResponse, score, userId };
 
+  response.totalTime = time;
   if (mode === 'time-challenge') {
     response.totalTime = 15;
-  } else {
-    response.totalTime = time;
+  } else if (mode === 'competition') {
+    response.totalTime = 15;
+    response.roomId = getState().room.room.id;
   }
+
   const responseId = await firestoreApi.setResponse(response);
   response.id = responseId;
-  // TODO reducer 的狀態有存，但 firestore 還沒有
-  response.roomId = getState().room.room.id;
   dispatch(setResponse(response));
 
-  // - 從 firestore 取最新的 user 資料
-  let user = await firestoreApi.getUser(userId);
-  // - 如果沒有則讀 store 的資料
-  if (!user) {
-    user = getState().auth.user;
-  }
+  // > 更新個人最佳成績
+  if (mode !== 'competition') {
+    // - 從 firestore 取最新的 user 資料
+    let user = await firestoreApi.getUser(userId);
+    // - 如果沒有則讀 store 的資料
+    if (!user) {
+      user = getState().auth.user;
+    }
 
-  // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
-  //  就更新 user(最佳成績資訊)
-  if (!user.bestScore || response.score > user.bestScore) {
-    const newUser = { ...user };
-    newUser.bestScore = response.score;
-    newUser.bestScoreResponseId = response.id;
-    newUser.totalTime = response.totalTime;
-    newUser.mode = response.mode;
+    // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
+    //  就更新 user(最佳成績資訊)
+    if (!user.bestScore || response.score > user.bestScore) {
+      const newUser = { ...user };
+      newUser.bestScore = response.score;
+      newUser.bestScoreResponseId = response.id;
+      newUser.totalTime = response.totalTime;
+      newUser.mode = response.mode;
 
-    dispatch(updateUser(newUser));
+      dispatch(updateUser(newUser));
+    }
   }
 
   quizTimer.reset();
