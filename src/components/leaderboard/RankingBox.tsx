@@ -1,4 +1,3 @@
-// import { GiSwordman } from 'react-icons/gi';
 import { motion } from 'framer-motion';
 import { User } from '../../types/user';
 
@@ -30,7 +29,6 @@ function RankingBox({ user, index }: RankingBoxProps) {
           <span> 秒</span>
         </div>
       </motion.div>
-      {/* <GiSwordman className="text-3xl ml-3 text-rose-600 cursor-pointer" /> */}
     </div>
   );
 }

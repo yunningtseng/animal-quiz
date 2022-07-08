@@ -32,6 +32,7 @@ function ResultBar() {
       {mode === 'competition' && (
         <button
           type="button"
+          className="mt-3 h-8 text-xs sm:text-sm font-bold px-2 py-1 border rounded-xl text-dark bg-light hover:bg-dark hover:text-white"
           onClick={() => {
             navigate(`/quiz/room-leaderboard/${roomId ?? ''}`);
           }}

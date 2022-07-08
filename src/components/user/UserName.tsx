@@ -19,7 +19,7 @@ function UserName() {
   }, [dispatch, user.id]);
 
   return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-3 sm:px-10">
+    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-5">
       <div className="flex mt-3 items-center">
         <div className="flex text-dark text-base sm:text-lg font-bold">
           <p className="mr-3">玩家名稱:</p>

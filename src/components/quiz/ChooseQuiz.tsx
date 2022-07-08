@@ -5,7 +5,7 @@ import quiz from '../../images/quiz.jpg';
 
 function ChooseQuiz() {
   return (
-    <div className="flex justify-center mt-10">
+    <div className="w-[15rem] sm:w-[25rem] md:w-[40rem] flex flex-wrap justify-center sm:justify-between items-center mt-10 mx-auto">
       <Link to="/quiz/normal">
         <motion.div
           className="flex-col border rounded-xl w-48 h-40 cursor-pointer hover:text-white"
@@ -23,7 +23,7 @@ function ChooseQuiz() {
 
       <Link to="/quiz/time-challenge">
         <motion.div
-          className="flex-col border rounded-xl w-48 h-40 cursor-pointer"
+          className="flex-col border rounded-xl w-48 h-40 cursor-pointer mt-5 sm:mt-0"
           aria-hidden="true"
           whileHover={{ scale: 1.1 }}
         >
@@ -38,7 +38,7 @@ function ChooseQuiz() {
 
       <Link to="/quiz/room-menu">
         <motion.div
-          className="flex-col border rounded-xl w-48 h-40 cursor-pointer"
+          className="flex-col border rounded-xl w-48 h-40 cursor-pointer mt-5 md:mt-0"
           aria-hidden="true"
           whileHover={{ scale: 1.1 }}
         >

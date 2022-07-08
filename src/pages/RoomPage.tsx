@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { BsFillPatchExclamationFill } from 'react-icons/bs';
 import { useNavigate, Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
@@ -48,7 +49,12 @@ function RoomPage() {
           確認
         </button>
 
-        {enterStatus === 'error' && <p>查無此遊戲</p>}
+        {enterStatus === 'error' && (
+          <div className="flex justify-center items-center font-bold mt-5 text-rose-500">
+            <BsFillPatchExclamationFill />
+            <p className="ml-1">查無此遊戲場次</p>
+          </div>
+        )}
       </div>
     );
   }
