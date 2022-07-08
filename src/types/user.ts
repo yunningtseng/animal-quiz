@@ -7,4 +7,7 @@ export interface User {
   bestScoreResponseId?: string;
   totalTime?: number;
   mode?: string;
+  // best?: {
+  //   normal:
+  // }
 }

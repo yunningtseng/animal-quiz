@@ -10,12 +10,16 @@ import {
   where,
   Query,
   orderBy,
+  onSnapshot,
+  updateDoc,
+  arrayUnion,
 } from 'firebase/firestore';
-import { Animal, SimpleAnimal } from '../types/animal';
 import { db } from '../utils/firebaseInit';
+import { Animal, SimpleAnimal } from '../types/animal';
 import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
+import { Room } from '../types/room';
 
 const firestoreApi = {
   // - 產生 firestore 自創的 unique id
@@ -126,6 +130,96 @@ const firestoreApi = {
     const list: User[] = [];
     querySnap.forEach((docSnap) => {
       list.push(docSnap.data() as User);
+    });
+    return list;
+  },
+  // - 創 room
+  setRoom: async (userId: string): Promise<Room> => {
+    const docRef = doc(collection(db, 'rooms'));
+    const roomId = docRef.id;
+    const room = {
+      id: roomId,
+      pin: '1234',
+      status: 'waiting',
+      hostId: userId,
+      userIdList: [userId],
+    };
+
+    await setDoc(docRef, room);
+
+    return room;
+  },
+  // - 監聽 room doc
+  // * onRoom 是一個 callback function
+  listenRoom: async (pin: string, onRoom: (room: Room) => void) => {
+    const q = query(
+      collection(db, 'rooms'),
+      where('pin', '==', pin),
+      where('status', '==', 'waiting'),
+      limit(1),
+    );
+    const querySnap = await getDocs(q);
+    const docRef = querySnap.docs[0]?.ref;
+
+    if (!docRef) {
+      return undefined;
+    }
+
+    // * 只要 query 資料有變化，就會得到新的 querySnapshot 進來
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      // - 取得最新的 room 並觸發 callback，去 setRoom
+      const room = docSnap.data() as Room;
+      onRoom(room);
+
+      // TODO 要等 onRoom 執行完再取消
+      // - 取消監聽
+      if (room.status === 'end') {
+        unsubscribe();
+      }
+    });
+
+    return docRef.id;
+  },
+  addUserIdToRoom: async (pin: string, userId: string): Promise<void> => {
+    const q = query(
+      collection(db, 'rooms'),
+      where('pin', '==', pin),
+      where('status', '==', 'waiting'),
+      limit(1),
+    );
+    const querySnap = await getDocs(q);
+    const docRef = querySnap.docs[0].ref;
+
+    await updateDoc(docRef, {
+      userIdList: arrayUnion(userId),
+    });
+  },
+  startRoom: async (pin: string) => {
+    const q = query(collection(db, 'rooms'), where('pin', '==', pin), limit(1));
+    const querySnap = await getDocs(q);
+    const docRef = querySnap.docs[0].ref;
+
+    await updateDoc(docRef, { status: 'start' });
+  },
+  // TODO
+  getRoomRankingList: async (
+    roomId: string,
+  ): Promise<Response[]> => {
+    const collectionRef = collection(db, 'responses');
+    const q = query(
+      collectionRef,
+      where('mode', '==', 'competition'),
+      where('roomId', '==', roomId),
+      orderBy('bestScore', 'desc'),
+      // orderBy('totalTime'),
+      // * 代表必須要有 name
+      // orderBy('name'),
+      // limit(10),
+    );
+    const querySnap = await getDocs(q);
+    const list: Response[] = [];
+    querySnap.forEach((docSnap) => {
+      list.push(docSnap.data() as Response);
     });
     return list;
   },

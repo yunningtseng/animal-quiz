@@ -9,6 +9,7 @@ export interface Response {
   userId: string;
   records: Record[];
   mode: string;
+  roomId?: string;
 }
 
 // * extends 延伸使用 Response，Omit 忽略 startTime 這個 key，再把 startTime 覆蓋成 Timestamp

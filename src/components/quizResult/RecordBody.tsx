@@ -15,7 +15,7 @@ const inputType: { [key: string]: string } = {
 function RecordBody({ record, question }: RecordBodyProps) {
   return (
     <div className="mt-3 border-b border-light justify-between text-sm sm:text-base">
-      <p>{`Q: ${question.title}`}</p>
+      <p>{question.title}</p>
       <div className="w-16 text-center rounded-full px-1 py-1 text-xs sm:text-sm bg-dark text-white mt-2 sm:mt-3">
         {inputType[question.type]}
       </div>
