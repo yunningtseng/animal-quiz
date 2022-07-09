@@ -65,6 +65,8 @@ const firestoreApi = {
       startTime: data.startTime.toDate().toISOString(),
     };
   },
+  // TODO getUsers()，同 getQuestions 與 getQuestion
+  //  先取到所有 users，再拿 response 的 userId 篩出對應的 userName
   getUser: async (id: string): Promise<User | undefined> => {
     const docRef = doc(db, 'users', id);
     const docSnap = await getDoc(docRef);
@@ -201,20 +203,13 @@ const firestoreApi = {
 
     await updateDoc(docRef, { status: 'start' });
   },
-  // TODO
-  getRoomRankingList: async (
-    roomId: string,
-  ): Promise<Response[]> => {
+  getRoomRankingList: async (roomId: string): Promise<Response[]> => {
     const collectionRef = collection(db, 'responses');
     const q = query(
       collectionRef,
       where('mode', '==', 'competition'),
       where('roomId', '==', roomId),
-      orderBy('bestScore', 'desc'),
-      // orderBy('totalTime'),
-      // * 代表必須要有 name
-      // orderBy('name'),
-      // limit(10),
+      orderBy('score', 'desc'),
     );
     const querySnap = await getDocs(q);
     const list: Response[] = [];

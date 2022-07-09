@@ -1,16 +1,14 @@
+import { RankItem } from '../../types/rankItem';
+
 interface RankingBoxTop3Props {
-  name: string;
-  score: number;
-  totalTime: number;
-  index: number;
+  rankItem: RankItem;
 }
 
-function RankingBoxTop3({
-  name,
-  score,
-  totalTime,
-  index,
-}: RankingBoxTop3Props) {
+function RankingBoxTop3({ rankItem }: RankingBoxTop3Props) {
+  const {
+    rank, name, score, totalTime,
+  } = rankItem;
+
   if (!name) {
     return <div />;
   }
@@ -18,7 +16,7 @@ function RankingBoxTop3({
   return (
     <div className="text-center text-sm sm:text-base">
       <div className="flex justify-center items-center mx-auto mb-1">
-        <p className="text-secondary font-bold">{index + 1}</p>
+        <p className="text-secondary font-bold">{rank}</p>
       </div>
 
       <div className="rounded-full w-24 h-24 sm:w-36 sm:h-36 border-2 overflow-hidden mx-auto ">

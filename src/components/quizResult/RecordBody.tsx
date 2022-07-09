@@ -1,6 +1,7 @@
 import { Record } from '../../types/response';
 import { Question } from '../../types/question';
-import RecordBox from './RecordBox';
+import RecordAnswerBox from './RecordAnswerBox';
+import RecordCorrectAnswerBox from './RecordCorrectAnswerBox';
 
 interface RecordBodyProps {
   record: Record;
@@ -24,20 +25,24 @@ function RecordBody({ record, question }: RecordBodyProps) {
         <p>{record.correct ? 'O 正確' : 'X 錯誤'}</p>
       </div>
 
-      {/* <div className="mt-2 sm:mt-3">
-        <span className="mr-3">你的答案:</span>
-        {record.answer.map((option, index) => (
-          <div key={index}>
-            {question.answer.includes(index) && <RecordBox option={option} />}
-          </div>
-        ))}
-      </div> */}
+      {!record.correct && (
+        <div className="mt-2 sm:mt-3">
+          <span className="mr-3">你的回答:</span>
+          {record.answer.map((answer, index) => (
+            <div key={index} className="flex">
+              <RecordAnswerBox question={question} answer={answer} />
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="pb-5 mt-2 sm:mt-3">
         <span className="mr-3">正確答案:</span>
         {question.options.map((option, index) => (
           <div key={index}>
-            {question.answer.includes(index) && <RecordBox option={option} />}
+            {question.answer.includes(index) && (
+              <RecordCorrectAnswerBox option={option} />
+            )}
           </div>
         ))}
       </div>
