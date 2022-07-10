@@ -45,17 +45,20 @@ export const fetchRankingList = (mode: string): AppThunk => async (dispatch, get
   dispatch(setRankingList({ list: newList }));
 };
 
-export const fetchRoomRankingList = (roomId: string): AppThunk => async (dispatch) => {
-  const list = await firestoreApi.getRoomRankingList(roomId);
+export const fetchRoomRankingList = (roomId: string): AppThunk => (dispatch) => {
+  firestoreApi.listenRoomRankingList(roomId, async (list) => {
+    const userIdList = list.map((response) => response.userId);
 
-  // TODO 拿 response 的 userId 去篩 user 的 userName
-  // * 把讀取進來的 Response[] 轉成 RankItem[]
-  const newList = list.map((response, index) => ({
-    rank: index + 1,
-    name: response.userId,
-    score: response.score,
-    totalTime: response.totalTime,
-  }));
-  dispatch(setRankingList({ roomId, list: newList }));
+    const userList = await firestoreApi.getUsers(userIdList);
+
+    // * 把讀取進來的 Response[] 轉成 RankItem[]
+    const newList = list.map((response, index) => ({
+      rank: index + 1,
+      name: userList[index]?.name ?? '匿名',
+      score: response.score,
+      totalTime: response.totalTime,
+    }));
+    dispatch(setRankingList({ roomId, list: newList }));
+  });
 };
 export default rankingSlice;

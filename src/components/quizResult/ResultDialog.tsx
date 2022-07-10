@@ -8,6 +8,7 @@ function ResultDialog() {
   const dispatch = useAppDispatch();
   const resultState = useAppSelector((state) => state.result);
   const name = useAppSelector((state) => state.auth.user.name);
+  const mode = useAppSelector((state) => state.result.response.mode);
   const [isRename, setIsRename] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -17,7 +18,7 @@ function ResultDialog() {
 
   return (
     <div>
-      {!name && showResultDialog && (
+      {mode !== 'competition' && !name && showResultDialog && (
         <div className="w-68 sm:w-72 md:w-100 lg:w-125 h-100 absolute bg-light top-24 left-6 sm:left-28 md:left-48 lg:left-56 xl:left-80 p-6 rounded-lg shadow-lg border-2 border-dark tracking-wide">
           <GrClose
             className="ml-auto cursor-pointer"

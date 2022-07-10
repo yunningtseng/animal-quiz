@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { BsFillPatchExclamationFill } from 'react-icons/bs';
 import { useNavigate, Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { enterRoom, startRoom } from '../store/roomSlice';
+import { clearState, enterRoom, startRoom } from '../store/roomSlice';
 import { RootState } from '../store/store';
 
 const selector = createSelector(
@@ -24,6 +24,7 @@ function RoomPage() {
   const {
     hostId, userIdList, pin, status,
   } = room;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (status === 'start') {
@@ -36,14 +37,20 @@ function RoomPage() {
       <div className="w-60 sm:w-112 text-center bg-light rounded-xl shadow-xl p-6">
         <div className="flex flex-col sm:flex-row items-center">
           <p className="text-lg font-bold text-dark">請輸入遊戲驗證碼:</p>
-          <input className="w-40 border-b-2 border-dark bg-light focus:outline-none px-2 py-1 ml-0 sm:ml-3" />
+          <input
+            className="w-40 border-b-2 border-dark bg-light focus:outline-none px-2 py-1 ml-0 sm:ml-3"
+            ref={inputRef}
+          />
         </div>
         <br />
         <button
           type="button"
           className="w-28 tracking-[.5rem] text-lg font-bold border rounded-2xl px-2 py-1 bg-dark text-white mt-5"
           onClick={() => {
-            dispatch(enterRoom());
+            const enteredPin = inputRef.current?.value;
+            if (enteredPin) {
+              dispatch(enterRoom(enteredPin));
+            }
           }}
         >
           確認
