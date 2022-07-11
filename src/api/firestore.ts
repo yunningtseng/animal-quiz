@@ -1,18 +1,18 @@
 import {
-  getDoc,
   doc,
   collection,
-  setDoc,
-  Timestamp,
+  getDoc,
   getDocs,
-  limit,
+  updateDoc,
+  onSnapshot,
+  setDoc,
+  Query,
   query,
   where,
-  Query,
+  limit,
   orderBy,
-  onSnapshot,
-  updateDoc,
   arrayUnion,
+  Timestamp,
 } from 'firebase/firestore';
 import { db } from '../utils/firebaseInit';
 import { Animal, SimpleAnimal } from '../types/animal';
@@ -20,7 +20,16 @@ import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
 import { Room } from '../types/room';
-
+// * docRef 是某個 document 在資料庫中的位置，一般從 doc() 取得
+// * docRef.id 是那個 document 在該 collection 中的 id
+// * docSnap 是某個 document 在某個時間點的截圖
+// * docSnap.data() 取出可使用的資料
+// * docSnap.ref 是那個 document 在資料庫中的位置
+// * querySnap 是某個篩選條件且在某個時間點下，所有 documents 的截圖
+// * querySnap.docs 轉成 array of docSnap
+// * 若要取出 querySnap 中的所有資料，
+//  要 querySnap.forEach 分別取出裡面 docSnap.data()，
+//  並存進自訂的 array 中
 const firestoreApi = {
   // - 產生 firestore 自創的 unique id
   generateUniqueId: () => doc(collection(db, 'users')).id,
@@ -41,7 +50,7 @@ const firestoreApi = {
   },
   // - 儲存作答回應
   setResponse: async (response: Response): Promise<string> => {
-    // - 創一個空 doc
+    // - 創一個空 docRef
     const docRef = doc(collection(db, 'responses'));
     // - docRef.id 是 firestore 自創的 unique id
     const responseId = docRef.id;
@@ -64,6 +73,13 @@ const firestoreApi = {
       // * Timestamp 轉 string
       startTime: data.startTime.toDate().toISOString(),
     };
+  },
+  getUsers: async (idList: string[]): Promise<(User | undefined)[]> => {
+    const results: Promise<User | undefined>[] = [];
+    idList.forEach((id) => results.push(firestoreApi.getUser(id)));
+    const userListLocal = await Promise.all(results);
+
+    return userListLocal;
   },
   getUser: async (id: string): Promise<User | undefined> => {
     const docRef = doc(db, 'users', id);
@@ -134,12 +150,27 @@ const firestoreApi = {
     return list;
   },
   // - 創 room
-  setRoom: async (userId: string): Promise<Room> => {
+  addRoom: async (userId: string): Promise<Room> => {
+    const roomIsUsedRef = doc(db, 'app', 'roomIsUsed');
+    const roomIsUsedSnap = await getDoc(roomIsUsedRef);
+    const roomIsUsedData = roomIsUsedSnap.data() as { list: string[] };
+    const roomIsUsed = roomIsUsedData.list;
+
+    let pin: string | undefined;
+    while (!pin || roomIsUsed.includes(pin)) {
+      const numNumber = Math.floor(Math.random() * 9999 + 1);
+      pin = String(numNumber).padStart(4, '0');
+    }
+
+    await updateDoc(roomIsUsedRef, {
+      list: arrayUnion(pin),
+    });
+
     const docRef = doc(collection(db, 'rooms'));
     const roomId = docRef.id;
     const room = {
       id: roomId,
-      pin: '1234',
+      pin,
       status: 'waiting',
       hostId: userId,
       userIdList: [userId],
@@ -159,7 +190,8 @@ const firestoreApi = {
       limit(1),
     );
     const querySnap = await getDocs(q);
-    const docRef = querySnap.docs[0]?.ref;
+    const queryDocSnap = querySnap.docs[0];
+    const docRef = queryDocSnap?.ref;
 
     if (!docRef) {
       return undefined;
@@ -173,7 +205,7 @@ const firestoreApi = {
 
       // TODO 要等 onRoom 執行完再取消
       // - 取消監聽
-      if (room.status === 'end') {
+      if (room.status === 'start') {
         unsubscribe();
       }
     });
@@ -194,34 +226,33 @@ const firestoreApi = {
       userIdList: arrayUnion(userId),
     });
   },
-  startRoom: async (pin: string) => {
-    const q = query(collection(db, 'rooms'), where('pin', '==', pin), limit(1));
-    const querySnap = await getDocs(q);
-    const docRef = querySnap.docs[0].ref;
-
+  startRoom: async (roomId: string) => {
+    const docRef = doc(db, 'rooms', roomId);
     await updateDoc(docRef, { status: 'start' });
   },
-  // TODO
-  getRoomRankingList: async (
+  endRoom: async (roomId: string) => {
+    const docRef = doc(db, 'rooms', roomId);
+    await updateDoc(docRef, { status: 'end' });
+  },
+  listenRoomRankingList: (
     roomId: string,
-  ): Promise<Response[]> => {
+    onResponseList: (responseList: Response[]) => Promise<void>,
+  ) => {
     const collectionRef = collection(db, 'responses');
     const q = query(
       collectionRef,
       where('mode', '==', 'competition'),
       where('roomId', '==', roomId),
-      orderBy('bestScore', 'desc'),
-      // orderBy('totalTime'),
-      // * 代表必須要有 name
-      // orderBy('name'),
-      // limit(10),
+      orderBy('score', 'desc'),
     );
-    const querySnap = await getDocs(q);
-    const list: Response[] = [];
-    querySnap.forEach((docSnap) => {
-      list.push(docSnap.data() as Response);
+    // * 第一個位置放要監聽的東西
+    const unsubscribe = onSnapshot(q, (querySnap) => {
+      const list: Response[] = [];
+      querySnap.forEach((docSnap) => {
+        list.push(docSnap.data() as Response);
+      });
+      onResponseList(list);
     });
-    return list;
   },
 };
 

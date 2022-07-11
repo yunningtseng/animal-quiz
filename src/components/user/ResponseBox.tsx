@@ -19,8 +19,10 @@ function ResponseBox({ response }: ResponseBoxProps) {
   let game = '';
   if (response.mode === 'normal') {
     game = '一般模式';
-  } else {
+  } else if (response.mode === 'time-challenge') {
     game = '限時挑戰';
+  } else {
+    game = '多人團戰';
   }
 
   return (

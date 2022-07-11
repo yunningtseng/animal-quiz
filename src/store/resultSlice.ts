@@ -72,8 +72,6 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
 
   dispatch(setQuestionList(list));
   dispatch(setResultState('success'));
-  // TODO
-  // - 根據 answer 去 query 回答的答案
 };
 
 // - 進 UserPage 時觸發

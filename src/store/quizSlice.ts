@@ -6,6 +6,7 @@ import quizTimer from '../utils/quizTimer';
 import { updateUser } from './authSlice';
 import { setResponse } from './resultSlice';
 import firestoreApi from '../api/firestore';
+import { endRoom } from './roomSlice';
 
 export interface QuizState {
   qIdList: string[];
@@ -222,6 +223,7 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   }
 
   const responseId = await firestoreApi.setResponse(response);
+  // * 取得在 firestoreApi.setResponse 得到的 id 再 dispatch 進 redux
   response.id = responseId;
   dispatch(setResponse(response));
 
@@ -249,6 +251,8 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
 
   quizTimer.reset();
   dispatch(setNavigateToResult());
+
+  dispatch(endRoom());
 };
 
 export default quizSlice;

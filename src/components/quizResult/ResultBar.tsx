@@ -19,19 +19,21 @@ function ResultBar() {
 
   return (
     <div>
-      <div className="block sm:flex justify-between items-center">
-        <div className="text-dark text-base sm:text-lg font-bold">
-          <span>玩家名稱: </span>
+      {!roomId && (
+        <div className="block sm:flex justify-start items-center text-dark text-base sm:text-lg font-bold">
+          <span className="mr-5">玩家名稱: </span>
           <span>{userName}</span>
         </div>
-      </div>
+      )}
 
       <div className="flex text-dark text-base sm:text-lg font-bold mt-3">
         <span>{`測驗結果: ${score} 分 / ${totalTime} 秒`}</span>
       </div>
+
       {mode === 'competition' && (
         <button
           type="button"
+          className="mt-3 h-8 text-xs sm:text-sm font-bold px-2 py-1 border rounded-xl text-dark bg-light hover:bg-dark hover:text-white"
           onClick={() => {
             navigate(`/quiz/room-leaderboard/${roomId ?? ''}`);
           }}
