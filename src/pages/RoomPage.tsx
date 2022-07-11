@@ -3,7 +3,7 @@ import { BsFillPatchExclamationFill } from 'react-icons/bs';
 import { useNavigate, Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { clearState, enterRoom, startRoom } from '../store/roomSlice';
+import { enterRoom, setCanEnter, startRoom } from '../store/roomSlice';
 import { RootState } from '../store/store';
 
 const selector = createSelector(
@@ -27,10 +27,12 @@ function RoomPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    dispatch(setCanEnter('initial'));
+
     if (status === 'start') {
       navigate('/quiz/competition');
     }
-  }, [navigate, status]);
+  }, [navigate, status, dispatch]);
 
   function roomEnter() {
     return (
@@ -50,6 +52,8 @@ function RoomPage() {
             const enteredPin = inputRef.current?.value;
             if (enteredPin) {
               dispatch(enterRoom(enteredPin));
+            } else {
+              dispatch(setCanEnter('error'));
             }
           }}
         >
