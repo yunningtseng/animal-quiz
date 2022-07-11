@@ -29,7 +29,7 @@ function QuizPage() {
   }, [dispatch, mode]);
 
   return (
-    <div className="max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mt-10 mx-auto px-0 sm:px-5">
+    <div className="max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mt-10 mx-auto px-0 sm:px-5 relative">
       <TopBar />
       <QuizBox />
       <ControlBar />

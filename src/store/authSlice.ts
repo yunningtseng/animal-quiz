@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import authApi from '../api/auth';
 import firestoreApi from '../api/firestore';
 import { User } from '../types/user';
 import type { AppThunk } from './store';
 
 export interface AuthState {
   user: User;
+  isLogin: boolean;
 }
 
 const initialState: AuthState = {
   user: {} as User,
+  isLogin: false,
 };
 
 const authSlice = createSlice({
@@ -21,10 +24,19 @@ const authSlice = createSlice({
     setUserName: (state: AuthState, action: PayloadAction<string>) => {
       state.user.name = action.payload;
     },
+    setUId: (state: AuthState, action: PayloadAction<string>) => {
+      // state.uId = actions.payload;
+    },
+    setToken: (state: AuthState, action: PayloadAction<string>) => {},
+    setIsLogin: (state: AuthState, action: PayloadAction<boolean>) => {
+      state.isLogin = true;
+    },
   },
 });
 
-export const { setUser, setUserName } = authSlice.actions;
+export const {
+  setUser, setUserName, setUId, setToken, setIsLogin,
+} = authSlice.actions;
 
 export const initAuth = (): AppThunk => async (dispatch, getState) => {
   let userId = localStorage.getItem('userId');
@@ -54,6 +66,10 @@ export const confirmUserName = (userName: string): AppThunk => async (dispatch, 
 export const updateUser = (user: User): AppThunk => async (dispatch, getState) => {
   dispatch(setUser(user));
   await firestoreApi.setUser(user);
+};
+
+export const googleLogin = (): AppThunk => async (dispatch, getState) => {
+  const googleId = await authApi.loginWithGoogle();
 };
 
 export default authSlice;

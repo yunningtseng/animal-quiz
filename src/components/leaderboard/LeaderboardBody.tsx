@@ -1,48 +1,58 @@
 import { useEffect } from 'react';
 import { FaCrown } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchRankingList } from '../../store/rankSlice';
-import { User } from '../../types/user';
+import { fetchRankingList, fetchRoomRankingList } from '../../store/rankSlice';
+import LockRankingBox from './LockRankingBox';
 import RankingBox from './RankingBox';
-import LeaderboardBoxTop3 from './RankingBoxTop3';
+import RankingBoxTop3 from './RankingBoxTop3';
 
 function LeaderboardBody() {
+  const { roomId } = useParams();
   const dispatch = useAppDispatch();
-  const rankingList: User[] = useAppSelector(
-    (state) => state.ranking.rankingList,
-  );
+  const rankingList = useAppSelector((state) => state.ranking.rankingList);
+  const { length } = rankingList;
 
   useEffect(() => {
-    dispatch(fetchRankingList('normal'));
-  }, [dispatch]);
+    if (roomId) {
+      dispatch(fetchRoomRankingList(roomId));
+    } else {
+      dispatch(fetchRankingList('normal'));
+    }
+  }, [dispatch, roomId]);
 
   return (
     <div className="mt-5">
-      <div className="flex sm:w-112 mx-auto items-end justify-between h-64 sm:h-80 mb-10">
-        <div>
-          <FaCrown className="mx-auto text-zinc-400 text-5xl" />
-          {rankingList[1] && (
-            <LeaderboardBoxTop3 user={rankingList[1]} index={1} />
-          )}
-        </div>
+      <div className="flex justify-between sm:w-112 mx-auto items-end h-64 sm:h-80 mb-10">
+        {/* * 若有兩人以上在排行榜上時才會出現 */}
+        {length > 1 && (
+          <div>
+            <FaCrown className="mx-auto text-zinc-400 text-5xl" />
+            <RankingBoxTop3 rankItem={rankingList[1]} />
+          </div>
+        )}
+
+        {length === 1 && <LockRankingBox index={1} color="zinc-400" />}
 
         <div className="self-start">
           <FaCrown className="mx-auto text-yellow-300 text-5xl" />
-          {rankingList[0] && (
-            <LeaderboardBoxTop3 user={rankingList[0]} index={0} />
-          )}
+          {length > 0 && <RankingBoxTop3 rankItem={rankingList[0]} />}
         </div>
 
-        <div>
-          <FaCrown className="mx-auto text-amber-800 text-5xl" />
-          {rankingList[2] && (
-            <LeaderboardBoxTop3 user={rankingList[2]} index={2} />
-          )}
-        </div>
+        {length > 2 && (
+          <div>
+            <FaCrown className="mx-auto text-amber-800 text-5xl" />
+            <RankingBoxTop3 rankItem={rankingList[2]} />
+          </div>
+        )}
+
+        {(length === 1 || length === 2) && (
+          <LockRankingBox index={2} color="amber-800" />
+        )}
       </div>
 
-      {rankingList.slice(3).map((user, index) => (
-        <RankingBox key={user.id} user={user} index={index + 3} />
+      {rankingList.slice(3).map((rankItem, index) => (
+        <RankingBox key={index} rankItem={rankItem} />
       ))}
     </div>
   );

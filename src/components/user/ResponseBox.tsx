@@ -19,30 +19,37 @@ function ResponseBox({ response }: ResponseBoxProps) {
   let game = '';
   if (response.mode === 'normal') {
     game = '一般模式';
-  } else {
+  } else if (response.mode === 'time-challenge') {
     game = '限時挑戰';
+  } else {
+    game = '多人團戰';
   }
 
   return (
-    <div className="tracking-wide block sm:flex border-b border-light mt-3 justify-between">
+    <div className="tracking-wide block sm:flex border-b border-stone-200 mt-3 justify-between">
       <ul className="text-sm sm:text-base">
         <li>
           <span>遊戲模式: </span>
-          {game}
-        </li>
-        <li className="mt-2 sm:mt-3">
-          <span>作答時間: </span>
-          {`${dateStr} ${timeStr}`}
+          <button
+            type="button"
+            className="ml-3 text-xs sm:text-sm px-2 py-1 rounded-xl text-white bg-dark hover:bg-dark hover:text-white"
+          >
+            {game}
+          </button>
         </li>
         <li className="mt-2 sm:mt-3">
           <span>分數: </span>
           {response.score}
           <span> 分</span>
         </li>
-        <li className="mt-2 sm:mt-3 mb-3 sm:mb-5">
+        <li className="mt-2 sm:mt-3 mb-3">
           <span>花費時間: </span>
           {response.totalTime}
           <span> 秒</span>
+        </li>
+        <li className="mt-2 sm:mt-3 mb-3 sm:mb-5">
+          <span>作答時間: </span>
+          {`${dateStr} ${timeStr}`}
         </li>
       </ul>
       <button

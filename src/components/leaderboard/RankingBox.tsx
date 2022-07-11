@@ -1,14 +1,26 @@
-// import { GiSwordman } from 'react-icons/gi';
 import { motion } from 'framer-motion';
-import { User } from '../../types/user';
+import { createStructuredSelector } from 'reselect';
+import { useAppSelector } from '../../hooks/redux';
+import { RootState } from '../../store/store';
+import { RankItem } from '../../types/rankItem';
 
 interface RankingBoxProps {
-  user: User;
-  index: number;
+  rankItem: RankItem;
 }
 
-function RankingBox({ user, index }: RankingBoxProps) {
-  if (!user.id) {
+// TODO
+const userIdSelector = createStructuredSelector({
+  user: (state: RootState) => state.auth.user.id,
+});
+
+function RankingBox({ rankItem }: RankingBoxProps) {
+  const {
+    userId, rank, name, score, totalTime,
+  } = rankItem;
+
+  const { user } = useAppSelector(userIdSelector);
+
+  if (!name) {
     return <div />;
   }
 
@@ -19,18 +31,18 @@ function RankingBox({ user, index }: RankingBoxProps) {
         whileHover={{ scale: 1.03 }}
       >
         <div className="flex">
-          <div className="mr-5">{index + 1}</div>
-          {user.name}
+          <div className="mr-5">{rank}</div>
+          {name}
+          {user === userId ? ' (你)' : ''}
         </div>
 
         <div>
-          {user.bestScore}
+          {score}
           <span> 分 / </span>
-          {user.totalTime}
+          {totalTime}
           <span> 秒</span>
         </div>
       </motion.div>
-      {/* <GiSwordman className="text-3xl ml-3 text-rose-600 cursor-pointer" /> */}
     </div>
   );
 }
