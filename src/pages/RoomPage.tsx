@@ -22,7 +22,7 @@ function RoomPage() {
   const dispatch = useAppDispatch();
   const { room, enterStatus, userId } = useAppSelector(selector);
   const {
-    hostId, userIdList, pin, status,
+    hostId, pin, status, userNameList,
   } = room;
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -82,9 +82,9 @@ function RoomPage() {
 
           <div className="flex flex-col justify-start items-start">
             <p className="mt-10 text-dark text-lg font-bold">已加入成員:</p>
-            {userIdList.map((id) => (
-              <p key={id} className="mt-3">
-                {id}
+            {userNameList.map((userName, index) => (
+              <p key={index} className="mt-3">
+                {userName}
               </p>
             ))}
           </div>

@@ -37,6 +37,8 @@ export const fetchRankingList = (mode: string): AppThunk => async (dispatch, get
 
   // * 把讀取進來的 User[] 轉成 RankItem[]
   const newList = list.map((user, index) => ({
+    // TODO
+    userId: user.id,
     rank: index + 1,
     name: user.name ?? '',
     score: user.bestScore ?? 0,
@@ -53,6 +55,8 @@ export const fetchRoomRankingList = (roomId: string): AppThunk => (dispatch) => 
 
     // * 把讀取進來的 Response[] 轉成 RankItem[]
     const newList = list.map((response, index) => ({
+      // TODO
+      userId: response.userId,
       rank: index + 1,
       name: userList[index]?.name ?? '匿名',
       score: response.score,

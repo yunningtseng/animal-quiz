@@ -62,7 +62,6 @@ function Navigation() {
           )}
         </div>
       </div>
-
       {expand && (
         <div className="md:hidden w-full absolute top-16 z-20">
           <ul className="bg-light w-full text-center">

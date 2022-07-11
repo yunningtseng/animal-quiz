@@ -1,14 +1,24 @@
 import { motion } from 'framer-motion';
+import { createStructuredSelector } from 'reselect';
+import { useAppSelector } from '../../hooks/redux';
+import { RootState } from '../../store/store';
 import { RankItem } from '../../types/rankItem';
 
 interface RankingBoxProps {
   rankItem: RankItem;
 }
 
+// TODO
+const userIdSelector = createStructuredSelector({
+  user: (state: RootState) => state.auth.user.id,
+});
+
 function RankingBox({ rankItem }: RankingBoxProps) {
   const {
-    rank, name, score, totalTime,
+    userId, rank, name, score, totalTime,
   } = rankItem;
+
+  const { user } = useAppSelector(userIdSelector);
 
   if (!name) {
     return <div />;
@@ -23,6 +33,7 @@ function RankingBox({ rankItem }: RankingBoxProps) {
         <div className="flex">
           <div className="mr-5">{rank}</div>
           {name}
+          {user === userId ? ' (你)' : ''}
         </div>
 
         <div>

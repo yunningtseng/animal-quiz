@@ -1,13 +1,22 @@
+import { createStructuredSelector } from 'reselect';
+import { useAppSelector } from '../../hooks/redux';
+import { RootState } from '../../store/store';
 import { RankItem } from '../../types/rankItem';
 
 interface RankingBoxTop3Props {
   rankItem: RankItem;
 }
 
+// TODO
+const userIdSelector = createStructuredSelector({
+  user: (state: RootState) => state.auth.user.id,
+});
+
 function RankingBoxTop3({ rankItem }: RankingBoxTop3Props) {
   const {
-    rank, name, score, totalTime,
+    userId, rank, name, score, totalTime,
   } = rankItem;
+  const { user } = useAppSelector(userIdSelector);
 
   if (!name) {
     return <div />;
@@ -28,7 +37,10 @@ function RankingBoxTop3({ rankItem }: RankingBoxTop3Props) {
       </div>
 
       <div className="text-secondary font-bold text-sm sm:text-base">
-        <div className="mt-1">{name}</div>
+        <div className="mt-1">
+          {name}
+          {user === userId ? ' (你)' : ''}
+        </div>
         <div>
           <span>{score}</span>
           <span> 分 </span>

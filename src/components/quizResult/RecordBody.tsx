@@ -15,19 +15,20 @@ const inputType: { [key: string]: string } = {
 
 function RecordBody({ record, question }: RecordBodyProps) {
   return (
-    <div className="mt-3 border-b border-light justify-between text-sm sm:text-base">
-      <p>{question.title}</p>
+    <div className="mt-3 border-b-2 border-stone-200 justify-between text-sm sm:text-base">
+      <p className="font-bold">{question.title}</p>
       <div className="w-16 text-center rounded-full px-1 py-1 text-xs sm:text-sm bg-dark text-white mt-2 sm:mt-3">
         {inputType[question.type]}
       </div>
-      <div className="flex mt-2 sm:mt-3">
+
+      <div className={`flex font-bold mt-2 sm:mt-3 ${record.correct ? 'text-green-600' : 'text-rose-600'}`}>
         <p className="mr-3">作答結果:</p>
         <p>{record.correct ? 'O 正確' : 'X 錯誤'}</p>
       </div>
 
       {!record.correct && (
         <div className="mt-2 sm:mt-3">
-          <span className="mr-3">你的回答:</span>
+          <span className="font-bold text-rose-600 mr-3">你的回答:</span>
           {record.answer.map((answer, index) => (
             <div key={index} className="flex">
               <RecordAnswerBox question={question} answer={answer} />
@@ -37,7 +38,7 @@ function RecordBody({ record, question }: RecordBodyProps) {
       )}
 
       <div className="pb-5 mt-2 sm:mt-3">
-        <span className="mr-3">正確答案:</span>
+        <span className="font-bold text-green-600 mr-3">正確答案:</span>
         {question.options.map((option, index) => (
           <div key={index}>
             {question.answer.includes(index) && (

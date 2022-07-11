@@ -33,7 +33,10 @@ export const { setRoom, setCanEnter, clearState } = roomSlice.actions;
 export const createRoom = (): AppThunk => async (dispatch, getState) => {
   // * 將 host 資料傳進 room 的初始資料中
   const userId = getState().auth.user.id;
-  const room = await firestoreApi.addRoom(userId);
+  // TODO
+  const userName = getState().auth.user.name;
+  const room = await firestoreApi.addRoom(userId, userName);
+
   dispatch(setRoom(room));
   // - 監聽 firestore
   // * 當新的 room 進來的時候，會執行匿名 function
@@ -46,13 +49,15 @@ export const createRoom = (): AppThunk => async (dispatch, getState) => {
 
 export const enterRoom = (pin: string): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
+  const userName = getState().auth.user.name;
   // * 監聽特定 pin 的 room，並回傳 docId 即為 roomId
   const docId = await firestoreApi.listenRoom(pin, (newRoom) => {
     dispatch(setRoom(newRoom));
   });
 
   if (docId) {
-    firestoreApi.addUserIdToRoom(pin, userId);
+    // TODO
+    firestoreApi.addUserIdToRoom(pin, userId, userName ?? '匿名');
     dispatch(setCanEnter('success'));
   } else {
     dispatch(setCanEnter('error'));
