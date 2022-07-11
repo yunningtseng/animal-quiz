@@ -150,7 +150,10 @@ const firestoreApi = {
     return list;
   },
   // - 創 room
-  addRoom: async (userId: string): Promise<Room> => {
+  addRoom: async (
+    userId: string,
+    userName: string | undefined,
+  ): Promise<Room> => {
     const roomIsUsedRef = doc(db, 'app', 'roomIsUsed');
     const roomIsUsedSnap = await getDoc(roomIsUsedRef);
     const roomIsUsedData = roomIsUsedSnap.data() as { list: string[] };
@@ -174,6 +177,8 @@ const firestoreApi = {
       status: 'waiting',
       hostId: userId,
       userIdList: [userId],
+      // TODO
+      userNameList: [userName ?? '匿名'],
     };
 
     await setDoc(docRef, room);
@@ -212,7 +217,11 @@ const firestoreApi = {
 
     return docRef.id;
   },
-  addUserIdToRoom: async (pin: string, userId: string): Promise<void> => {
+  addUserIdToRoom: async (
+    pin: string,
+    userId: string,
+    userName: string,
+  ): Promise<void> => {
     const q = query(
       collection(db, 'rooms'),
       where('pin', '==', pin),
@@ -224,6 +233,7 @@ const firestoreApi = {
 
     await updateDoc(docRef, {
       userIdList: arrayUnion(userId),
+      userNameList: arrayUnion(userName),
     });
   },
   startRoom: async (roomId: string) => {

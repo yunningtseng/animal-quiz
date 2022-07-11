@@ -18,7 +18,7 @@ function ResultBar() {
   } = useAppSelector(selector);
 
   return (
-    <div>
+    <div className="px-5">
       {!roomId && (
         <div className="block sm:flex justify-start items-center text-dark text-base sm:text-lg font-bold">
           <span className="mr-5">玩家名稱: </span>

@@ -30,17 +30,15 @@ const resultSlice = createSlice({
     ) => {
       state.questionList = action.payload;
     },
-    setResponse: (state: ResultState, action: PayloadAction<Response>) => {
-      state.response = action.payload;
-    },
+    setResponse: (state: ResultState, action: PayloadAction<Response>) => ({
+      ...initialState,
+      response: action.payload,
+    }),
     setResponses: (state: ResultState, action: PayloadAction<Response[]>) => {
       state.responses = action.payload;
     },
     clearState: () => initialState,
     setState: (state: ResultState, action: PayloadAction<ResultState>) => action.payload,
-    setResultState: (state: ResultState, action: PayloadAction<string>) => {
-      state.resultState = action.payload;
-    },
     setResultDialog: (state: ResultState, action: PayloadAction<boolean>) => {
       state.showResultDialog = action.payload;
     },
@@ -53,16 +51,12 @@ export const {
   setResponses,
   clearState,
   setState,
-  setResultState,
   setResultDialog,
 } = resultSlice.actions;
 
 // - 進 QuizResultPage 時觸發
 export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {
   const { response } = getState().result;
-  // * 保留 response，其他清空
-  dispatch(setState({ ...initialState, response }));
-  dispatch(setResultState('loading'));
 
   // - 篩出某次測驗作答所有的 questionId
   const qIdList = response.records.map((answer) => answer.questionId);
@@ -71,7 +65,6 @@ export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getSta
   const list = await firestoreApi.getQuestions(qIdList);
 
   dispatch(setQuestionList(list));
-  dispatch(setResultState('success'));
 };
 
 // - 進 UserPage 時觸發

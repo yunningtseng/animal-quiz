@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useAppSelector } from '../../hooks/redux';
 import { AuthState } from '../../store/authSlice';
-import logo from '../../images/logo.jpg';
+import owl from '../../images/owl.png';
 
 function Navigation() {
   const user: AuthState = useAppSelector((state) => state.auth);
@@ -23,7 +23,7 @@ function Navigation() {
             </Link>
             <Link to="/">
               <li className="mx-5">
-                <img src={logo} alt="img" className="w-14 h-14" />
+                <img src={owl} alt="img" className="w-10 h-10" />
               </li>
             </Link>
             <Link to="/animals">
@@ -62,7 +62,6 @@ function Navigation() {
           )}
         </div>
       </div>
-
       {expand && (
         <div className="md:hidden w-full absolute top-16 z-20">
           <ul className="bg-light w-full text-center">

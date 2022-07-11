@@ -16,7 +16,7 @@ function UserPage() {
   }, [dispatch, user.id]);
 
   return (
-    <div className="max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mt-10 mx-auto px-0 sm:px-5">
+    <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mt-10 mx-auto px-0 sm:px-5">
       <UserName />
 
       <div className="border rounded-lg mt-5 shadow-md px-3 md:px-10 pt-3">

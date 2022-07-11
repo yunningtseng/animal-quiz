@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import time from '../../images/time.jpg';
 import quiz from '../../images/quiz.jpg';
+import competition from '../../images/competition.jpg';
 
 function ChooseQuiz() {
   return (
@@ -44,7 +45,7 @@ function ChooseQuiz() {
         >
           <p className="text-center text-xl font-bold text-dark">多人團戰</p>
           <img
-            src={time}
+            src={competition}
             alt="img"
             className="w-[11rem] h-[7.5rem] object-cover mx-auto"
           />
