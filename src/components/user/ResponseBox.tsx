@@ -26,7 +26,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
   }
 
   return (
-    <div className="tracking-wide block sm:flex border-b-2 border-stone-200 mt-3 justify-between">
+    <div className="tracking-wide block sm:flex border-b border-stone-200 mt-3 justify-between">
       <ul className="text-sm sm:text-base">
         <li>
           <span>遊戲模式: </span>
