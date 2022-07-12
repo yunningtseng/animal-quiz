@@ -18,7 +18,6 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // TODO 把不同登入方式整合，定為登入
     setUser: (state: AuthState, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
@@ -38,9 +37,10 @@ export const {
   setUser, setUserName, setGoogleId, setIsLogin,
 } = authSlice.actions;
 
-export const initAuth = (): AppThunk => async (dispatch, getState) => {
+export const initAuth = (): AppThunk => async (dispatch) => {
+  // - localstorage 取 userId
   let userId = localStorage.getItem('userId');
-  // let googleId = localStorage.getItem('googleId');
+
   let user: User | undefined;
 
   // - 若沒有 userId 就在 firebase 創立，並存進 localstorage
@@ -49,21 +49,25 @@ export const initAuth = (): AppThunk => async (dispatch, getState) => {
     localStorage.setItem('userId', userId);
   } else {
     // - 確認 firestore 上有沒有這個 user
+    // TODO 改 listen
     user = await firestoreApi.getUser(userId);
   }
 
-  // ?
   user ??= {
     id: userId,
   };
 
   dispatch(setUser(user));
+  if (user.googleId) {
+    dispatch(setIsLogin(true));
+  }
 };
 
 export const confirmUserName = (userName: string): AppThunk => async (dispatch, getState) => {
   dispatch(setUserName(userName));
   const { user } = getState().auth;
   await firestoreApi.setUser(user);
+  dispatch(setIsLogin(true));
 };
 
 export const updateUser = (user: User): AppThunk => async (dispatch, getState) => {
@@ -71,13 +75,21 @@ export const updateUser = (user: User): AppThunk => async (dispatch, getState) =
   await firestoreApi.setUser(user);
 };
 
-// TODO
 export const googleLogin = (): AppThunk => async (dispatch, getState) => {
   const googleId = await authApi.loginWithGoogle();
   if (googleId) {
+    // - query firestore user
+    const user = await firestoreApi.findUser(googleId);
+    if (user) {
+      // - 改登舊帳號的 user
+      dispatch(setUser(user));
+      localStorage.setItem('userId', user.id);
+    } else {
+      dispatch(setGoogleId(googleId));
+      const localUser = getState().auth.user;
+      await firestoreApi.setUser(localUser);
+    }
     dispatch(setIsLogin(true));
-    dispatch(setGoogleId(googleId));
-    localStorage.setItem('googleId', googleId);
   }
 };
 

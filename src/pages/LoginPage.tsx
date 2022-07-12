@@ -13,12 +13,10 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  // TODO 如果 isLogin = true 就轉跳到其他頁面
   const { isLogin } = useAppSelector(userIdSelector);
-
   const [isSignIn, setIsSignIn] = useState(true);
 
-  // TODO
+  // - 如果 isLogin = true 就轉跳到其他頁面
   useEffect(() => {
     if (isLogin) {
       navigate('/');
