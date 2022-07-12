@@ -177,7 +177,6 @@ const firestoreApi = {
       status: 'waiting',
       hostId: userId,
       userIdList: [userId],
-      // TODO
       userNameList: [userName ?? '匿名'],
     };
 
@@ -263,6 +262,10 @@ const firestoreApi = {
       });
       onResponseList(list);
     });
+  },
+  // TODO
+  setUserGoogleId: (userId: string) => {
+    const docRef = doc(db, 'users', userId);
   },
 };
 

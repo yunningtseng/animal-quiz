@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className="flex flex-col md:flex-row justify-between max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto mt-0 xl:mt-3">
       <div className="flex flex-col mb-10">
-        <div className="md:w-52 md:h-44 lg:w-72 lg:h-60 xl:w-96 xl:h-72 rounded-lg border-2 border-neutral-800 shadow-xl">
+        <div className="md:w-52 md:h-44 lg:w-72 lg:h-60 xl:w-96 xl:h-72 rounded-lg shadow-xl overflow-hidden">
           <img
             src={`${IMG_BASE_URL}Choloepus-didactylus-01.jpg`}
             alt="img"
@@ -29,7 +29,7 @@ function Home() {
       </div>
 
       <div className="flex flex-col mb-10">
-        <div className="md:w-52 md:h-44 lg:w-72 lg:h-60 xl:w-96 xl:h-72 rounded-lg border-2 border-neutral-800 shadow-xl">
+        <div className="md:w-52 md:h-44 lg:w-72 lg:h-60 xl:w-96 xl:h-72 rounded-lg shadow-xl overflow-hidden">
           <img
             src={`${IMG_BASE_URL}Ramphastos-toco-01.jpg`}
             alt="img"
@@ -52,7 +52,7 @@ function Home() {
       </div>
 
       <div className="flex flex-col mb-10">
-        <div className="md:w-52 md:h-44 lg:w-72 lg:h-60 xl:w-96 xl:h-72 rounded-lg border-2 border-neutral-800 shadow-xl">
+        <div className="md:w-52 md:h-44 lg:w-72 lg:h-60 xl:w-96 xl:h-72 rounded-lg shadow-xl overflow-hidden">
           <img
             src={`${IMG_BASE_URL}Ideopsis-similis-01.jpg`}
             alt="img"

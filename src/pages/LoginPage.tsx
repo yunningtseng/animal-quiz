@@ -1,12 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { googleLogin } from '../store/authSlice';
+import { RootState } from '../store/store';
+
+const userIdSelector = createStructuredSelector({
+  isLogin: (state: RootState) => state.auth.isLogin,
+});
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
-  const isLogin: boolean = useAppSelector((state) => state.auth.isLogin);
+  // TODO 如果 isLogin = true 就轉跳到其他頁面
+  const { isLogin } = useAppSelector(userIdSelector);
 
   const [isSignIn, setIsSignIn] = useState(true);
+
+  // TODO
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/');
+    }
+  }, [isLogin, navigate]);
 
   return (
     <div className="mx-auto mt-10 flex justify-center">

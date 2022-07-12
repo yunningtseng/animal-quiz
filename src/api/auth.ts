@@ -12,6 +12,7 @@ const authApi = {
     const token = credential?.accessToken;
     const { user } = result;
     const uId = user.uid;
+
     return uId;
   },
 };

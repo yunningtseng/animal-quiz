@@ -8,6 +8,8 @@ import owl from '../../images/owl.png';
 
 function Navigation() {
   const user: AuthState = useAppSelector((state) => state.auth);
+  // TODO
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
   const [expand, isExpand] = useState(false);
 
   return (
@@ -29,12 +31,12 @@ function Navigation() {
             <Link to="/animals">
               <li className="mx-5">動物科普</li>
             </Link>
-            {user.user.name && (
+            {(user.user.name || isLogin) && (
               <Link to="/user">
                 <li className="mx-5">玩家專區</li>
               </Link>
             )}
-            {!user.user.name && (
+            {!(user.user.name || isLogin) && (
               <Link to="/login">
                 <li className="mx-5">登入</li>
               </Link>
