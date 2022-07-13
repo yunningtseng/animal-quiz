@@ -1,15 +1,21 @@
 export interface User {
   id: string;
-  fbId?: string;
-  googleId?: string;
-  emailId?: string;
-  password?: string;
+  uId?: string;
+  email?: string;
   name?: string;
   bestScore?: number;
   bestScoreResponseId?: string;
   totalTime?: number;
   mode?: string;
-  // best?: {
-  //   normal:
-  // }
+  bestRecord?: {
+    normal?: BestRecord;
+    timeChallenge?: BestRecord;
+  };
+}
+
+export interface BestRecord {
+  score: number;
+  responseId: string;
+  totalTime: number;
+  mode: string;
 }

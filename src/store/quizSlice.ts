@@ -238,6 +238,7 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
 
     // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
     //  就更新 user(最佳成績資訊)
+    // TODO 改 bestRecord
     if (!user.bestScore || response.score > user.bestScore) {
       const newUser = { ...user };
       newUser.bestScore = response.score;
@@ -252,7 +253,9 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   quizTimer.reset();
   dispatch(setNavigateToResult());
 
-  dispatch(endRoom());
+  if (mode === 'competition') {
+    dispatch(endRoom());
+  }
 };
 
 export default quizSlice;

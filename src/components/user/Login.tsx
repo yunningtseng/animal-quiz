@@ -6,34 +6,33 @@ import { emailLogin, googleLogin } from '../../store/authSlice';
 function Login() {
   const dispatch = useAppDispatch();
 
-  // TODO useRef 存輸入資料與觸發註冊
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const inputRefList = [emailRef, passwordRef];
-  const inputNameList = ['Email', '密碼'];
+  const labelList = ['Email', '密碼'];
 
-  const [isMissing, setIsMissing] = useState(false);
-  const [isMissingRef, setIsMissingRef] = useState('');
+  const [isBlank, setIsBlank] = useState(false);
+  const [warning, setWarning] = useState('');
 
   function loginHandler() {
     const missing = inputRefList.some((ref, index) => {
       if (!ref.current?.value) {
-        setIsMissingRef(inputNameList[index]);
-        setIsMissing(true);
+        setWarning(labelList[index]);
+        setIsBlank(true);
         return true;
       }
-      setIsMissing(false);
+      setIsBlank(false);
       return false;
     });
 
     if (!missing) {
       const inputData = {
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
+        email: emailRef.current?.value ?? '',
+        password: passwordRef.current?.value ?? '',
       };
 
-      // dispatch(emailLogin(inputData.email, inputData.password));
+      dispatch(emailLogin(inputData.email, inputData.password));
     }
   }
 
@@ -67,10 +66,10 @@ function Login() {
           登入
         </button>
 
-        {isMissing && (
+        {isBlank && (
           <p className="ml-3 font-bold text-rose-600">
             請填寫
-            {isMissingRef}
+            {warning}
           </p>
         )}
       </div>

@@ -131,10 +131,13 @@ const firestoreApi = {
     });
     return list;
   },
+  // TODO 改 bestRecord
+  // * 7Ypg0wkILKHbvr4M2G4s
   getRankingList: async (mode: string): Promise<User[]> => {
     const collectionRef = collection(db, 'users');
     const q = query(
       collectionRef,
+      // orderBy('bestRecord.normal.score', 'desc'),
       where('mode', '==', mode),
       orderBy('bestScore', 'desc'),
       orderBy('totalTime'),
@@ -263,28 +266,8 @@ const firestoreApi = {
       onResponseList(list);
     });
   },
-  findUser: async (
-    googleId: string,
-  ): Promise<User | undefined> => {
-    const q = query(
-      collection(db, 'users'),
-      where('googleId', '==', googleId),
-      limit(1),
-    );
-    const querySnap = await getDocs(q);
-    const docSnap = querySnap.docs[0];
-    // - docSnap 可能是 undefined
-    const user = docSnap?.data() as User | undefined;
-    return user;
-  },
-  findEmail: async (
-    email: string,
-  ): Promise<User | undefined> => {
-    const q = query(
-      collection(db, 'users'),
-      where('email', '==', email),
-      limit(1),
-    );
+  findUser: async (uId: string): Promise<User | undefined> => {
+    const q = query(collection(db, 'users'), where('uId', '==', uId), limit(1));
     const querySnap = await getDocs(q);
     const docSnap = querySnap.docs[0];
     // - docSnap 可能是 undefined

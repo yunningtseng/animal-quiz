@@ -8,12 +8,13 @@ import { RootState } from '../store/store';
 
 const userIdSelector = createStructuredSelector({
   isLogin: (state: RootState) => state.auth.isLogin,
+  error: (state: RootState) => state.auth.error,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
 
-  const { isLogin } = useAppSelector(userIdSelector);
+  const { isLogin, error } = useAppSelector(userIdSelector);
   const [isSignIn, setIsSignIn] = useState(true);
 
   // - 如果 isLogin = true 就轉跳到其他頁面
@@ -27,6 +28,8 @@ function LoginPage() {
     <div className="mx-auto mt-10 flex justify-center">
       <div className="rounded-xl p-6 bg-light shadow-xl">
         {isSignIn && <Login />}
+
+        <p>{error}</p>
 
         {!isSignIn && <Register />}
 

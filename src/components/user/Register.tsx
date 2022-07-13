@@ -5,38 +5,37 @@ import { emailRegister } from '../../store/authSlice';
 function Register() {
   const dispatch = useAppDispatch();
 
-  // TODO useRef 存輸入資料與觸發註冊
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const inputRefList = [nameRef, emailRef, passwordRef];
-  const inputNameList = ['用戶名稱', 'Email', '密碼'];
+  const labelList = ['用戶名稱', 'Email', '密碼'];
 
-  const [isMissing, setIsMissing] = useState(false);
-  const [isMissingRef, setIsMissingRef] = useState('');
+  const [isBlank, setIsBlank] = useState(false);
+  const [warning, setWarning] = useState('');
 
   function registerHandler() {
     const missing = inputRefList.some((ref, index) => {
       if (!ref.current?.value) {
-        setIsMissingRef(inputNameList[index]);
-        setIsMissing(true);
+        setWarning(labelList[index]);
+        setIsBlank(true);
         return true;
       }
-      setIsMissing(false);
+      setIsBlank(false);
       return false;
     });
 
     if (!missing) {
       const inputData = {
-        name: nameRef.current?.value,
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
+        name: nameRef.current?.value ?? '',
+        email: emailRef.current?.value ?? '',
+        password: passwordRef.current?.value ?? '',
       };
 
-      // dispatch(
-      //   emailRegister(inputData.name, inputData.email, inputData.password),
-      // );
+      dispatch(
+        emailRegister(inputData.name, inputData.email, inputData.password),
+      );
     }
   }
 
@@ -63,6 +62,7 @@ function Register() {
         <input
           className="focus:outline-none rounded-lg p-2 w-72"
           placeholder="密碼"
+          type="password"
           ref={passwordRef}
         />
       </div>
@@ -78,10 +78,10 @@ function Register() {
           註冊
         </button>
 
-        {isMissing && (
+        {isBlank && (
           <p className="ml-3 font-bold text-rose-600">
             請填寫
-            {isMissingRef}
+            {warning}
           </p>
         )}
 

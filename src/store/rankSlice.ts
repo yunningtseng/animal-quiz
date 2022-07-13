@@ -36,6 +36,7 @@ export const fetchRankingList = (mode: string): AppThunk => async (dispatch, get
   const list = await firestoreApi.getRankingList(mode);
 
   // * 把讀取進來的 User[] 轉成 RankItem[]
+  // TODO 改 bestRecord
   const newList = list.map((user, index) => ({
     userId: user.id,
     rank: index + 1,
