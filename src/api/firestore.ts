@@ -263,10 +263,26 @@ const firestoreApi = {
       onResponseList(list);
     });
   },
-  findUser: async (googleId: string): Promise<User | undefined> => {
+  findUser: async (
+    googleId: string,
+  ): Promise<User | undefined> => {
     const q = query(
       collection(db, 'users'),
       where('googleId', '==', googleId),
+      limit(1),
+    );
+    const querySnap = await getDocs(q);
+    const docSnap = querySnap.docs[0];
+    // - docSnap 可能是 undefined
+    const user = docSnap?.data() as User | undefined;
+    return user;
+  },
+  findEmail: async (
+    email: string,
+  ): Promise<User | undefined> => {
+    const q = query(
+      collection(db, 'users'),
+      where('email', '==', email),
       limit(1),
     );
     const querySnap = await getDocs(q);

@@ -27,6 +27,9 @@ const authSlice = createSlice({
     setGoogleId: (state: AuthState, action: PayloadAction<string>) => {
       state.user.googleId = action.payload;
     },
+    setEmail: (state: AuthState, action: PayloadAction<string>) => {
+      state.user.emailId = action.payload;
+    },
     setIsLogin: (state: AuthState, action: PayloadAction<boolean>) => {
       state.isLogin = action.payload;
     },
@@ -34,7 +37,7 @@ const authSlice = createSlice({
 });
 
 export const {
-  setUser, setUserName, setGoogleId, setIsLogin,
+  setUser, setUserName, setGoogleId, setEmail, setIsLogin,
 } = authSlice.actions;
 
 export const initAuth = (): AppThunk => async (dispatch) => {
@@ -76,16 +79,56 @@ export const updateUser = (user: User): AppThunk => async (dispatch, getState) =
 };
 
 export const googleLogin = (): AppThunk => async (dispatch, getState) => {
-  const googleId = await authApi.loginWithGoogle();
-  if (googleId) {
+  const googleAccount = await authApi.loginWithGoogle();
+  if (googleAccount.uId) {
     // - query firestore user
-    const user = await firestoreApi.findUser(googleId);
+    const user = await firestoreApi.findUser(googleAccount.uId);
     if (user) {
       // - 改登舊帳號的 user
       dispatch(setUser(user));
       localStorage.setItem('userId', user.id);
     } else {
-      dispatch(setGoogleId(googleId));
+      dispatch(setGoogleId(googleAccount.uId));
+      dispatch(setUserName(googleAccount.userName ?? ''));
+      const localUser = getState().auth.user;
+      await firestoreApi.setUser(localUser);
+    }
+    dispatch(setIsLogin(true));
+  }
+};
+
+// TODO
+export const emailRegister = (name: string, email: string, password: string): AppThunk => async (dispatch, getState) => {
+  const emailRegisterAccount = await authApi.createWithEmail(email, password);
+
+  if (emailRegisterAccount.userEmail) {
+    const user = await firestoreApi.findEmail(emailRegisterAccount.userEmail);
+    if (user) {
+      dispatch(setUser(user));
+      localStorage.setItem('userId', user.id);
+    } else {
+      dispatch(setEmail(emailRegisterAccount.userEmail));
+      dispatch(setUserName(name ?? ''));
+      const localUser = getState().auth.user;
+      await firestoreApi.setUser(localUser);
+    }
+    dispatch(setIsLogin(true));
+  }
+};
+
+// TODO
+export const emailLogin = (email: string, password: string): AppThunk => async (dispatch, getState) => {
+  const emailSignInAccount = await authApi.signInWithEmail(email, password);
+
+  if (emailSignInAccount.userEmail) {
+    const user = await firestoreApi.findEmail(emailSignInAccount.userEmail);
+    if (user) {
+      dispatch(setUser(user));
+      localStorage.setItem('userId', user.id);
+    } else {
+      dispatch(setEmail(emailSignInAccount.userEmail));
+      // FIXME
+      dispatch(setUserName(emailSignInAccount.userName ?? '請輸入用戶名稱'));
       const localUser = getState().auth.user;
       await firestoreApi.setUser(localUser);
     }
