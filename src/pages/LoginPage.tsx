@@ -3,18 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import Login from '../components/user/Login';
 import Register from '../components/user/Register';
-import { useAppSelector } from '../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { clearState } from '../store/authSlice';
 import { RootState } from '../store/store';
 
 const userIdSelector = createStructuredSelector({
   isLogin: (state: RootState) => state.auth.isLogin,
-  error: (state: RootState) => state.auth.error,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const { isLogin, error } = useAppSelector(userIdSelector);
+  const { isLogin } = useAppSelector(userIdSelector);
   const [isSignIn, setIsSignIn] = useState(true);
 
   // - 如果 isLogin = true 就轉跳到其他頁面
@@ -29,8 +30,6 @@ function LoginPage() {
       <div className="rounded-xl p-6 bg-light shadow-xl">
         {isSignIn && <Login />}
 
-        <p>{error}</p>
-
         {!isSignIn && <Register />}
 
         <div className="flex justify-between mt-10">
@@ -39,6 +38,7 @@ function LoginPage() {
             className="w-full bg-white rounded-xl border px-2 py-1"
             onClick={() => {
               setIsSignIn((prevState) => !prevState);
+              dispatch(clearState());
             }}
           >
             {isSignIn ? '尚未有帳號，點此註冊' : '已有帳號，點此登入'}

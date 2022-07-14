@@ -1,6 +1,12 @@
 import { useRef, useState } from 'react';
-import { useAppDispatch } from '../../hooks/redux';
+import { createStructuredSelector } from 'reselect';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { emailRegister } from '../../store/authSlice';
+import { RootState } from '../../store/store';
+
+const userErrorSelector = createStructuredSelector({
+  error: (state: RootState) => state.auth.error,
+});
 
 function Register() {
   const dispatch = useAppDispatch();
@@ -14,6 +20,8 @@ function Register() {
 
   const [isBlank, setIsBlank] = useState(false);
   const [warning, setWarning] = useState('');
+
+  const { error } = useAppSelector(userErrorSelector);
 
   function registerHandler() {
     const missing = inputRefList.some((ref, index) => {
@@ -77,17 +85,16 @@ function Register() {
         >
           註冊
         </button>
-
-        {isBlank && (
-          <p className="ml-3 font-bold text-rose-600">
-            請填寫
-            {warning}
-          </p>
-        )}
-
-        {/* TODO 點擊 btn 後檢查 email 是否已有資料，如果有就顯示 */}
-        {/* <p className="ml-3 font-bold text-rose-600">已註冊過囉!</p> */}
       </div>
+
+      {isBlank && (
+        <p className="mt-3 font-bold text-rose-600">
+          請填寫
+          {warning}
+        </p>
+      )}
+
+      {error && <p className="mt-3 font-bold text-rose-600">{error}</p>}
     </div>
   );
 }

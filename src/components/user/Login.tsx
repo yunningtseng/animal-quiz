@@ -1,7 +1,13 @@
 import { useRef, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { useAppDispatch } from '../../hooks/redux';
+import { createStructuredSelector } from 'reselect';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { emailLogin, googleLogin } from '../../store/authSlice';
+import { RootState } from '../../store/store';
+
+const userErrorSelector = createStructuredSelector({
+  error: (state: RootState) => state.auth.error,
+});
 
 function Login() {
   const dispatch = useAppDispatch();
@@ -14,6 +20,8 @@ function Login() {
 
   const [isBlank, setIsBlank] = useState(false);
   const [warning, setWarning] = useState('');
+
+  const { error } = useAppSelector(userErrorSelector);
 
   function loginHandler() {
     const missing = inputRefList.some((ref, index) => {
@@ -51,6 +59,7 @@ function Login() {
         <input
           className="focus:outline-none rounded-lg p-2 w-72"
           placeholder="密碼"
+          type="password"
           ref={passwordRef}
         />
       </div>
@@ -65,14 +74,16 @@ function Login() {
         >
           登入
         </button>
-
-        {isBlank && (
-          <p className="ml-3 font-bold text-rose-600">
-            請填寫
-            {warning}
-          </p>
-        )}
       </div>
+
+      {isBlank && (
+        <p className="mt-3 font-bold text-rose-600">
+          請填寫
+          {warning}
+        </p>
+      )}
+
+      {error && <p className="mt-3 font-bold text-rose-600">{error}</p>}
 
       <p className="my-5 text-xl text-center">- 或用以下方式登入 -</p>
 

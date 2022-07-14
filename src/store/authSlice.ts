@@ -41,11 +41,17 @@ const authSlice = createSlice({
     setError: (state: AuthState, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
+    clearState: () => initialState,
   },
 });
 
 export const {
-  setUser, setUserName, setAccount, setIsLogin, setError,
+  setUser,
+  setUserName,
+  setAccount,
+  setIsLogin,
+  setError,
+  clearState,
 } = authSlice.actions;
 
 export const initAuth = (): AppThunk => async (dispatch) => {
@@ -88,6 +94,16 @@ export const updateUser = (user: User): AppThunk => async (dispatch, getState) =
 
 export const googleLogin = (): AppThunk => async (dispatch, getState) => {
   const result = await authApi.loginWithGoogle();
+
+  if (result.error) {
+    let error = '';
+    if (result.error === 'auth/popup-closed-by-user') {
+      error = '登入失敗';
+    }
+
+    dispatch(setError(error));
+  }
+
   if (result.uId) {
     // - query firestore user
     const user = await firestoreApi.findUser(result.uId);
@@ -116,9 +132,17 @@ export const emailRegister = (name: string, email: string, password: string): Ap
 
   if (result.error) {
     let error = '';
+    // TODO 此帳號無效
     if (result.error === 'auth/invalid-email') {
       error = 'email 格式不符';
     }
+    if (result.error === 'auth/email-already-in-use') {
+      error = '此帳號已註冊';
+    }
+    if (result.error === 'auth/weak-password') {
+      error = '密碼請至少輸入六碼';
+    }
+
     dispatch(setError(error));
   }
 
@@ -145,6 +169,21 @@ export const emailRegister = (name: string, email: string, password: string): Ap
 
 export const emailLogin = (email: string, password: string): AppThunk => async (dispatch, getState) => {
   const result = await authApi.signInWithEmail(email, password);
+
+  if (result.error) {
+    let error = '';
+
+    if (result.error === 'auth/invalid-email') {
+      error = 'email 格式不符';
+    }
+    if (result.error === 'auth/user-not-found') {
+      error = '查無此用戶';
+    }
+    if (result.error === 'auth/wrong-password') {
+      error = '密碼錯誤';
+    }
+    dispatch(setError(error));
+  }
 
   if (result.uId) {
     const user = await firestoreApi.findUser(result.uId);

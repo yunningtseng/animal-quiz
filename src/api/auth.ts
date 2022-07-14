@@ -27,7 +27,6 @@ const authApi = {
       const err = e as FirebaseError;
 
       // * auth/popup-closed-by-user
-
       return { error: err.code };
     }
   },
@@ -48,19 +47,23 @@ const authApi = {
     } catch (e) {
       const err = e as FirebaseError;
 
-      // * auth/invalid-email
-
       return { error: err.code };
     }
   },
 
   // - 登入
   signInWithEmail: async (email: string, password: string) => {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-    const { user } = result;
-    const uId = user.uid;
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      const { user } = result;
+      const uId = user.uid;
 
-    return { uId };
+      return { uId };
+    } catch (e) {
+      const err = e as FirebaseError;
+
+      return { error: err.code };
+    }
   },
 };
 
