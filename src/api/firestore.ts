@@ -132,25 +132,45 @@ const firestoreApi = {
     return list;
   },
   // TODO 改 bestRecord
-  // * 7Ypg0wkILKHbvr4M2G4s
   getRankingList: async (mode: string): Promise<User[]> => {
     const collectionRef = collection(db, 'users');
-    const q = query(
-      collectionRef,
-      // orderBy('bestRecord.normal.score', 'desc'),
-      where('mode', '==', mode),
-      orderBy('bestScore', 'desc'),
-      orderBy('totalTime'),
-      // * 代表必須要有 name
-      orderBy('name'),
-      limit(10),
-    );
-    const querySnap = await getDocs(q);
-    const list: User[] = [];
-    querySnap.forEach((docSnap) => {
-      list.push(docSnap.data() as User);
-    });
-    return list;
+
+    let newList: User[] = [];
+
+    if (mode === 'normal') {
+      const q = query(
+        collectionRef,
+        orderBy('bestRecord.normal.score', 'desc'),
+        orderBy('bestRecord.normal.totalTime'),
+        // * 代表必須要有 name
+        orderBy('name'),
+        limit(10),
+      );
+      const querySnap = await getDocs(q);
+      const list: User[] = [];
+      querySnap.forEach((docSnap) => {
+        list.push(docSnap.data() as User);
+      });
+
+      newList = list;
+    } else if (mode === 'time-challenge') {
+      const q = query(
+        collectionRef,
+        orderBy('bestRecord.timeChallenge.score', 'desc'),
+        orderBy('bestRecord.timeChallenge.totalTime'),
+        // * 代表必須要有 name
+        orderBy('name'),
+        limit(10),
+      );
+      const querySnap = await getDocs(q);
+      const list: User[] = [];
+      querySnap.forEach((docSnap) => {
+        list.push(docSnap.data() as User);
+      });
+
+      newList = list;
+    }
+    return newList;
   },
   // - 創 room
   addRoom: async (

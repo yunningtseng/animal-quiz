@@ -239,14 +239,51 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
     // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
     //  就更新 user(最佳成績資訊)
     // TODO 改 bestRecord
-    if (!user.bestScore || response.score > user.bestScore) {
-      const newUser = { ...user };
-      newUser.bestScore = response.score;
-      newUser.bestScoreResponseId = response.id;
-      newUser.totalTime = response.totalTime;
-      newUser.mode = response.mode;
+    if (mode === 'normal') {
+      if (
+        !user.bestRecord?.normal?.score
+        || response.score > user.bestRecord.normal.score
+      ) {
+        const newUser = {
+          ...user,
+        };
 
-      dispatch(updateUser(newUser));
+        newUser.bestRecord = {
+          ...newUser.bestRecord,
+          normal: {
+            score: response.score,
+            responseId: response.id,
+            totalTime: response.totalTime,
+            mode: response.mode,
+          },
+        };
+        // newUser.bestRecord.normal.score = response.score);
+        // newUser.bestRecord.normal.responseId = response.id;
+        // newUser.bestRecord.normal.totalTime = response.totalTime;
+        // newUser.bestRecord.normal.mode = response.mode;
+        dispatch(updateUser(newUser));
+      }
+    } else if (mode === 'time-challenge') {
+      if (
+        !user.bestRecord?.timeChallenge?.score
+        || response.score > user.bestRecord.timeChallenge.score
+      ) {
+        const newUser = {
+          ...user,
+        };
+
+        newUser.bestRecord = {
+          ...newUser.bestRecord,
+          timeChallenge: {
+            score: response.score,
+            responseId: response.id,
+            totalTime: response.totalTime,
+            mode: response.mode,
+          },
+        };
+
+        dispatch(updateUser(newUser));
+      }
     }
   }
 

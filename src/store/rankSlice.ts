@@ -37,14 +37,27 @@ export const fetchRankingList = (mode: string): AppThunk => async (dispatch, get
 
   // * 把讀取進來的 User[] 轉成 RankItem[]
   // TODO 改 bestRecord
-  const newList = list.map((user, index) => ({
-    userId: user.id,
-    rank: index + 1,
-    name: user.name ?? '',
-    score: user.bestScore ?? 0,
-    totalTime: user.totalTime ?? 0,
-  }));
-  dispatch(setRankingList({ list: newList }));
+  if (mode === 'normal') {
+    const newList = list.map((user, index) => ({
+      userId: user.id,
+      rank: index + 1,
+      name: user.name ?? '',
+      score: user.bestRecord?.normal?.score ?? 0,
+      totalTime: user.bestRecord?.normal?.totalTime ?? 0,
+    }));
+
+    dispatch(setRankingList({ list: newList }));
+  } else if (mode === 'time-challenge') {
+    const newList = list.map((user, index) => ({
+      userId: user.id,
+      rank: index + 1,
+      name: user.name ?? '',
+      score: user.bestRecord?.timeChallenge?.score ?? 0,
+      totalTime: user.bestRecord?.timeChallenge?.totalTime ?? 0,
+    }));
+
+    dispatch(setRankingList({ list: newList }));
+  }
 };
 
 export const fetchRoomRankingList = (roomId: string): AppThunk => (dispatch) => {

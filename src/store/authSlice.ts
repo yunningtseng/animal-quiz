@@ -75,7 +75,7 @@ export const initAuth = (): AppThunk => async (dispatch) => {
   };
 
   dispatch(setUser(user));
-  if (user.uId) {
+  if (user.uId || user.name) {
     dispatch(setIsLogin(true));
   }
 };
