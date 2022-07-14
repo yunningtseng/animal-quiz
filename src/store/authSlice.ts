@@ -8,12 +8,14 @@ export interface AuthState {
   user: User;
   isLogin: boolean;
   error: string;
+  initState: boolean;
 }
 
 const initialState: AuthState = {
   user: {} as User,
   isLogin: false,
   error: '',
+  initState: false,
 };
 
 const authSlice = createSlice({
@@ -41,6 +43,9 @@ const authSlice = createSlice({
     setError: (state: AuthState, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
+    setInitState: (state: AuthState, action: PayloadAction<boolean>) => {
+      state.initState = action.payload;
+    },
     clearState: () => initialState,
   },
 });
@@ -51,6 +56,7 @@ export const {
   setAccount,
   setIsLogin,
   setError,
+  setInitState,
   clearState,
 } = authSlice.actions;
 
@@ -78,6 +84,7 @@ export const initAuth = (): AppThunk => async (dispatch) => {
   if (user.uId || user.name) {
     dispatch(setIsLogin(true));
   }
+  dispatch(setInitState(true));
 };
 
 export const confirmUserName = (userName: string): AppThunk => async (dispatch, getState) => {
@@ -132,7 +139,6 @@ export const emailRegister = (name: string, email: string, password: string): Ap
 
   if (result.error) {
     let error = '';
-    // TODO 此帳號無效
     if (result.error === 'auth/invalid-email') {
       error = 'email 格式不符';
     }
@@ -192,6 +198,15 @@ export const emailLogin = (email: string, password: string): AppThunk => async (
       localStorage.setItem('userId', user.id);
     }
     dispatch(setIsLogin(true));
+  }
+};
+
+export const logout = (): AppThunk => async (dispatch) => {
+  const result = await authApi.signOut();
+  if (!result.error) {
+    dispatch(clearState());
+    localStorage.clear();
+    dispatch(initAuth());
   }
 };
 

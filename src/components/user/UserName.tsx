@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { BsCheckLg } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { confirmUserName } from '../../store/authSlice';
-import { fetchResponses } from '../../store/resultSlice';
 
 function UserName() {
   const dispatch = useAppDispatch();
@@ -11,12 +10,6 @@ function UserName() {
   const [isEdit, setIsEdit] = useState(false);
   const [isRename, setIsRename] = useState(true);
   const userNameRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (user.id) {
-      dispatch(fetchResponses(user.id));
-    }
-  }, [dispatch, user.id]);
 
   return (
     <div>

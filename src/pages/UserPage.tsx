@@ -12,15 +12,20 @@ function UserPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const initState = useAppSelector((state) => state.auth.initState);
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
   const responses = useAppSelector((state) => state.result.responses);
 
   useEffect(() => {
-    if (user.id) {
+    // - initAuth 還沒結束
+    if (!initState) return;
+
+    if (isLogin) {
       dispatch(fetchResponses(user.id));
     } else {
       navigate('/login');
     }
-  }, [dispatch, user.id, navigate]);
+  }, [dispatch, user.id, initState, isLogin, navigate]);
 
   return (
     <div className="max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mt-10 mx-auto px-0 sm:px-5">

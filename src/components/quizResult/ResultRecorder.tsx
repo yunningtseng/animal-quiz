@@ -15,7 +15,7 @@ function ResultRecorder() {
   }, [dispatch]);
 
   if (resultState.questionList.length === 0) {
-    return <div>Loading</div>;
+    return <div>未作答題目</div>;
   }
 
   return (

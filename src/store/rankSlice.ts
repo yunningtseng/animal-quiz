@@ -34,30 +34,18 @@ export const { setRankingList } = rankingSlice.actions;
 
 export const fetchRankingList = (mode: string): AppThunk => async (dispatch, getState) => {
   const list = await firestoreApi.getRankingList(mode);
+  const quizMode = mode === 'time-challenge' ? 'timeChallenge' : 'normal';
 
   // * 把讀取進來的 User[] 轉成 RankItem[]
-  // TODO 改 bestRecord
-  if (mode === 'normal') {
-    const newList = list.map((user, index) => ({
-      userId: user.id,
-      rank: index + 1,
-      name: user.name ?? '',
-      score: user.bestRecord?.normal?.score ?? 0,
-      totalTime: user.bestRecord?.normal?.totalTime ?? 0,
-    }));
+  const newList = list.map((user, index) => ({
+    userId: user.id,
+    rank: index + 1,
+    name: user.name ?? '',
+    score: user.bestRecord?.[quizMode]?.score ?? 0,
+    totalTime: user.bestRecord?.[quizMode]?.totalTime ?? 0,
+  }));
 
-    dispatch(setRankingList({ list: newList }));
-  } else if (mode === 'time-challenge') {
-    const newList = list.map((user, index) => ({
-      userId: user.id,
-      rank: index + 1,
-      name: user.name ?? '',
-      score: user.bestRecord?.timeChallenge?.score ?? 0,
-      totalTime: user.bestRecord?.timeChallenge?.totalTime ?? 0,
-    }));
-
-    dispatch(setRankingList({ list: newList }));
-  }
+  dispatch(setRankingList({ list: newList }));
 };
 
 export const fetchRoomRankingList = (roomId: string): AppThunk => (dispatch) => {

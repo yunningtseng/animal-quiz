@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from 'firebase/auth';
 import { auth } from '../utils/firebaseInit';
 
@@ -59,6 +60,18 @@ const authApi = {
       const uId = user.uid;
 
       return { uId };
+    } catch (e) {
+      const err = e as FirebaseError;
+
+      return { error: err.code };
+    }
+  },
+
+  signOut: async () => {
+    try {
+      const result = await signOut(auth);
+
+      return {};
     } catch (e) {
       const err = e as FirebaseError;
 

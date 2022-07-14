@@ -24,7 +24,7 @@ function AnimalFilterBox() {
               'text-xs w-7 h-5 border rounded-xl px-1 text-center absolute right-0',
           }}
         />
-        <Menu
+        {/* <Menu
           attribute="location"
           sortBy={['count', 'name:asc']}
           limit={10}
@@ -37,7 +37,7 @@ function AnimalFilterBox() {
             label: '',
             count: 'text-xs w-7 h-5 border rounded-xl px-1 text-center',
           }}
-        />
+        /> */}
       </div>
     </div>
   );

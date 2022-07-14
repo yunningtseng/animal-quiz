@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useAppSelector } from '../../hooks/redux';
-import { AuthState } from '../../store/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { logout } from '../../store/authSlice';
 import owl from '../../images/owl.png';
 
 function Navigation() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isLogin = useAppSelector((state) => state.auth.isLogin);
   const [expand, isExpand] = useState(false);
 
@@ -33,6 +35,18 @@ function Navigation() {
               <Link to="/user">
                 <li className="mx-5">玩家專區</li>
               </Link>
+            )}
+            {isLogin && (
+              <li
+                className="mx-5 cursor-pointer"
+                onClick={() => {
+                  dispatch(logout());
+                  navigate('/');
+                }}
+                aria-hidden="true"
+              >
+                登出
+              </li>
             )}
             {!isLogin && (
               <Link to="/login">
@@ -121,6 +135,19 @@ function Navigation() {
                   玩家專區
                 </li>
               </Link>
+            )}
+            {isLogin && (
+              <li
+                className="border-t text-secondary border-dark py-3 text-lg font-bold hover:bg-dark hover:text-white"
+                onClick={() => {
+                  isExpand((prevState) => !prevState);
+                  dispatch(logout());
+                  navigate('/');
+                }}
+                aria-hidden="true"
+              >
+                登出
+              </li>
             )}
             {!isLogin && (
               <Link to="/login">

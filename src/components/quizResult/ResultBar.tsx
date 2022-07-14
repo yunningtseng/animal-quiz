@@ -19,12 +19,12 @@ function ResultBar() {
 
   return (
     <div className="px-5">
-      {!roomId && (
+      {/* {!roomId && (
         <div className="block sm:flex justify-start items-center text-dark text-base sm:text-lg font-bold">
           <span className="mr-5">玩家名稱: </span>
           <span>{userName}</span>
         </div>
-      )}
+      )} */}
 
       <div className="flex text-dark text-base sm:text-lg font-bold mt-3">
         <span>{`測驗結果: ${score} 分 / ${totalTime} 秒`}</span>
