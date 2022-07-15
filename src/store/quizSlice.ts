@@ -204,6 +204,7 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
   dispatch(nextQuestion());
 };
 
+// TODO competition 在時間結束要觸發
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
 

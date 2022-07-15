@@ -16,6 +16,7 @@ import RoomPage from './pages/RoomPage';
 import RoomMenuPage from './pages/RoomMenuPage';
 import RoomCreatePage from './pages/RoomCreatePage';
 import RoomLeaderboardPage from './pages/RoomLeaderboard';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -49,6 +50,7 @@ function App() {
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>
   );

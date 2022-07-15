@@ -240,6 +240,7 @@ const firestoreApi = {
     const querySnap = await getDocs(q);
     const docRef = querySnap.docs[0].ref;
 
+    // FIXME 多個匿名不會被更新
     await updateDoc(docRef, {
       userIdList: arrayUnion(userId),
       userNameList: arrayUnion(userName),
