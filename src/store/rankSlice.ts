@@ -34,16 +34,17 @@ export const { setRankingList } = rankingSlice.actions;
 
 export const fetchRankingList = (mode: string): AppThunk => async (dispatch, getState) => {
   const list = await firestoreApi.getRankingList(mode);
+  const quizMode = mode === 'time-challenge' ? 'timeChallenge' : 'normal';
 
   // * 把讀取進來的 User[] 轉成 RankItem[]
   const newList = list.map((user, index) => ({
-    // TODO
     userId: user.id,
     rank: index + 1,
     name: user.name ?? '',
-    score: user.bestScore ?? 0,
-    totalTime: user.totalTime ?? 0,
+    score: user.bestRecord?.[quizMode]?.score ?? 0,
+    totalTime: user.bestRecord?.[quizMode]?.totalTime ?? 0,
   }));
+
   dispatch(setRankingList({ list: newList }));
 };
 
@@ -55,7 +56,6 @@ export const fetchRoomRankingList = (roomId: string): AppThunk => (dispatch) => 
 
     // * 把讀取進來的 Response[] 轉成 RankItem[]
     const newList = list.map((response, index) => ({
-      // TODO
       userId: response.userId,
       rank: index + 1,
       name: userList[index]?.name ?? '匿名',

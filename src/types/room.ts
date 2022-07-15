@@ -4,6 +4,5 @@ export interface Room {
   status: string;
   hostId: string;
   userIdList: string[];
-  // TODO
   userNameList: string[];
 }

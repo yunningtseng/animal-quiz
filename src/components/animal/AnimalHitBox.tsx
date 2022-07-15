@@ -34,7 +34,7 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
         <br />
         <button
           type="button"
-          className="border rounded-full px-2 text-xs mt-1 w-20 hover:bg-light"
+          className="border rounded-full px-2 text-xs mt-1 w-20 hover:bg-light mr-0 md:mr-1 lg:mr-0 xl:mr-1"
           onClick={() => navigate(`/animals/${hit.class}`)}
         >
           {hit.class}

@@ -21,14 +21,18 @@ function RecordBody({ record, question }: RecordBodyProps) {
         {inputType[question.type]}
       </div>
 
-      <div className={`flex font-bold mt-2 sm:mt-3 ${record.correct ? 'text-green-600' : 'text-rose-600'}`}>
+      <div
+        className={`flex font-bold mt-2 sm:mt-3 ${
+          record.correct ? 'text-green-600' : 'text-rose-600'
+        }`}
+      >
         <p className="mr-3">作答結果:</p>
         <p>{record.correct ? 'O 正確' : 'X 錯誤'}</p>
       </div>
 
       {!record.correct && (
         <div className="mt-2 sm:mt-3">
-          <span className="font-bold text-rose-600 mr-3">你的回答:</span>
+          <span className="font-bold text-rose-600 mr-3">你的回答</span>
           {record.answer.map((answer, index) => (
             <div key={index} className="flex">
               <RecordAnswerBox question={question} answer={answer} />
@@ -38,7 +42,7 @@ function RecordBody({ record, question }: RecordBodyProps) {
       )}
 
       <div className="pb-5 mt-2 sm:mt-3">
-        <span className="font-bold text-green-600 mr-3">正確答案:</span>
+        <span className="font-bold text-green-600 mr-3">正確答案</span>
         {question.options.map((option, index) => (
           <div key={index}>
             {question.answer.includes(index) && (

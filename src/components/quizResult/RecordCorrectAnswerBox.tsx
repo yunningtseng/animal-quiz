@@ -1,3 +1,4 @@
+import { BsDot } from 'react-icons/bs';
 import { Option } from '../../types/question';
 
 interface OptionBoxProps {
@@ -7,10 +8,13 @@ interface OptionBoxProps {
 function RecordBody({ option }: OptionBoxProps) {
   return (
     <div>
-      <p>
-        <span className="mr-2">- </span>
+      <div className="flex items-center">
+        <div>
+          <BsDot />
+        </div>
         {option.name}
-      </p>
+      </div>
+
       {option.pic === '' ? (
         <div />
       ) : (

@@ -1,3 +1,4 @@
+import { BsDot } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { Animal } from '../../types/animal';
 import conservation from '../../images/conservation.jpg';
@@ -74,8 +75,12 @@ function AnimalBox() {
                 <span className="mr-3 text-secondary font-bold">別稱</span>
                 {animal.alsoknown.map((alsoknown, index) => (
                   <div key={index}>
-                    <span>- </span>
-                    {alsoknown}
+                    <div className="flex items-start">
+                      <div className="pt-1">
+                        <BsDot />
+                      </div>
+                      {alsoknown}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -89,8 +94,12 @@ function AnimalBox() {
               <span className="mr-3 text-secondary font-bold">飲食</span>
               {animal.diet.map((diet, index) => (
                 <div key={index}>
-                  <span>- </span>
-                  {diet}
+                  <div className="flex items-start">
+                    <div className="pt-1">
+                      <BsDot />
+                    </div>
+                    {diet}
+                  </div>
                 </div>
               ))}
             </div>
@@ -102,8 +111,12 @@ function AnimalBox() {
               <span className="mr-3 text-secondary font-bold">棲息地</span>
               {animal.habitat.map((habitat, index) => (
                 <div key={index}>
-                  <span>- </span>
-                  {habitat}
+                  <div className="flex items-start">
+                    <div className="pt-1">
+                      <BsDot />
+                    </div>
+                    {habitat}
+                  </div>
                 </div>
               ))}
             </div>
@@ -115,8 +128,12 @@ function AnimalBox() {
               <span className="mr-3 text-secondary font-bold">特徵</span>
               {animal.feature.map((feature, index) => (
                 <div key={index}>
-                  <span>- </span>
-                  {feature}
+                  <div className="flex items-start">
+                    <div className="pt-1">
+                      <BsDot />
+                    </div>
+                    {feature}
+                  </div>
                 </div>
               ))}
             </div>
@@ -128,8 +145,12 @@ function AnimalBox() {
               <span className="mr-3 text-secondary font-bold">行為</span>
               {animal.behavior.map((behavior, index) => (
                 <div key={index}>
-                  <span>- </span>
-                  {behavior}
+                  <div className="flex items-start">
+                    <div className="pt-1">
+                      <BsDot />
+                    </div>
+                    {behavior}
+                  </div>
                 </div>
               ))}
             </div>
@@ -141,8 +162,12 @@ function AnimalBox() {
               <span className="mr-3 text-secondary font-bold">危機</span>
               {animal.crisis.map((crisis, index) => (
                 <div key={index}>
-                  <span>- </span>
-                  {crisis}
+                  <div className="flex items-start">
+                    <div className="pt-1">
+                      <BsDot />
+                    </div>
+                    {crisis}
+                  </div>
                 </div>
               ))}
             </div>
