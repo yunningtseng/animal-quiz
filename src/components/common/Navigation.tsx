@@ -14,7 +14,8 @@ function Navigation() {
 
   return (
     <div>
-      <div className="flex items-center w-full h-16 bg-primary sticky top-0 z-20">
+      <div className="flex items-center w-full h-16 bg-primary fixed top-0 z-20">
+
         <div className="hidden md:flex w-3/4 mx-auto justify-center items-center text-lg text-secondary font-bold">
           <ul className="flex items-center">
             <Link to="/quiz">
@@ -36,9 +37,14 @@ function Navigation() {
                 <li className="mx-5">玩家專區</li>
               </Link>
             )}
+            {!isLogin && (
+              <Link to="/login">
+                <li className="mx-5">登入</li>
+              </Link>
+            )}
             {isLogin && (
               <li
-                className="mx-5 cursor-pointer"
+                className="cursor-pointer fixed right-10"
                 onClick={() => {
                   dispatch(logout());
                   navigate('/');
@@ -47,11 +53,6 @@ function Navigation() {
               >
                 登出
               </li>
-            )}
-            {!isLogin && (
-              <Link to="/login">
-                <li className="mx-5">登入</li>
-              </Link>
             )}
           </ul>
         </div>
@@ -76,8 +77,9 @@ function Navigation() {
           )}
         </div>
       </div>
+
       {expand && (
-        <div className="md:hidden w-full absolute top-16 z-20">
+        <div className="fixed md:hidden w-full top-16 z-20">
           <ul className="bg-light w-full text-center">
             <Link to="/">
               <li

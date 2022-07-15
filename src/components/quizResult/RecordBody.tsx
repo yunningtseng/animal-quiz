@@ -21,7 +21,11 @@ function RecordBody({ record, question }: RecordBodyProps) {
         {inputType[question.type]}
       </div>
 
-      <div className={`flex font-bold mt-2 sm:mt-3 ${record.correct ? 'text-green-600' : 'text-rose-600'}`}>
+      <div
+        className={`flex font-bold mt-2 sm:mt-3 ${
+          record.correct ? 'text-green-600' : 'text-rose-600'
+        }`}
+      >
         <p className="mr-3">作答結果:</p>
         <p>{record.correct ? 'O 正確' : 'X 錯誤'}</p>
       </div>

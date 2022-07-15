@@ -1,4 +1,4 @@
-import { Record } from '../../types/response';
+import { BsDot } from 'react-icons/bs';
 import { Question } from '../../types/question';
 
 interface OptionBoxProps {
@@ -9,10 +9,13 @@ interface OptionBoxProps {
 function RecordBody({ question, answer }: OptionBoxProps) {
   return (
     <div>
-      <p>
-        <span className="mr-2">- </span>
+      <div className="flex items-center">
+        <div>
+          <BsDot />
+        </div>
         {question.options[answer].name}
-      </p>
+      </div>
+
       {question.options[answer].pic === '' ? (
         <div />
       ) : (
