@@ -133,21 +133,31 @@ const firestoreApi = {
   },
   getRankingList: async (mode: string): Promise<User[]> => {
     const collectionRef = collection(db, 'users');
+
+    let quizMode = 'normal';
+    if (mode === 'time-challenge') {
+      quizMode = 'timeChallenge';
+    }
+
+    let newList: User[] = [];
+
     const q = query(
       collectionRef,
-      where('mode', '==', mode),
-      orderBy('bestScore', 'desc'),
-      orderBy('totalTime'),
+      orderBy(`bestRecord.${quizMode}.score`, 'desc'),
+      orderBy(`bestRecord.${quizMode}.totalTime`),
       // * 代表必須要有 name
       orderBy('name'),
       limit(10),
     );
+
     const querySnap = await getDocs(q);
     const list: User[] = [];
     querySnap.forEach((docSnap) => {
       list.push(docSnap.data() as User);
     });
-    return list;
+
+    newList = list;
+    return newList;
   },
   // - 創 room
   addRoom: async (
@@ -177,7 +187,6 @@ const firestoreApi = {
       status: 'waiting',
       hostId: userId,
       userIdList: [userId],
-      // TODO
       userNameList: [userName ?? '匿名'],
     };
 
@@ -263,6 +272,14 @@ const firestoreApi = {
       });
       onResponseList(list);
     });
+  },
+  findUser: async (uId: string): Promise<User | undefined> => {
+    const q = query(collection(db, 'users'), where('uId', '==', uId), limit(1));
+    const querySnap = await getDocs(q);
+    const docSnap = querySnap.docs[0];
+    // - docSnap 可能是 undefined
+    const user = docSnap?.data() as User | undefined;
+    return user;
   },
 };
 

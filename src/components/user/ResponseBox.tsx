@@ -14,7 +14,10 @@ function ResponseBox({ response }: ResponseBoxProps) {
   const date = new Date(response.startTime);
   // * 使用 Date 的 method，根據當地時區進行轉換
   const dateStr = date.toLocaleDateString();
-  const timeStr = date.toLocaleTimeString();
+  const timeStr = date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 
   let game = '';
   if (response.mode === 'normal') {
@@ -29,13 +32,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
     <div className="tracking-wide block sm:flex border-b border-stone-200 mt-3 justify-between">
       <ul className="text-sm sm:text-base">
         <li>
-          <span>遊戲模式: </span>
-          <button
-            type="button"
-            className="ml-3 text-xs sm:text-sm px-2 py-1 rounded-xl text-white bg-dark hover:bg-dark hover:text-white"
-          >
-            {game}
-          </button>
+          <span className="text-dark text-lg sm:text-xl font-bold">{game}</span>
         </li>
         <li className="mt-2 sm:mt-3">
           <span>分數: </span>

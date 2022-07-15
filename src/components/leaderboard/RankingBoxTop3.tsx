@@ -12,7 +12,6 @@ interface RankingBoxTop3Props {
   rankItem: RankItem;
 }
 
-// TODO
 const userIdSelector = createStructuredSelector({
   user: (state: RootState) => state.auth.user.id,
 });

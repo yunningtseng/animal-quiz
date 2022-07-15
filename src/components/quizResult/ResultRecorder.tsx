@@ -15,7 +15,7 @@ function ResultRecorder() {
   }, [dispatch]);
 
   if (resultState.questionList.length === 0) {
-    return <div>Loading</div>;
+    return <div className="text-secondary font-bold px-5 mt-10">未作答任何題目，下次請努力!</div>;
   }
 
   return (

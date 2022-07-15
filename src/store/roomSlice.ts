@@ -33,7 +33,6 @@ export const { setRoom, setCanEnter, clearState } = roomSlice.actions;
 export const createRoom = (): AppThunk => async (dispatch, getState) => {
   // * 將 host 資料傳進 room 的初始資料中
   const userId = getState().auth.user.id;
-  // TODO
   const userName = getState().auth.user.name;
   const room = await firestoreApi.addRoom(userId, userName);
 
@@ -56,7 +55,6 @@ export const enterRoom = (pin: string): AppThunk => async (dispatch, getState) =
   });
 
   if (docId) {
-    // TODO
     firestoreApi.addUserIdToRoom(pin, userId, userName ?? '匿名');
     dispatch(setCanEnter('success'));
   } else {

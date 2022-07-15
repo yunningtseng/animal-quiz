@@ -236,15 +236,26 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
       user = getState().auth.user;
     }
 
+    const quizMode = mode === 'time-challenge' ? 'timeChallenge' : 'normal';
+
+    const bestScore = user.bestRecord?.[quizMode]?.score;
+
     // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
     //  就更新 user(最佳成績資訊)
-    if (!user.bestScore || response.score > user.bestScore) {
-      const newUser = { ...user };
-      newUser.bestScore = response.score;
-      newUser.bestScoreResponseId = response.id;
-      newUser.totalTime = response.totalTime;
-      newUser.mode = response.mode;
+    if (!bestScore || response.score > bestScore) {
+      const newUser = {
+        ...user,
+      };
 
+      newUser.bestRecord = {
+        ...newUser.bestRecord,
+        [quizMode]: {
+          score: response.score,
+          responseId: response.id,
+          totalTime: response.totalTime,
+          mode: response.mode,
+        },
+      };
       dispatch(updateUser(newUser));
     }
   }
@@ -252,7 +263,9 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   quizTimer.reset();
   dispatch(setNavigateToResult());
 
-  dispatch(endRoom());
+  if (mode === 'competition') {
+    dispatch(endRoom());
+  }
 };
 
 export default quizSlice;

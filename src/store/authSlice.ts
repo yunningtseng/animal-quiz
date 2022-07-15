@@ -7,11 +7,15 @@ import type { AppThunk } from './store';
 export interface AuthState {
   user: User;
   isLogin: boolean;
+  error: string;
+  initState: boolean;
 }
 
 const initialState: AuthState = {
   user: {} as User,
   isLogin: false,
+  error: '',
+  initState: false,
 };
 
 const authSlice = createSlice({
@@ -24,29 +28,51 @@ const authSlice = createSlice({
     setUserName: (state: AuthState, action: PayloadAction<string>) => {
       state.user.name = action.payload;
     },
-    setUId: (state: AuthState, action: PayloadAction<string>) => {
-      // state.uId = actions.payload;
+    setAccount: (
+      state: AuthState,
+      action: PayloadAction<{ email: string; uId: string; name: string }>,
+    ) => {
+      const { uId, email, name } = action.payload;
+      state.user.uId = uId;
+      state.user.email = email;
+      state.user.name = name;
     },
-    setToken: (state: AuthState, action: PayloadAction<string>) => {},
     setIsLogin: (state: AuthState, action: PayloadAction<boolean>) => {
-      state.isLogin = true;
+      state.isLogin = action.payload;
     },
+    setError: (state: AuthState, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    setInitState: (state: AuthState, action: PayloadAction<boolean>) => {
+      state.initState = action.payload;
+    },
+    clearState: () => initialState,
   },
 });
 
 export const {
-  setUser, setUserName, setUId, setToken, setIsLogin,
+  setUser,
+  setUserName,
+  setAccount,
+  setIsLogin,
+  setError,
+  setInitState,
+  clearState,
 } = authSlice.actions;
 
-export const initAuth = (): AppThunk => async (dispatch, getState) => {
+export const initAuth = (): AppThunk => async (dispatch) => {
+  // - localstorage 取 userId
   let userId = localStorage.getItem('userId');
+
   let user: User | undefined;
 
+  // - 若沒有 userId 就在 firebase 創立，並存進 localstorage
   if (!userId) {
     userId = firestoreApi.generateUniqueId();
     localStorage.setItem('userId', userId);
   } else {
     // - 確認 firestore 上有沒有這個 user
+    // TODO 改 listen
     user = await firestoreApi.getUser(userId);
   }
 
@@ -55,12 +81,17 @@ export const initAuth = (): AppThunk => async (dispatch, getState) => {
   };
 
   dispatch(setUser(user));
+  if (user.uId || user.name) {
+    dispatch(setIsLogin(true));
+  }
+  dispatch(setInitState(true));
 };
 
 export const confirmUserName = (userName: string): AppThunk => async (dispatch, getState) => {
   dispatch(setUserName(userName));
   const { user } = getState().auth;
   await firestoreApi.setUser(user);
+  dispatch(setIsLogin(true));
 };
 
 export const updateUser = (user: User): AppThunk => async (dispatch, getState) => {
@@ -69,7 +100,114 @@ export const updateUser = (user: User): AppThunk => async (dispatch, getState) =
 };
 
 export const googleLogin = (): AppThunk => async (dispatch, getState) => {
-  const googleId = await authApi.loginWithGoogle();
+  const result = await authApi.loginWithGoogle();
+
+  if (result.error) {
+    let error = '';
+    if (result.error === 'auth/popup-closed-by-user') {
+      error = '登入失敗';
+    }
+
+    dispatch(setError(error));
+  }
+
+  if (result.uId) {
+    // - query firestore user
+    const user = await firestoreApi.findUser(result.uId);
+    if (user) {
+      // - 改登舊帳號的 user
+      dispatch(setUser(user));
+      localStorage.setItem('userId', user.id);
+    } else {
+      dispatch(
+        setAccount({
+          uId: result.uId,
+          email: result.userEmail,
+          name: result.userName,
+        }),
+      );
+
+      const localUser = getState().auth.user;
+      await firestoreApi.setUser(localUser);
+    }
+    dispatch(setIsLogin(true));
+  }
+};
+
+export const emailRegister = (name: string, email: string, password: string): AppThunk => async (dispatch, getState) => {
+  const result = await authApi.createWithEmail(email, password);
+
+  if (result.error) {
+    let error = '';
+    if (result.error === 'auth/invalid-email') {
+      error = 'email 格式不符';
+    }
+    if (result.error === 'auth/email-already-in-use') {
+      error = '此帳號已註冊';
+    }
+    if (result.error === 'auth/weak-password') {
+      error = '密碼請至少輸入六碼';
+    }
+
+    dispatch(setError(error));
+  }
+
+  if (result.uId) {
+    const user = await firestoreApi.findUser(result.uId);
+    if (user) {
+      dispatch(setUser(user));
+      localStorage.setItem('userId', user.id);
+    } else {
+      dispatch(
+        setAccount({
+          uId: result.uId,
+          email: result.userEmail,
+          name,
+        }),
+      );
+
+      const localUser = getState().auth.user;
+      await firestoreApi.setUser(localUser);
+    }
+    dispatch(setIsLogin(true));
+  }
+};
+
+export const emailLogin = (email: string, password: string): AppThunk => async (dispatch, getState) => {
+  const result = await authApi.signInWithEmail(email, password);
+
+  if (result.error) {
+    let error = '';
+
+    if (result.error === 'auth/invalid-email') {
+      error = 'email 格式不符';
+    }
+    if (result.error === 'auth/user-not-found') {
+      error = '查無此用戶';
+    }
+    if (result.error === 'auth/wrong-password') {
+      error = '密碼錯誤';
+    }
+    dispatch(setError(error));
+  }
+
+  if (result.uId) {
+    const user = await firestoreApi.findUser(result.uId);
+    if (user) {
+      dispatch(setUser(user));
+      localStorage.setItem('userId', user.id);
+    }
+    dispatch(setIsLogin(true));
+  }
+};
+
+export const logout = (): AppThunk => async (dispatch) => {
+  const result = await authApi.signOut();
+  if (!result.error) {
+    dispatch(clearState());
+    localStorage.clear();
+    dispatch(initAuth());
+  }
 };
 
 export default authSlice;

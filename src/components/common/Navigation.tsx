@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useAppSelector } from '../../hooks/redux';
-import { AuthState } from '../../store/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { logout } from '../../store/authSlice';
 import owl from '../../images/owl.png';
 
 function Navigation() {
-  const user: AuthState = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
   const [expand, isExpand] = useState(false);
 
   return (
     <div>
-      <div className="flex items-center w-full h-16 bg-primary sticky top-0 z-20">
+      <div className="flex items-center w-full h-16 bg-primary fixed top-0 z-20">
+
         <div className="hidden md:flex w-3/4 mx-auto justify-center items-center text-lg text-secondary font-bold">
           <ul className="flex items-center">
             <Link to="/quiz">
@@ -29,15 +32,27 @@ function Navigation() {
             <Link to="/animals">
               <li className="mx-5">動物科普</li>
             </Link>
-            {user.user.name && (
+            {isLogin && (
               <Link to="/user">
                 <li className="mx-5">玩家專區</li>
               </Link>
             )}
-            {!user.user.name && (
+            {!isLogin && (
               <Link to="/login">
                 <li className="mx-5">登入</li>
               </Link>
+            )}
+            {isLogin && (
+              <li
+                className="cursor-pointer fixed right-10"
+                onClick={() => {
+                  dispatch(logout());
+                  navigate('/');
+                }}
+                aria-hidden="true"
+              >
+                登出
+              </li>
             )}
           </ul>
         </div>
@@ -62,8 +77,9 @@ function Navigation() {
           )}
         </div>
       </div>
+
       {expand && (
-        <div className="md:hidden w-full absolute top-16 z-20">
+        <div className="fixed md:hidden w-full top-16 z-20">
           <ul className="bg-light w-full text-center">
             <Link to="/">
               <li
@@ -109,7 +125,7 @@ function Navigation() {
                 動物科普
               </li>
             </Link>
-            {user.user.name && (
+            {isLogin && (
               <Link to="/user">
                 <li
                   className="border-t text-secondary border-dark py-3 text-lg font-bold hover:bg-dark hover:text-white"
@@ -122,7 +138,20 @@ function Navigation() {
                 </li>
               </Link>
             )}
-            {!user.user.name && (
+            {isLogin && (
+              <li
+                className="border-t text-secondary border-dark py-3 text-lg font-bold hover:bg-dark hover:text-white"
+                onClick={() => {
+                  isExpand((prevState) => !prevState);
+                  dispatch(logout());
+                  navigate('/');
+                }}
+                aria-hidden="true"
+              >
+                登出
+              </li>
+            )}
+            {!isLogin && (
               <Link to="/login">
                 <li
                   className="border-t text-secondary border-dark py-3 text-lg font-bold hover:bg-dark hover:text-white"

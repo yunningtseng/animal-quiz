@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { BsCheckLg } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { confirmUserName } from '../../store/authSlice';
-import { fetchResponses } from '../../store/resultSlice';
 
 function UserName() {
   const dispatch = useAppDispatch();
@@ -12,14 +11,8 @@ function UserName() {
   const [isRename, setIsRename] = useState(true);
   const userNameRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (user.id) {
-      dispatch(fetchResponses(user.id));
-    }
-  }, [dispatch, user.id]);
-
   return (
-    <div className="max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mt-10 mx-auto px-5">
+    <div>
       <div className="flex mt-3 items-center">
         <div className="flex text-dark text-base sm:text-lg font-bold">
           <p className="mr-3">玩家名稱:</p>
