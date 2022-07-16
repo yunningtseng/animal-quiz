@@ -38,7 +38,7 @@ function App() {
           path="/quiz/room-leaderboard/:roomId"
           element={<RoomLeaderboardPage />}
         />
-        <Route path="/quiz-result" element={<QuizResultPage />} />
+        <Route path="/quiz-result/:responseId" element={<QuizResultPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
         <Route path="/animals/:className" element={<AnimalsPage />} />
         <Route path="/animals/:className/:order" element={<AnimalsPage />} />

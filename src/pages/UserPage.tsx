@@ -34,7 +34,7 @@ function UserPage() {
         <UserAccount />
       </div>
 
-      <div className="border rounded-lg mt-5 shadow-md px-3 md:px-10 pt-3">
+      <div className="border rounded-lg mt-5 shadow-md px-3 md:px-10 py-3">
         {responses.length === 0 && (
           <div className="flex justify-center p-3 md:p-10">
             <div className="flex flex-col items-start text-lg md:text-xl font-bold">
@@ -57,9 +57,9 @@ function UserPage() {
         )}
 
         {responses.map((response) => (
-          <div key={response.id}>
+          <motion.div key={response.id} whileHover={{ scale: 1.05 }}>
             <ResponseBox response={response} />
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

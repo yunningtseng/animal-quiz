@@ -63,6 +63,25 @@ const firestoreApi = {
 
     return responseId;
   },
+  // - 取個人歷史紀錄頁面
+  getResponses: async (userId: string): Promise<Response[]> => {
+    const collectionRef = collection(db, 'responses');
+    const q = query(
+      collectionRef,
+      where('userId', '==', userId),
+      orderBy('startTime', 'desc'),
+    );
+    const querySnap = await getDocs(q);
+    const list: Response[] = [];
+    querySnap.forEach((docSnap) => {
+      const data = docSnap.data() as ResponseFS;
+      list.push({
+        ...data,
+        startTime: data.startTime.toDate().toISOString(),
+      });
+    });
+    return list;
+  },
   // - 取得特定作答回應
   getResponse: async (id: string): Promise<Response> => {
     const docRef = doc(db, 'responses', id);
@@ -112,25 +131,6 @@ const firestoreApi = {
     const docSnap = await getDoc(docRef);
     return docSnap.data() as Animal;
   },
-  // - 取個人歷史紀錄頁面
-  getResponses: async (userId: string): Promise<Response[]> => {
-    const collectionRef = collection(db, 'responses');
-    const q = query(
-      collectionRef,
-      where('userId', '==', userId),
-      orderBy('startTime', 'desc'),
-    );
-    const querySnap = await getDocs(q);
-    const list: Response[] = [];
-    querySnap.forEach((docSnap) => {
-      const data = docSnap.data() as ResponseFS;
-      list.push({
-        ...data,
-        startTime: data.startTime.toDate().toISOString(),
-      });
-    });
-    return list;
-  },
   getRankingList: async (mode: string): Promise<User[]> => {
     const collectionRef = collection(db, 'users');
 
@@ -175,10 +175,12 @@ const firestoreApi = {
       pin = String(numNumber).padStart(4, '0');
     }
 
+    // - 更新 roomIsUsed 中的 pin
     await updateDoc(roomIsUsedRef, {
       list: arrayUnion(pin),
     });
 
+    // - 創建 room
     const docRef = doc(collection(db, 'rooms'));
     const roomId = docRef.id;
     const room = {
@@ -186,8 +188,7 @@ const firestoreApi = {
       pin,
       status: 'waiting',
       hostId: userId,
-      userIdList: [userId],
-      userNameList: [userName ?? '匿名'],
+      userMap: { [userId]: userName ?? '匿名' },
     };
 
     await setDoc(docRef, room);
@@ -240,10 +241,9 @@ const firestoreApi = {
     const querySnap = await getDocs(q);
     const docRef = querySnap.docs[0].ref;
 
-    // FIXME 多個匿名不會被更新
+    // - 更新 user 到 room
     await updateDoc(docRef, {
-      userIdList: arrayUnion(userId),
-      userNameList: arrayUnion(userName),
+      [`userMap.${userId}`]: userName,
     });
   },
   startRoom: async (roomId: string) => {

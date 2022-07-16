@@ -55,9 +55,9 @@ export const {
 } = resultSlice.actions;
 
 // - 進 QuizResultPage 時觸發
-export const fetchResponseAndQuestions = (): AppThunk => async (dispatch, getState) => {
-  const { response } = getState().result;
-
+export const fetchResponseAndQuestions = (responseId: string): AppThunk => async (dispatch) => {
+  const response = await firestoreApi.getResponse(responseId);
+  dispatch(setResponse(response));
   // - 篩出某次測驗作答所有的 questionId
   const qIdList = response.records.map((answer) => answer.questionId);
 

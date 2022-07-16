@@ -4,6 +4,7 @@ import { Animal } from '../../types/animal';
 import conservation from '../../images/conservation.jpg';
 import IMG_BASE_URL from '../../api/url';
 import { setIsPhonetic } from '../../store/animalSlice';
+import owl from '../../images/owl.png';
 
 function AnimalBox() {
   const dispatch = useAppDispatch();
@@ -30,13 +31,13 @@ function AnimalBox() {
 
       <div className={isPhonetic ? 'font-bpm1' : ''}>
         <div className="md:flex justify-between">
-          {animal.mainPic && (
-            <img
-              src={IMG_BASE_URL + animal.mainPic}
-              alt="img"
-              className="w-full h-full md:w-1/2 lg:w-2/3 rounded-lg object-center object-cover"
-            />
-          )}
+          <img
+            src={animal.mainPic ? IMG_BASE_URL + animal.mainPic : owl}
+            alt="img"
+            className={`${
+              animal.mainPic ? 'w-full h-full md:w-1/2 lg:w-2/3' : 'hidden md:block md:w-1/2 lg:w-2/3'
+            } rounded-lg object-center object-cover`}
+          />
           <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 font-bold text-dark">
             <div>
               <p className="mt-5 sm:mt-0 text-3xl lg:text-4xl tracking-[.1em]">
@@ -57,7 +58,7 @@ function AnimalBox() {
                   <img
                     src={conservation}
                     alt="img"
-                    className="w-full rounded-lg object-center object-cover mt-3"
+                    className="w-2/3 md:w-full rounded-lg object-center object-cover mt-3"
                   />
                 </div>
               ) : (
