@@ -19,25 +19,22 @@ function UserAccount() {
     <div className="mt-3">
       {/* - google 綁定 */}
       <div className="flex items-center">
-        {!uId && (
-          <div className="flex items-center">
-            <FcGoogle className="text-xl" />
-            <span className="mx-3">Google: </span>
-          </div>
-        )}
+        {!uId && <FcGoogle className="text-xl mr-2" />}
 
-        {uId && <MdEmail className="text-dark text-xl" />}
+        {uId && <MdEmail className="text-yellow-800 text-xl mr-2" />}
 
         {uId ? (
           <div className="flex items-center">
-            <span className="ml-1">{`: 已綁定 ${email ?? ''}`}</span>
+            <span className="ml-1 text-dark font-bold">
+              {email ?? ''}
+            </span>
             <BsFillCheckCircleFill className="ml-3 text-green-600 text-lg" />
           </div>
         ) : (
           <div className="flex items-center">
             <button
               type="button"
-              className="tracking-wide hover:text-secondary hover:font-bold"
+              className="text-dark font-bold tracking-wide hover:text-secondary hover:font-bold"
               onClick={() => {
                 dispatch(googleLogin());
               }}

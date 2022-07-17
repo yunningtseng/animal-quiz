@@ -21,6 +21,10 @@ function LeaderboardBody() {
     }
   }, [dispatch, roomId]);
 
+  if (length === 0) {
+    return <div className="flex justify-center mt-10">loading</div>;
+  }
+
   return (
     <div className="mt-5">
       <div className="flex justify-between sm:w-112 mx-auto items-end h-64 sm:h-80 mb-10">

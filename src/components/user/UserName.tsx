@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
-import { BsCheckLg } from 'react-icons/bs';
+import { BsCheckLg, BsFillPersonFill } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { confirmUserName } from '../../store/authSlice';
 
@@ -14,19 +14,19 @@ function UserName() {
   return (
     <div>
       <div className="flex mt-3 items-center">
-        <div className="flex text-dark text-base sm:text-lg font-bold">
-          <p className="mr-3">玩家名稱:</p>
-          {!isEdit && <p>{user.name}</p>}
+        <div className="flex items-center font-bold">
+          <BsFillPersonFill className="text-yellow-800 text-xl mr-2" />
+          {!isEdit && <p className="text-dark ml-1">{user.name}</p>}
           {isEdit && (
             <input
               placeholder={user.name}
-              className="border-b border-black focus:outline-none"
+              className="w-40 sm:w-48 text-dark border-b border-black focus:outline-none pl-1"
               ref={userNameRef}
             />
           )}
         </div>
 
-        <div className="flex items-center justify-center p-1 w-7 h-7 rounded-2xl hover:bg-primary ml-3 text-lg">
+        <div className="flex items-center justify-center w-7 h-7 rounded-2xl hover:bg-primary ml-2 text-sm sm:text-base">
           {!isEdit && (
             <button
               type="button"

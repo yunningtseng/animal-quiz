@@ -6,6 +6,7 @@ import Register from '../components/user/Register';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { clearState } from '../store/authSlice';
 import { RootState } from '../store/store';
+import monkey from '../images/monkey-tree.png';
 
 const userIdSelector = createStructuredSelector({
   isLogin: (state: RootState) => state.auth.isLogin,
@@ -26,8 +27,10 @@ function LoginPage() {
   }, [isLogin, navigate]);
 
   return (
-    <div className="mx-auto mt-10 flex justify-center">
-      <div className="rounded-xl p-6 bg-light shadow-xl">
+    <div className="flex justify-center mx-auto pt-10">
+      <img src={monkey} alt="img" className="hidden md:block w-[20rem] h-full mt-12" />
+
+      <div className="rounded-xl p-6 bg-light shadow-xl ml-3">
         {isSignIn && <Login />}
 
         {!isSignIn && <Register />}

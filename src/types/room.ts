@@ -3,6 +3,5 @@ export interface Room {
   pin: string;
   status: string;
   hostId: string;
-  userIdList: string[];
-  userNameList: string[];
+  userMap: { [key: string]: string };
 }

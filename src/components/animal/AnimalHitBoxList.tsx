@@ -7,8 +7,6 @@ function AnimalHitBoxList() {
   const { hits, isLastPage, showMore } = useInfiniteHits<SimpleAnimalHit>();
   const targetRef = useRef(null);
 
-  // console.log(hits);
-
   useEffect(() => {
     if (targetRef.current === null) return undefined;
 
@@ -28,7 +26,11 @@ function AnimalHitBoxList() {
   }, [isLastPage, showMore]);
 
   if (hits.length === 0) {
-    return <div className="w-[18rem] sm:w-[30rem] md:w-[46rem] lg:w-[30rem] xl:w-[40rem] text-center lg:text-start mt-10 text-base sm:text-xl text-dark font-bold">查無動物，請換個關鍵字進行搜尋!</div>;
+    return (
+      <div className="w-[18rem] sm:w-[30rem] md:w-[46rem] lg:w-[30rem] xl:w-[40rem] text-center lg:text-start mt-10 text-base sm:text-xl text-dark font-bold">
+        查無動物，請換個關鍵字進行搜尋!
+      </div>
+    );
   }
 
   return (

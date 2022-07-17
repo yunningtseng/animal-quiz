@@ -1,6 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/redux';
-import { setResponse } from '../../store/resultSlice';
 import { Response } from '../../types/response';
 
 interface ResponseBoxProps {
@@ -8,7 +6,6 @@ interface ResponseBoxProps {
 }
 
 function ResponseBox({ response }: ResponseBoxProps) {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // * string 轉 Date object
   const date = new Date(response.startTime);
@@ -25,11 +22,17 @@ function ResponseBox({ response }: ResponseBoxProps) {
   } else if (response.mode === 'time-challenge') {
     game = '限時挑戰';
   } else {
-    game = '多人團戰';
+    game = '多人競賽';
   }
 
   return (
-    <div className="tracking-wide block sm:flex border-b border-stone-200 mt-3 justify-between">
+    <div
+      className="tracking-wide block sm:flex border-b border-stone-200 mt-3 justify-between cursor-pointer px-5 hover:bg-light rounded-xl"
+      onClick={() => {
+        navigate(`/quiz-result/${response.id}`);
+      }}
+      aria-hidden="true"
+    >
       <ul className="text-sm sm:text-base">
         <li>
           <span className="text-dark text-lg sm:text-xl font-bold">{game}</span>
@@ -44,21 +47,9 @@ function ResponseBox({ response }: ResponseBoxProps) {
           {response.totalTime}
           <span> 秒</span>
         </li>
-        <li className="mt-2 sm:mt-3 mb-3 sm:mb-5">
-          <span>作答時間: </span>
-          {`${dateStr} ${timeStr}`}
-        </li>
       </ul>
-      <button
-        type="button"
-        className="mb-5 h-8 text-xs sm:text-sm font-bold px-2 py-1 border rounded-xl text-dark bg-light hover:bg-dark hover:text-white"
-        onClick={() => {
-          dispatch(setResponse(response));
-          navigate('/quiz-result');
-        }}
-      >
-        查看更多
-      </button>
+
+      <div className="mt-2 sm:mt-3 mb-3 text-sm">{`${dateStr} ${timeStr}`}</div>
     </div>
   );
 }

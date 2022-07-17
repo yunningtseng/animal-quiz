@@ -3,6 +3,7 @@ import { Highlight } from 'react-instantsearch-hooks-web';
 import { Link, useNavigate } from 'react-router-dom';
 import IMG_BASE_URL from '../../api/url';
 import { SimpleAnimalHit } from '../../types/animal';
+import jungle from '../../images/jungle-200.jpg';
 
 interface AnimalHitBoxProps {
   hit: SimpleAnimalHit;
@@ -18,13 +19,11 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
           className="rounded-full w-32 h-32 xs:w-36 xs:h-36 border-2 overflow-hidden mx-auto"
           whileHover={{ scale: 1.13 }}
         >
-          {hit.thumbnail && (
-            <img
-              src={IMG_BASE_URL + hit.thumbnail}
-              alt="img"
-              className="h-full mx-auto object-cover object-center"
-            />
-          )}
+          <img
+            src={hit.thumbnail ? IMG_BASE_URL + hit.thumbnail : jungle}
+            alt="img"
+            className="h-full mx-auto object-cover object-center"
+          />
         </motion.div>
       </Link>
       <div className="mt-3 text-center">
