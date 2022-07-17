@@ -21,6 +21,7 @@ export interface QuizState {
   mode: string;
   quizIsOver: boolean;
   navigateToResult: boolean;
+  navigateToResponseId: string;
 }
 
 const initialState: QuizState = {
@@ -39,6 +40,7 @@ const initialState: QuizState = {
   mode: 'normal',
   quizIsOver: false,
   navigateToResult: false,
+  navigateToResponseId: '',
 };
 
 const quizSlice = createSlice({
@@ -146,6 +148,12 @@ const quizSlice = createSlice({
         quizTimer.pause();
       }
     },
+    setNavigateToResponseId: (
+      state: QuizState,
+      action: PayloadAction<string>,
+    ) => {
+      state.navigateToResponseId = action.payload;
+    },
     setNavigateToResult: (state: QuizState) => {
       state.navigateToResult = true;
     },
@@ -163,6 +171,7 @@ export const {
   setNavigateToResult,
   clearState,
   setState,
+  setNavigateToResponseId,
 } = quizSlice.actions;
 
 export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
@@ -204,6 +213,7 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
   dispatch(nextQuestion());
 };
 
+// TODO competition 在時間結束要觸發
 export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const userId = getState().auth.user.id;
 
@@ -225,7 +235,6 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   const responseId = await firestoreApi.setResponse(response);
   // * 取得在 firestoreApi.setResponse 得到的 id 再 dispatch 進 redux
   response.id = responseId;
-  dispatch(setResponse(response));
 
   // > 更新個人最佳成績
   if (mode !== 'competition') {
@@ -261,7 +270,8 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   }
 
   quizTimer.reset();
-  dispatch(setNavigateToResult());
+  // * 更新 setNavigateToResponseId，使頁面導向 quiz-result/responseId
+  dispatch(setNavigateToResponseId(responseId));
 
   if (mode === 'competition') {
     dispatch(endRoom());

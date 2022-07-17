@@ -1,10 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import time from '../images/time.jpg';
-import quiz from '../images/quiz.jpg';
+import monkey from '../images/monkey.png';
+import parrot from '../images/parrot.png';
 import { createRoom } from '../store/roomSlice';
 import { useAppDispatch } from '../hooks/redux';
+import quizBanner from '../images/quizBanner.png';
 
 function RoomMenuPage() {
   const [isShowPin, setIsShowPin] = useState(false);
@@ -13,38 +14,42 @@ function RoomMenuPage() {
 
   return (
     <div>
-      <div className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto mt-5 sm:mt-10 relative">
-        <div className="flex flex-col sm:flex-row items-center justify-center mt-10">
+      <div className="max-w-xs sm:max-w-lg md:max-w-2xl mx-auto relative">
+        <img src={quizBanner} alt="img" className="w-full mx-auto" />
+
+        <div className="flex flex-col sm:flex-row sm:justify-evenly items-center mt-10 mx-auto">
           <Link to="/quiz/room">
             <motion.div
-              className="flex-col border rounded-xl w-48 h-40 cursor-pointer hover:text-white mr-0 sm:mr-5"
+              className="flex-col border rounded-xl w-44 h-48 cursor-pointer mt-5 sm:mt-0"
               aria-hidden="true"
               whileHover={{ scale: 1.1 }}
             >
-              <p className="text-center text-xl font-bold text-dark">
+              <p className="py-1 rounded-t-xl bg-dark text-white text-center text-xl font-bold">
                 進入遊戲
               </p>
               <img
-                src={quiz}
+                src={monkey}
                 alt="img"
-                className="w-[11rem] h-[8rem] object-contain mx-auto"
+                className="w-[6rem] object-cover mx-auto mt-3"
               />
             </motion.div>
           </Link>
 
           <motion.div
-            className="flex-col border rounded-xl w-48 h-40 cursor-pointer mt-5 sm:mt-0"
+            className="flex-col border rounded-xl w-44 h-48 cursor-pointer mt-5 sm:mt-0"
             aria-hidden="true"
             whileHover={{ scale: 1.1 }}
             onClick={() => {
               setIsShowPin(true);
             }}
           >
-            <p className="text-center text-xl font-bold text-dark">創建遊戲</p>
+            <p className="py-1 rounded-t-xl bg-dark text-white text-center text-xl font-bold">
+              創建遊戲
+            </p>
             <img
-              src={time}
+              src={parrot}
               alt="img"
-              className="w-[11rem] h-[7.5rem] object-cover mx-auto"
+              className="w-[6rem] object-cover mx-auto mt-3"
             />
           </motion.div>
         </div>

@@ -7,7 +7,6 @@ module.exports = {
         primary: '#F8F0DF', //淺背景色
         secondary: '#A64B2A', //深文字色
         dark: '#766161', //內文文字
-        // dark: '#8A857A',
         light: '#F0EBE3', // 其他淺背景色
       },
       width: {
@@ -18,11 +17,7 @@ module.exports = {
         225: '56rem', //900
       },
       fontFamily: {
-        bpm: ['BpmfGenRyuMin-R'],
         bpm1: ['BpmfGenSekiGothic-R'],
-        bpm2: ['BpmfGenSenRounded-R'],
-        bpm3: ['BpmfGenYoMin'],
-        bpm4: ['BpmfGenYoGothic-R'],
       },
       screens: {
         xs: '360px',

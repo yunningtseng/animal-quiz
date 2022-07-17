@@ -7,12 +7,16 @@ export interface AnimalState {
   animal: Animal;
   showFilterBox: boolean;
   isPhonetic: boolean;
+  animalNotFound: boolean;
+  isLoading: boolean;
 }
 
 const initialState: AnimalState = {
   animal: {} as Animal,
   showFilterBox: false,
   isPhonetic: false,
+  animalNotFound: false,
+  isLoading: false,
 };
 
 const animalSlice = createSlice({
@@ -28,14 +32,37 @@ const animalSlice = createSlice({
     setIsPhonetic: (state: AnimalState, action: PayloadAction<boolean>) => {
       state.isPhonetic = action.payload;
     },
+    setAnimalNotFound: (state: AnimalState, action: PayloadAction<boolean>) => {
+      state.animalNotFound = action.payload;
+    },
+    setIsLoading: (state: AnimalState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    clearState: () => initialState,
   },
 });
 
-export const { setAnimal, setFilter, setIsPhonetic } = animalSlice.actions;
+export const {
+  setAnimal,
+  setFilter,
+  setIsPhonetic,
+  setAnimalNotFound,
+  setIsLoading,
+  clearState,
+} = animalSlice.actions;
 
-export const fetchAnimal = (animalId: string): AppThunk => async (dispatch, getState) => {
+export const fetchAnimal = (animalId: string): AppThunk => async (dispatch) => {
+  dispatch(clearState());
+  dispatch(setIsLoading(true));
   const data = await firestoreApi.getAnimal(animalId);
-  dispatch(setAnimal(data));
+  // - 先確認 data 有沒有 fetch 到動物
+  if (data) {
+    dispatch(setAnimalNotFound(false));
+    dispatch(setAnimal(data));
+  } else {
+    dispatch(setAnimalNotFound(true));
+  }
+  dispatch(setIsLoading(false));
 };
 
 export default animalSlice;

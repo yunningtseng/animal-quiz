@@ -2,34 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 源流注音明體 */
-@font-face {
-  font-family: BpmfGenRyuMin-R;
-  src: url(./fonts/BpmfGenRyuMin-R.ttf);
-}
-
 /* 源石注音黑體 */
 @font-face {
   font-family: BpmfGenSekiGothic-R;
   src: url(./fonts/BpmfGenSekiGothic-R.ttf);
-}
-
-/* 源泉注音圓體 */
-@font-face {
-  font-family: BpmfGenSenRounded-R;
-  src: url(./fonts/BpmfGenSenRounded-R.ttf);
-}
-
-/* 源樣注音明體 */
-@font-face {
-  font-family: BpmfGenYoMin;
-  src: url(./fonts/BpmfGenYoMin-R.ttf);
-}
-
-/* 源樣注音黑體 */
-@font-face {
-  font-family: BpmfGenYoGothic-R;
-  src: url(./fonts/BpmfGenYoGothic-R.ttf);
 }
 
 body {

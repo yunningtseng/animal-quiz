@@ -94,7 +94,7 @@ function Login() {
 
         <button
           type="button"
-          className="w-28 border py-1 bg-white rounded-xl"
+          className="w-full border py-1 bg-white rounded-xl"
           onClick={() => {
             dispatch(googleLogin());
           }}

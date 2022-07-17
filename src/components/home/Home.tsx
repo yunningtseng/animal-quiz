@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import landingBanner from '../../images/landing.jpg';
+import landingBanner from '../../images/banner.png';
 
 function Home() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ function Home() {
       <img
         src={landingBanner}
         alt="img"
-        className="w-screen h-screen object-center object-cover opacity-50"
+        className="w-screen h-screen object-center object-cover opacity-50 pb-20"
       />
       <div className="absolute top-1/4 left-1/3 sm:left-1/2">
         <p className="text-xl sm:text-2xl md:text-4xl font-bold text-dark mt-16">
