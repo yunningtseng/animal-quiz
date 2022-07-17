@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import Login from '../components/user/Login';
 import Register from '../components/user/Register';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { setError } from '../store/authSlice';
+import { clearState } from '../store/authSlice';
 import { RootState } from '../store/store';
 import monkey from '../images/monkey-tree.png';
 
@@ -35,16 +35,16 @@ function LoginPage() {
 
         {!isSignIn && <Register />}
 
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-between mt-10">
           <button
             type="button"
-            className="w-3/4 bg-white rounded-xl border px-2 py-1"
+            className="w-full bg-white rounded-xl border px-2 py-1"
             onClick={() => {
               setIsSignIn((prevState) => !prevState);
-              dispatch(setError(''));
+              dispatch(clearState());
             }}
           >
-            {isSignIn ? '點此註冊帳號' : '點此登入帳號'}
+            {isSignIn ? '尚未有帳號，點此註冊' : '已有帳號，點此登入'}
           </button>
         </div>
       </div>

@@ -75,10 +75,10 @@ function Register() {
         />
       </div>
 
-      <div className="flex justify-center mt-5">
+      <div className="flex items-center mt-5">
         <button
           type="button"
-          className="w-full text-lg bg-dark text-white rounded-xl p-1"
+          className="w-24 bg-dark text-white rounded-xl p-1"
           onClick={() => {
             registerHandler();
           }}
