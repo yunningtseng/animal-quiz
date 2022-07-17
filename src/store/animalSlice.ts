@@ -38,7 +38,9 @@ const animalSlice = createSlice({
     setIsLoading: (state: AnimalState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    clearState: () => initialState,
+    clearState(state: AnimalState) {
+      return { ...initialState, isPhonetic: state.isPhonetic };
+    },
   },
 });
 
