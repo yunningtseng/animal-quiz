@@ -10,6 +10,7 @@ export interface ResultState {
   responses: Response[];
   resultState: string;
   showResultDialog: boolean;
+  isLoading: boolean;
 }
 
 const initialState: ResultState = {
@@ -18,6 +19,7 @@ const initialState: ResultState = {
   responses: [],
   resultState: 'initial',
   showResultDialog: true,
+  isLoading: false,
 };
 
 const resultSlice = createSlice({
@@ -42,6 +44,7 @@ const resultSlice = createSlice({
     setResultDialog: (state: ResultState, action: PayloadAction<boolean>) => {
       state.showResultDialog = action.payload;
     },
+    // TODO setIsLoading
   },
 });
 
@@ -56,6 +59,8 @@ export const {
 
 // - 進 QuizResultPage 時觸發
 export const fetchResponseAndQuestions = (responseId: string): AppThunk => async (dispatch) => {
+  // TODO setIsLoading 為 true
+  // - query responseId 的資料
   const response = await firestoreApi.getResponse(responseId);
   dispatch(setResponse(response));
   // - 篩出某次測驗作答所有的 questionId
@@ -65,14 +70,17 @@ export const fetchResponseAndQuestions = (responseId: string): AppThunk => async
   const list = await firestoreApi.getQuestions(qIdList);
 
   dispatch(setQuestionList(list));
+  // TODO setIsLoading 為 false
 };
 
 // - 進 UserPage 時觸發
 export const fetchResponses = (userId: string): AppThunk => async (dispatch) => {
+  // TODO setIsLoading 為 true
   dispatch(clearState());
   const data = await firestoreApi.getResponses(userId);
 
   dispatch(setResponses(data));
+  // TODO setIsLoading 為 false
 };
 
 export default resultSlice;

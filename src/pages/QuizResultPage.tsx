@@ -4,7 +4,6 @@ import ResultBar from '../components/quizResult/ResultBar';
 import ResultDialog from '../components/quizResult/ResultDialog';
 import ResultRecorder from '../components/quizResult/ResultRecorder';
 import { fetchResponseAndQuestions } from '../store/resultSlice';
-
 import { useAppDispatch } from '../hooks/redux';
 
 function QuizResultPage() {

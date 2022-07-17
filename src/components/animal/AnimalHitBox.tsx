@@ -3,7 +3,7 @@ import { Highlight } from 'react-instantsearch-hooks-web';
 import { Link, useNavigate } from 'react-router-dom';
 import IMG_BASE_URL from '../../api/url';
 import { SimpleAnimalHit } from '../../types/animal';
-import owl from '../../images/owl.png';
+import jungle from '../../images/jungle-200.jpg';
 
 interface AnimalHitBoxProps {
   hit: SimpleAnimalHit;
@@ -20,7 +20,7 @@ function AnimalHitBox({ hit }: AnimalHitBoxProps) {
           whileHover={{ scale: 1.13 }}
         >
           <img
-            src={hit.thumbnail ? IMG_BASE_URL + hit.thumbnail : owl}
+            src={hit.thumbnail ? IMG_BASE_URL + hit.thumbnail : jungle}
             alt="img"
             className="h-full mx-auto object-cover object-center"
           />

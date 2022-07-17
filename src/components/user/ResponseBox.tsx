@@ -22,7 +22,7 @@ function ResponseBox({ response }: ResponseBoxProps) {
   } else if (response.mode === 'time-challenge') {
     game = '限時挑戰';
   } else {
-    game = '多人團戰';
+    game = '多人競賽';
   }
 
   return (

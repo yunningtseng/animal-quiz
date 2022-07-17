@@ -14,9 +14,9 @@ import { useAppDispatch } from './hooks/redux';
 import { initAuth } from './store/authSlice';
 import RoomPage from './pages/RoomPage';
 import RoomMenuPage from './pages/RoomMenuPage';
-import RoomCreatePage from './pages/RoomCreatePage';
 import RoomLeaderboardPage from './pages/RoomLeaderboard';
 import NotFoundPage from './pages/NotFoundPage';
+import ScrollToTop from './components/common/ScrollToTop';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -27,31 +27,32 @@ function App() {
 
   return (
     <Layout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/quiz" element={<SelectQuizPage />} />
-        <Route path="/quiz/:mode" element={<QuizPage />} />
-        <Route path="/quiz/room-menu" element={<RoomMenuPage />} />
-        <Route path="/quiz/room" element={<RoomPage />} />
-        <Route path="/quiz/create-room" element={<RoomCreatePage />} />
-        <Route
-          path="/quiz/room-leaderboard/:roomId"
-          element={<RoomLeaderboardPage />}
-        />
-        <Route path="/quiz-result/:responseId" element={<QuizResultPage />} />
-        <Route path="/animals" element={<AnimalsPage />} />
-        <Route path="/animals/:className" element={<AnimalsPage />} />
-        <Route path="/animals/:className/:order" element={<AnimalsPage />} />
-        <Route
-          path="/animals/:className/:order/:family"
-          element={<AnimalsPage />}
-        />
-        <Route path="/animal/:animalId" element={<AnimalPage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/user" element={<UserPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <ScrollToTop>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/quiz" element={<SelectQuizPage />} />
+          <Route path="/quiz/:mode" element={<QuizPage />} />
+          <Route path="/quiz/room-menu" element={<RoomMenuPage />} />
+          <Route path="/quiz/room" element={<RoomPage />} />
+          <Route
+            path="/quiz/room-leaderboard/:roomId"
+            element={<RoomLeaderboardPage />}
+          />
+          <Route path="/quiz-result/:responseId" element={<QuizResultPage />} />
+          <Route path="/animals" element={<AnimalsPage />} />
+          <Route path="/animals/:className" element={<AnimalsPage />} />
+          <Route path="/animals/:className/:order" element={<AnimalsPage />} />
+          <Route
+            path="/animals/:className/:order/:family"
+            element={<AnimalsPage />}
+          />
+          <Route path="/animal/:animalId" element={<AnimalPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/not-found" element={<NotFoundPage />} />
+        </Routes>
+      </ScrollToTop>
     </Layout>
   );
 }

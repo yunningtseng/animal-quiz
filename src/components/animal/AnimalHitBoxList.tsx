@@ -7,8 +7,6 @@ function AnimalHitBoxList() {
   const { hits, isLastPage, showMore } = useInfiniteHits<SimpleAnimalHit>();
   const targetRef = useRef(null);
 
-  // console.log(hits);
-
   useEffect(() => {
     if (targetRef.current === null) return undefined;
 
