@@ -18,19 +18,34 @@ function AnimalBox() {
   return (
     <div>
       <div className="flex justify-end mb-5 mr-5">
-        <button
-          type="button"
-          className="h-8 text-sm sm:text-base font-bold px-2 py-1 border rounded-xl text-dark bg-light hover:bg-dark hover:text-white"
-          onClick={() => {
-            dispatch(setIsPhonetic(!isPhonetic));
-          }}
-        >
-          {!isPhonetic ? 'ㄅ' : '中'}
-        </button>
+        <div className="flex justify-evenly border rounded-xl w-auto">
+          <button
+            type="button"
+            className={`font-bold tracking-widest px-3 py-1 rounded-xl ${
+              !isPhonetic ? 'bg-dark text-white' : 'bg-white text-dark'
+            }`}
+            onClick={() => {
+              dispatch(setIsPhonetic(!isPhonetic));
+            }}
+          >
+            中文
+          </button>
+          <button
+            type="button"
+            className={`font-bold tracking-widest px-3 py-1 rounded-xl ${
+              isPhonetic ? 'bg-dark text-white' : 'bg-white text-dark'
+            }`}
+            onClick={() => {
+              dispatch(setIsPhonetic(!isPhonetic));
+            }}
+          >
+            注音
+          </button>
+        </div>
       </div>
 
       <div className={isPhonetic ? 'font-bpm1' : ''}>
-        <div className="md:flex justify-between">
+        <div className="md:flex justify-between relative">
           <img
             src={animal.mainPic ? IMG_BASE_URL + animal.mainPic : jungle}
             alt="img"
@@ -40,6 +55,20 @@ function AnimalBox() {
                 : 'hidden md:block md:w-1/2 lg:w-2/3'
             } rounded-lg object-center object-cover`}
           />
+          {animal.mainPic ? (
+            ''
+          ) : (
+            <p
+              className={`text-center hidden md:block absolute text-secondary font-bold text-lg lg:text-xl top-1/2 ${
+                isPhonetic
+                  ? 'md:left-[1.8rem] lg:left-36 xl:left-52'
+                  : 'md:left-[4.5rem] lg:left-48 xl:left-60'
+              }`}
+            >
+              牠不喜歡拍照...
+            </p>
+          )}
+
           <div className="w-full mt-5 md:mt-0 ml-0 sm:ml-5 font-bold text-dark">
             <div>
               <p className="mt-5 sm:mt-0 text-3xl lg:text-4xl tracking-[.1em]">

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import AnimalBox from '../components/animal/AnimalBox';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { clearState, fetchAnimal } from '../store/animalSlice';
@@ -34,7 +36,13 @@ function AnimalPage() {
   // * previousAnimalId !== animalId 只有在剛進入這個頁面時會是 true
   if (previousAnimalId !== animalId || isLoading) {
     previousAnimalId = animalId ?? '';
-    return <div>is loading</div>;
+    return (
+      <div className="flex justify-center mt-60">
+        <Box>
+          <CircularProgress color="warning" />
+        </Box>
+      </div>
+    );
   }
 
   return (

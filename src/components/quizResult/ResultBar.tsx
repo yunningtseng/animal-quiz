@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { useAppSelector } from '../../hooks/redux';
 import { RootState } from '../../store/store';
-import monkey from '../../images/turtle.png';
+import chameleon from '../../images/chameleon.png';
 
 const selector = createStructuredSelector({
   userName: (state: RootState) => state.auth.user.name,
@@ -38,7 +38,7 @@ function ResultBar() {
         )}
       </div>
 
-      <img src={monkey} alt="img" className="w-40 hidden sm:block" />
+      <img src={chameleon} alt="img" className="w-40 hidden sm:block" />
     </div>
   );
 }
