@@ -21,7 +21,7 @@ function AnimalBox() {
         <div className="flex justify-evenly border rounded-xl w-auto">
           <button
             type="button"
-            className={`font-bold tracking-widest px-3 py-1 rounded-xl ${
+            className={`w-20 font-bold tracking-widest px-3 py-1 rounded-xl ${
               !isPhonetic ? 'bg-dark text-white' : 'bg-white text-dark'
             }`}
             onClick={() => {
@@ -32,7 +32,7 @@ function AnimalBox() {
           </button>
           <button
             type="button"
-            className={`font-bold tracking-widest px-3 py-1 rounded-xl ${
+            className={`w-20 font-bpm1 font-bold tracking-widest px-3 py-1 rounded-xl ${
               isPhonetic ? 'bg-dark text-white' : 'bg-white text-dark'
             }`}
             onClick={() => {

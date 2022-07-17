@@ -3,10 +3,6 @@ export interface User {
   uId?: string;
   email?: string;
   name?: string;
-  // bestScore?: number;
-  // bestScoreResponseId?: string;
-  // totalTime?: number;
-  // mode?: string;
   bestRecord?: {
     normal?: BestRecord;
     timeChallenge?: BestRecord;
