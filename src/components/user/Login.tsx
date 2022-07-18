@@ -51,6 +51,7 @@ function Login() {
         <input
           className="focus:outline-none rounded-lg p-2 w-72"
           placeholder="Email"
+          type="email"
           ref={emailRef}
         />
       </div>
@@ -64,10 +65,10 @@ function Login() {
         />
       </div>
 
-      <div className="flex items-center mt-5">
+      <div className="flex justify-center mt-5">
         <button
           type="button"
-          className="w-24 bg-dark text-white rounded-xl p-1"
+          className="w-full text-lg bg-dark text-white rounded-xl p-1"
           onClick={() => {
             loginHandler();
           }}
@@ -87,14 +88,14 @@ function Login() {
 
       <p className="my-5 text-xl text-center">- 或用以下方式登入 -</p>
 
-      <div className="flex justify-between">
+      <div className="flex justify-center">
         {/* <button type="button" className="w-24 border p-1">
                 Facebook
               </button> */}
 
         <button
           type="button"
-          className="w-full border py-1 bg-white rounded-xl"
+          className="w-3/4 border py-1 bg-white rounded-xl"
           onClick={() => {
             dispatch(googleLogin());
           }}
