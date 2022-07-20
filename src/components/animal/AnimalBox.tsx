@@ -1,15 +1,20 @@
 import { BsDot } from 'react-icons/bs';
+import { createStructuredSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { Animal } from '../../types/animal';
 import conservation from '../../images/conservation.jpg';
 import IMG_BASE_URL from '../../api/url';
 import { setIsPhonetic } from '../../store/animalSlice';
 import jungle from '../../images/jungle-800.jpg';
+import { RootState } from '../../store/store';
+
+const animalSelector = createStructuredSelector({
+  animal: (state: RootState) => state.animal.animal,
+  isPhonetic: (state: RootState) => state.animal.isPhonetic,
+});
 
 function AnimalBox() {
   const dispatch = useAppDispatch();
-  const animal: Animal = useAppSelector((state) => state.animal.animal);
-  const isPhonetic = useAppSelector((state) => state.animal.isPhonetic);
+  const { animal, isPhonetic } = useAppSelector(animalSelector);
 
   if (!animal.id) {
     return <div />;

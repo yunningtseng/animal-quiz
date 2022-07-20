@@ -6,12 +6,13 @@ import SearchAnimalBox from '../components/animal/SearchAnimalBox';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setFilter } from '../store/animalSlice';
 import { searchClient } from '../utils/algolia';
+import { RootState } from '../store/store';
+
+const animalSelector = (state: RootState) => state.animal.showFilterBox;
 
 function AnimalsPage() {
   const dispatch = useAppDispatch();
-  const showFilterBox: boolean = useAppSelector(
-    (state) => state.animal.showFilterBox,
-  );
+  const showFilterBox = useAppSelector(animalSelector);
 
   return (
     <div>
