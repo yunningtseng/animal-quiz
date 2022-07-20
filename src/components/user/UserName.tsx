@@ -1,12 +1,19 @@
 import { useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { BsCheckLg, BsFillPersonFill } from 'react-icons/bs';
+import { createStructuredSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { confirmUserName } from '../../store/authSlice';
+import { RootState } from '../../store/store';
+
+const userSelector = createStructuredSelector({
+  name: (state: RootState) => state.auth.user.name,
+});
 
 function UserName() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
+  const { name } = useAppSelector(userSelector);
+
   const [isEdit, setIsEdit] = useState(false);
   const [isRename, setIsRename] = useState(true);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -16,10 +23,10 @@ function UserName() {
       <div className="flex mt-3 items-center">
         <div className="flex items-center font-bold">
           <BsFillPersonFill className="text-yellow-800 text-xl mr-2" />
-          {!isEdit && <p className="text-dark ml-1">{user.name}</p>}
+          {!isEdit && <p className="text-dark ml-1">{name}</p>}
           {isEdit && (
             <input
-              placeholder={user.name}
+              placeholder={name}
               className="w-40 sm:w-48 text-dark border-b border-black focus:outline-none pl-1"
               ref={userNameRef}
             />

@@ -1,11 +1,11 @@
 import { BsFillPatchExclamationFill } from 'react-icons/bs';
 import { VscError } from 'react-icons/vsc';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { createStructuredSelector } from 'reselect';
 import { useAppSelector } from '../../hooks/redux';
-import { QuizState } from '../../store/quizSlice';
-import { Question } from '../../types/question';
 import MotionCircle from './MotionCircle';
 import MotionCross from './MotionCross';
+import { RootState } from '../../store/store';
 
 const inputType: { [key: string]: string } = {
   single: '單選題',
@@ -13,30 +13,47 @@ const inputType: { [key: string]: string } = {
   trueFalse: '是非題',
 };
 
+const questionSelector = createStructuredSelector({
+  title: (state: RootState) => state.quiz.question.title,
+  mainPic: (state: RootState) => state.quiz.question.mainPic,
+  type: (state: RootState) => state.quiz.question.type,
+  questionId: (state: RootState) => state.quiz.question.id,
+  canAnswer: (state: RootState) => state.quiz.canAnswer,
+  showAlert: (state: RootState) => state.quiz.showAlert,
+  correct: (state: RootState) => state.quiz.correct,
+});
+
 function QuestionBox() {
-  const question: Question = useAppSelector((state) => state.quiz.question);
-  const quiz: QuizState = useAppSelector((state) => state.quiz);
+  const {
+    title: questionTitle,
+    mainPic: questionMainPic,
+    type: questionType,
+    questionId,
+    canAnswer,
+    showAlert,
+    correct,
+  } = useAppSelector(questionSelector);
 
   return (
     <div>
-      <p className="text-lg sm:text-xl">{question.title}</p>
+      <p className="text-lg sm:text-xl">{questionTitle}</p>
 
       <div>
-        {question.mainPic === '' ? (
+        {questionMainPic === '' ? (
           <div />
         ) : (
-          <img src={question.mainPic} alt="img" className="w-48" />
+          <img src={questionMainPic} alt="img" className="w-48" />
         )}
       </div>
 
       <div className="flex items-center mt-3">
         <div className="w-20 text-center rounded-full px-2 py-1 text-sm sm:text-base bg-dark text-white">
-          {inputType[question.type]}
+          {inputType[questionType]}
         </div>
 
-        {quiz.question.id ? (
+        {questionId ? (
           <div>
-            {quiz.showAlert && (
+            {showAlert && (
               <div className="flex items-center ml-5 text-rose-600 font-bold text-lg">
                 <BsFillPatchExclamationFill className="mr-1" />
                 <p>尚未作答</p>
@@ -47,27 +64,27 @@ function QuestionBox() {
           <div />
         )}
 
-        {!quiz.canAnswer && (
+        {!canAnswer && (
           <div className="absolute top-1/3 left-1/2 sm:left-2/3 z-10">
-            {quiz.correct && <MotionCircle size={150} />}
-            {!quiz.correct && <MotionCross size={150} />}
+            {correct && <MotionCircle size={150} />}
+            {!correct && <MotionCross size={150} />}
           </div>
         )}
 
-        {!quiz.canAnswer && (
+        {!canAnswer && (
           <div className="flex items-center">
             <p
               className={`flex items-center ml-5 font-bold text-lg ${
-                quiz.correct ? 'text-green-600' : 'text-rose-600'
+                correct ? 'text-green-600' : 'text-rose-600'
               }`}
             >
-              {quiz.correct ? '答對囉' : '答錯囉'}
+              {correct ? '答對囉' : '答錯囉'}
             </p>
             <p>
-              {quiz.correct && (
+              {correct && (
                 <AiOutlineCheckCircle className="ml-1 font-bold text-lg text-green-600" />
               )}
-              {!quiz.correct && (
+              {!correct && (
                 <VscError className="ml-1 font-bold text-lg text-rose-600" />
               )}
             </p>

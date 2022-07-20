@@ -5,17 +5,20 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout } from '../../store/authSlice';
 import owl from '../../images/owl.png';
+import { RootState } from '../../store/store';
+
+const authSelector = (state: RootState) => state.auth.isLogin;
 
 function Navigation() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const isLogin = useAppSelector(authSelector);
+
   const [expand, isExpand] = useState(false);
 
   return (
     <div>
       <div className="flex items-center w-full h-16 bg-primary fixed top-0 z-20">
-
         <div className="hidden md:flex w-3/4 mx-auto justify-center items-center text-lg text-secondary font-bold">
           <ul className="flex items-center">
             <Link to="/quiz">

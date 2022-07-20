@@ -1,19 +1,17 @@
 import { motion } from 'framer-motion';
+import { createStructuredSelector } from 'reselect';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
-import { QuizState, toggleAnswer } from '../../store/quizSlice';
+import { toggleAnswer } from '../../store/quizSlice';
+import { RootState } from '../../store/store';
 import { Option } from '../../types/question';
 import MotionCheckbox from './MotionCheckbox';
+
+const quizSelector = (state: RootState) => state.quiz.currentAnswer;
 
 interface OptionBoxProps {
   option: Option;
   index: number;
 }
-
-const inputType: { [key: string]: string } = {
-  single: 'radio',
-  multiple: 'checkbox',
-  trueFalse: 'radio',
-};
 
 const optionVariants = {
   visible: {
@@ -33,9 +31,9 @@ const optionVariants = {
 };
 
 function OptionBox({ option, index }: OptionBoxProps) {
-  const quiz: QuizState = useAppSelector((state) => state.quiz);
   const dispatch = useAppDispatch();
-  const isChecked = quiz.currentAnswer.includes(index);
+  const currentAnswer = useAppSelector(quizSelector);
+  const isChecked = currentAnswer.includes(index);
 
   return (
     <motion.li

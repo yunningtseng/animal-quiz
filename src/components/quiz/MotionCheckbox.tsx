@@ -1,5 +1,8 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useAppSelector } from '../../hooks/redux';
+import { RootState } from '../../store/store';
+
+const quizSelector = (state: RootState) => state.quiz.currentAnswer;
 
 interface MotionCheckboxProps {
   index: number;
@@ -25,8 +28,9 @@ const tickVariants = {
 // * https://framerbook.com/animation/example-animations/20-svg-path-length/
 // * https://svg-path-visualizer.netlify.app/
 function MotionCheckbox({ index, size }: MotionCheckboxProps) {
-  const currentAnswer = useAppSelector((state) => state.quiz.currentAnswer);
+  const currentAnswer = useAppSelector(quizSelector);
   const isChecked = currentAnswer.includes(index);
+
   const pathLength = useMotionValue(0);
   const opacity = useTransform(pathLength, [0.05, 0.15], [0, 1]);
 

@@ -4,7 +4,6 @@ import { Question } from '../types/question';
 import type { AppThunk } from './store';
 import quizTimer from '../utils/quizTimer';
 import { updateUser } from './authSlice';
-import { setResponse } from './resultSlice';
 import firestoreApi from '../api/firestore';
 import { endRoom } from './roomSlice';
 
@@ -158,7 +157,6 @@ const quizSlice = createSlice({
       state.navigateToResult = true;
     },
     clearState: () => initialState,
-    setState: (state: QuizState, action: PayloadAction<QuizState>) => action.payload,
   },
 });
 
@@ -170,7 +168,6 @@ export const {
   setTime,
   setNavigateToResult,
   clearState,
-  setState,
   setNavigateToResponseId,
 } = quizSlice.actions;
 
@@ -181,10 +178,8 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   const { qIdList } = getState().quiz;
   const max = 19;
   let newQId: string | undefined;
-  const demoList = [1, 2, 7, 15, 16, 17, 18, 19, 3, 4, 5];
   while (qIdList.length !== max) {
-    const numNumber = demoList[qIdList.length];
-    // const numNumber = Math.floor(Math.random() * max + 1);
+    const numNumber = Math.floor(Math.random() * max + 1);
     const numNumberStr = String(numNumber).padStart(4, '0');
     if (!qIdList.includes(numNumberStr)) {
       newQId = numNumberStr;
