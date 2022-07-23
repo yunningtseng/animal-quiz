@@ -1,11 +1,11 @@
 import { BsDot } from 'react-icons/bs';
 import { Option } from '../../types/question';
 
-interface OptionBoxProps {
+interface Props {
   option: Option;
 }
 
-function RecordBody({ option }: OptionBoxProps) {
+function RecordBody({ option }: Props) {
   return (
     <div>
       <div className="flex items-center">

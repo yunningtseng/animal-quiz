@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { RootState } from '../../store/store';
 import { RankItem } from '../../types/rankItem';
 
-interface RankingBoxProps {
+interface Props {
   rankItem: RankItem;
 }
 
@@ -12,7 +12,7 @@ const userIdSelector = createStructuredSelector({
   user: (state: RootState) => state.auth.user.id,
 });
 
-function RankingBox({ rankItem }: RankingBoxProps) {
+function RankingBox({ rankItem }: Props) {
   const {
     userId, rank, name, score, totalTime,
   } = rankItem;

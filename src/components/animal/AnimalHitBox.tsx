@@ -5,11 +5,11 @@ import IMG_BASE_URL from '../../api/url';
 import { SimpleAnimalHit } from '../../types/animal';
 import jungle from '../../images/jungle-200.jpg';
 
-interface AnimalHitBoxProps {
+interface Props {
   hit: SimpleAnimalHit;
 }
 
-function AnimalHitBox({ hit }: AnimalHitBoxProps) {
+function AnimalHitBox({ hit }: Props) {
   const navigate = useNavigate();
 
   return (

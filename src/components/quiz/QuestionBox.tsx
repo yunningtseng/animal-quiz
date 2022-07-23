@@ -7,7 +7,7 @@ import MotionCircle from './MotionCircle';
 import MotionCross from './MotionCross';
 import { RootState } from '../../store/store';
 
-const inputType: { [key: string]: string } = {
+const INPUT_TYPE: { [key: string]: string } = {
   single: '單選題',
   multiple: '複選題',
   trueFalse: '是非題',
@@ -48,7 +48,7 @@ function QuestionBox() {
 
       <div className="flex items-center mt-3">
         <div className="w-20 text-center rounded-full px-2 py-1 text-sm sm:text-base bg-dark text-white">
-          {inputType[questionType]}
+          {INPUT_TYPE[questionType]}
         </div>
 
         {questionId ? (

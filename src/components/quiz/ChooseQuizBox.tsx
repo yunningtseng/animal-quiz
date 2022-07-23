@@ -4,7 +4,7 @@ import turtle from '../../images/turtle.png';
 import tiger from '../../images/tiger.png';
 import penguin from '../../images/penguin.png';
 
-interface ChooseQuizProps {
+interface Props {
   index: number;
 }
 
@@ -13,7 +13,7 @@ const linkList = ['normal', 'time-challenge', 'room-menu'];
 const picList = [turtle, tiger, penguin];
 const picSizeList = ['w-36', 'w-24', 'w-22'];
 
-function ChooseQuiz({ index }: ChooseQuizProps) {
+function ChooseQuiz({ index }: Props) {
   return (
     <Link to={`/quiz/${linkList[index]}`}>
       <motion.div

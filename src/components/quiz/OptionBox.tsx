@@ -8,7 +8,7 @@ import MotionCheckbox from './MotionCheckbox';
 
 const quizSelector = (state: RootState) => state.quiz.currentAnswer;
 
-interface OptionBoxProps {
+interface Props {
   option: Option;
   index: number;
 }
@@ -30,7 +30,7 @@ const optionVariants = {
   },
 };
 
-function OptionBox({ option, index }: OptionBoxProps) {
+function OptionBox({ option, index }: Props) {
   const dispatch = useAppDispatch();
   const currentAnswer = useAppSelector(quizSelector);
   const isChecked = currentAnswer.includes(index);
