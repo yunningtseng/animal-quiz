@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Response } from '../../types/response';
 
-interface ResponseBoxProps {
+interface Props {
   response: Response;
 }
 
-function ResponseBox({ response }: ResponseBoxProps) {
+function ResponseBox({ response }: Props) {
   const navigate = useNavigate();
   // * string 轉 Date object
   const date = new Date(response.startTime);

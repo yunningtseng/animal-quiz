@@ -4,7 +4,7 @@ import { RootState } from '../../store/store';
 
 const quizSelector = (state: RootState) => state.quiz.currentAnswer;
 
-interface MotionCheckboxProps {
+interface Props {
   index: number;
   size: number;
 }
@@ -27,7 +27,7 @@ const tickVariants = {
 // * https://codesandbox.io/s/framer-motion-svg-checkbox-kqm7y?file=/src/Example.tsx
 // * https://framerbook.com/animation/example-animations/20-svg-path-length/
 // * https://svg-path-visualizer.netlify.app/
-function MotionCheckbox({ index, size }: MotionCheckboxProps) {
+function MotionCheckbox({ index, size }: Props) {
   const currentAnswer = useAppSelector(quizSelector);
   const isChecked = currentAnswer.includes(index);
 

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import firestoreApi from '../api/firestore';
 import { Room } from '../types/room';
+import { User } from '../types/user';
 import type { AppThunk } from './store';
 
 export interface RoomState {
@@ -30,11 +31,9 @@ const roomSlice = createSlice({
 
 export const { setRoom, setCanEnter, clearState } = roomSlice.actions;
 
-export const createRoom = (): AppThunk => async (dispatch, getState) => {
+export const createRoom = (user: User): AppThunk => async (dispatch, getState) => {
   // * 將 host 資料傳進 room 的初始資料中
-  const userId = getState().auth.user.id;
-  const userName = getState().auth.user.name;
-  const room = await firestoreApi.addRoom(userId, userName);
+  const room = await firestoreApi.addRoom(user.id, user.name);
 
   dispatch(setRoom(room));
   // - 監聽 firestore
@@ -46,16 +45,14 @@ export const createRoom = (): AppThunk => async (dispatch, getState) => {
   });
 };
 
-export const enterRoom = (pin: string): AppThunk => async (dispatch, getState) => {
-  const userId = getState().auth.user.id;
-  const userName = getState().auth.user.name;
+export const enterRoom = (pin: string, user: User): AppThunk => async (dispatch, getState) => {
   // * 監聽特定 pin 的 room，並回傳 docId 即為 roomId
   const docId = await firestoreApi.listenRoom(pin, (newRoom) => {
     dispatch(setRoom(newRoom));
   });
 
   if (docId) {
-    firestoreApi.addUserIdToRoom(pin, userId, userName ?? '匿名');
+    firestoreApi.addUserIdToRoom(pin, user.id, user.name ?? '匿名');
     dispatch(setCanEnter('success'));
   } else {
     dispatch(setCanEnter('error'));

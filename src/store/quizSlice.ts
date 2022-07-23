@@ -6,6 +6,7 @@ import quizTimer from '../utils/quizTimer';
 import { updateUser } from './authSlice';
 import firestoreApi from '../api/firestore';
 import { endRoom } from './roomSlice';
+import { User } from '../types/user';
 
 export interface QuizState {
   qIdList: string[];
@@ -153,9 +154,6 @@ const quizSlice = createSlice({
     ) => {
       state.navigateToResponseId = action.payload;
     },
-    setNavigateToResult: (state: QuizState) => {
-      state.navigateToResult = true;
-    },
     clearState: () => initialState,
   },
 });
@@ -166,7 +164,6 @@ export const {
   confirmAnswer,
   setQuestion,
   setTime,
-  setNavigateToResult,
   clearState,
   setNavigateToResponseId,
 } = quizSlice.actions;
@@ -209,8 +206,8 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
 };
 
 // TODO competition 在時間結束要觸發
-export const endQuiz = (): AppThunk => async (dispatch, getState) => {
-  const userId = getState().auth.user.id;
+export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch, getState) => {
+  const userId = user.id;
 
   // * 把 response 重新命名成 oldResponse
   const {
@@ -224,7 +221,7 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
     response.totalTime = 15;
   } else if (mode === 'competition') {
     response.totalTime = 15;
-    response.roomId = getState().room.room.id;
+    response.roomId = roomId;
   }
 
   const responseId = await firestoreApi.setResponse(response);
@@ -234,23 +231,16 @@ export const endQuiz = (): AppThunk => async (dispatch, getState) => {
   // > 更新個人最佳成績
   if (mode !== 'competition') {
     // - 從 firestore 取最新的 user 資料
-    let user = await firestoreApi.getUser(userId);
     // - 如果沒有則讀 store 的資料
-    if (!user) {
-      user = getState().auth.user;
-    }
+    const newUser = (await firestoreApi.getUser(userId)) ?? { ...user };
 
     const quizMode = mode === 'time-challenge' ? 'timeChallenge' : 'normal';
 
-    const bestScore = user.bestRecord?.[quizMode]?.score;
+    const bestScore = newUser.bestRecord?.[quizMode]?.score;
 
     // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
     //  就更新 user(最佳成績資訊)
     if (!bestScore || response.score > bestScore) {
-      const newUser = {
-        ...user,
-      };
-
       newUser.bestRecord = {
         ...newUser.bestRecord,
         [quizMode]: {

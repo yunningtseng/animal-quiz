@@ -4,13 +4,14 @@ import { useState } from 'react';
 import monkey from '../images/monkey.png';
 import parrot from '../images/parrot.png';
 import { createRoom } from '../store/roomSlice';
-import { useAppDispatch } from '../hooks/redux';
+import { useAppDispatch, useAppStore } from '../hooks/redux';
 import quizBanner from '../images/quizBanner.png';
 
 function RoomMenuPage() {
   const [isShowPin, setIsShowPin] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const store = useAppStore();
 
   return (
     <div>
@@ -60,7 +61,8 @@ function RoomMenuPage() {
               type="button"
               className="w-40 bg-dark text-white rounded-xl py-1 cursor-pointer mr-10"
               onClick={() => {
-                dispatch(createRoom());
+                const { user } = store.getState().auth;
+                dispatch(createRoom(user));
                 navigate('/quiz/room');
               }}
             >

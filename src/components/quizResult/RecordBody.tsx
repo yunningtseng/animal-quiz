@@ -3,22 +3,22 @@ import { Question } from '../../types/question';
 import RecordAnswerBox from './RecordAnswerBox';
 import RecordCorrectAnswerBox from './RecordCorrectAnswerBox';
 
-interface RecordBodyProps {
+interface Props {
   record: Record;
   question: Question;
 }
-const inputType: { [key: string]: string } = {
+const INPUT_TYPE: { [key: string]: string } = {
   single: '單選題',
   multiple: '多選題',
   trueFalse: '是非題',
 };
 
-function RecordBody({ record, question }: RecordBodyProps) {
+function RecordBody({ record, question }: Props) {
   return (
     <div className="mt-3 border-b border-stone-200 justify-between text-sm sm:text-base">
       <p className="font-bold">{question.title}</p>
       <div className="w-16 text-center rounded-full px-1 py-1 text-xs sm:text-sm bg-dark text-white mt-2 sm:mt-3">
-        {inputType[question.type]}
+        {INPUT_TYPE[question.type]}
       </div>
 
       <div
