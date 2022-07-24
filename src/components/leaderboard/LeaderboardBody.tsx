@@ -1,17 +1,23 @@
 import { useEffect } from 'react';
 import { FaCrown } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { createSelector } from 'reselect';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchRankingList, fetchRoomRankingList } from '../../store/rankSlice';
+import { RootState } from '../../store/store';
 import LockRankingBox from './LockRankingBox';
 import RankingBox from './RankingBox';
 import RankingBoxTop3 from './RankingBoxTop3';
 
+const rankingListSelector = createSelector(
+  (state: RootState) => state.ranking.rankingList,
+  (rankingList) => ({ rankingList, length: rankingList.length }),
+);
+
 function LeaderboardBody() {
   const { roomId } = useParams();
   const dispatch = useAppDispatch();
-  const rankingList = useAppSelector((state) => state.ranking.rankingList);
-  const { length } = rankingList;
+  const { rankingList, length } = useAppSelector(rankingListSelector);
 
   useEffect(() => {
     if (roomId) {

@@ -40,7 +40,6 @@ const resultSlice = createSlice({
       state.responses = action.payload;
     },
     clearState: () => initialState,
-    setState: (state: ResultState, action: PayloadAction<ResultState>) => action.payload,
     setResultDialog: (state: ResultState, action: PayloadAction<boolean>) => {
       state.showResultDialog = action.payload;
     },
@@ -55,7 +54,6 @@ export const {
   setResponse,
   setResponses,
   clearState,
-  setState,
   setResultDialog,
   setIsLoading,
 } = resultSlice.actions;

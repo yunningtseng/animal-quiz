@@ -1,20 +1,27 @@
 import { useRef, useState } from 'react';
 import { GrClose } from 'react-icons/gr';
+import { createStructuredSelector } from 'reselect';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { confirmUserName } from '../../store/authSlice';
 import { setResultDialog } from '../../store/resultSlice';
+import { RootState } from '../../store/store';
+
+const resultSelector = createStructuredSelector({
+  showResultDialog: (state: RootState) => state.result.showResultDialog,
+  mode: (state: RootState) => state.result.response.mode,
+  score: (state: RootState) => state.result.response.score,
+  totalTime: (state: RootState) => state.result.response.totalTime,
+  name: (state: RootState) => state.auth.user.name,
+});
 
 function ResultDialog() {
   const dispatch = useAppDispatch();
-  const resultState = useAppSelector((state) => state.result);
-  const name = useAppSelector((state) => state.auth.user.name);
-  const mode = useAppSelector((state) => state.result.response.mode);
+  const {
+    showResultDialog, mode, score, totalTime, name,
+  } = useAppSelector(resultSelector);
+
   const [isRename, setIsRename] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const showResultDialog = useAppSelector(
-    (state) => state.result.showResultDialog,
-  );
 
   return (
     <div>
@@ -71,7 +78,7 @@ function ResultDialog() {
           </div>
 
           <div className="flex text-dark font-bold mt-3 text-sm md:text-base">
-            <span>{`測驗結果: ${resultState.response.score} 分 / ${resultState.response.totalTime} 秒`}</span>
+            <span>{`測驗結果: ${score} 分 / ${totalTime} 秒`}</span>
           </div>
         </div>
       )}

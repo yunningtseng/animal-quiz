@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch, useAppStore } from '../../hooks/redux';
 import { confirmAnswer, endQuiz, nextQuestion } from '../../store/quizSlice';
 import { RootState } from '../../store/store';
 
@@ -22,6 +22,7 @@ function ControlBar() {
   const {
     canAnswer, mode, quizTimeIsOver, qIdListLength, hasNextQuestion,
   } = useAppSelector(controlBarSelector);
+  const store = useAppStore();
 
   return (
     <div className="mt-5 sm:mt-10 flex justify-end">
@@ -56,7 +57,10 @@ function ControlBar() {
           <button
             type="button"
             onClick={() => {
-              dispatch(endQuiz());
+              const state = store.getState();
+              const { user } = state.auth;
+              const roomId = state.room.room.id;
+              dispatch(endQuiz(user, roomId));
             }}
             className="bg-dark text-white py-1 px-3 rounded-xl mt-5"
           >

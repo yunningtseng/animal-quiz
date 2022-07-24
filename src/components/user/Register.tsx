@@ -10,6 +10,7 @@ const userErrorSelector = createStructuredSelector({
 
 function Register() {
   const dispatch = useAppDispatch();
+  const { error } = useAppSelector(userErrorSelector);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -20,8 +21,6 @@ function Register() {
 
   const [isBlank, setIsBlank] = useState(false);
   const [warning, setWarning] = useState('');
-
-  const { error } = useAppSelector(userErrorSelector);
 
   function registerHandler() {
     const missing = inputRefList.some((ref, index) => {

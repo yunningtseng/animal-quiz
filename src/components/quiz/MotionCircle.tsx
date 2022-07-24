@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 
-interface MotionCircleProps {
+interface Props {
   size: number;
 }
 
-function MotionCircle({ size }: MotionCircleProps) {
+function MotionCircle({ size }: Props) {
   return (
     // * viewBox: 截取畫面 左上 0,0，右下 50,50
     <motion.svg width={size} height={size} viewBox="0 0 50 50">

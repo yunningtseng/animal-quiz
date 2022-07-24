@@ -3,14 +3,14 @@ import head1 from '../../images/head1.png';
 import head2 from '../../images/head2.png';
 import head3 from '../../images/head3.png';
 
-interface RankingBoxTop3Props {
+interface Props {
   index: number;
   color: string;
 }
 
 const heads = [head1, head2, head3];
 
-function RankingBoxTop3({ index, color }: RankingBoxTop3Props) {
+function RankingBoxTop3({ index, color }: Props) {
   return (
     <div>
       <FaCrown className={`mx-auto text-${color} text-5xl`} />

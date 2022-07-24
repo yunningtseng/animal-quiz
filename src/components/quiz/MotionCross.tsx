@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 
-interface MotionCrossProps {
+interface Props {
   size: number;
 }
 
-function MotionCross({ size }: MotionCrossProps) {
+function MotionCross({ size }: Props) {
   return (
     <motion.svg
       width={size}

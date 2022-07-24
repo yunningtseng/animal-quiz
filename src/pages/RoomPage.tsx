@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { BsFillPatchExclamationFill } from 'react-icons/bs';
 import { useNavigate, Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { useAppDispatch, useAppSelector, useAppStore } from '../hooks/redux';
 import { enterRoom, setCanEnter, startRoom } from '../store/roomSlice';
 import { RootState } from '../store/store';
 
@@ -21,6 +21,8 @@ function RoomPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { room, enterStatus, userId } = useAppSelector(selector);
+  const store = useAppStore();
+
   const {
     hostId, pin, status, userMap,
   } = room;
@@ -51,7 +53,8 @@ function RoomPage() {
           onClick={() => {
             const enteredPin = inputRef.current?.value;
             if (enteredPin) {
-              dispatch(enterRoom(enteredPin));
+              const { user } = store.getState().auth;
+              dispatch(enterRoom(enteredPin, user));
             } else {
               dispatch(setCanEnter('error'));
             }

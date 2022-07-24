@@ -8,7 +8,7 @@ import head3 from '../../images/head3.png';
 
 const heads = [head1, head2, head3];
 
-interface RankingBoxTop3Props {
+interface Props {
   rankItem: RankItem;
 }
 
@@ -16,7 +16,7 @@ const userIdSelector = createStructuredSelector({
   user: (state: RootState) => state.auth.user.id,
 });
 
-function RankingBoxTop3({ rankItem }: RankingBoxTop3Props) {
+function RankingBoxTop3({ rankItem }: Props) {
   const {
     userId, rank, name, score, totalTime,
   } = rankItem;

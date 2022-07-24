@@ -11,6 +11,7 @@ const userErrorSelector = createStructuredSelector({
 
 function Login() {
   const dispatch = useAppDispatch();
+  const { error } = useAppSelector(userErrorSelector);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -20,8 +21,6 @@ function Login() {
 
   const [isBlank, setIsBlank] = useState(false);
   const [warning, setWarning] = useState('');
-
-  const { error } = useAppSelector(userErrorSelector);
 
   function loginHandler() {
     const missing = inputRefList.some((ref, index) => {
