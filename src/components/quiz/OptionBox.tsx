@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { createStructuredSelector } from 'reselect';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { toggleAnswer } from '../../store/quizSlice';
 import { RootState } from '../../store/store';
