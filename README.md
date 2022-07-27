@@ -1,46 +1,123 @@
-# Getting Started with Create React App
+# Animal Quiz
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+A Multiplayer Animal Quiz Game with Animal Introduction
 
-## Available Scripts
+`https://animal-quiz-4be2f.web.app/`
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Features](#features)
+  - [Quiz Game](#quiz-game)
+    - Game Modes
+    - Question Types
+    - [Other Features](#other-features)
+  - Animal Introduction
+    - Instantly Filter and Search
+    - [Infinite Scroll](#infinite-scroll)
+    - [Zhuyin (注音, Mandarin Phonetic Symbols)](#zhuyin-注音-mandarin-phonetic-symbols)
+- [Tech](#tech)
+  - TypeScript
+  - React
+  - Redux
+  - [Reselect](#reselect)
+  - [Algolia](#algolia)
+  - Tailwind
+  - Framer Motion
+  - Firebase:
+    Authentication, Firestore, Storage, Hosting
+- [Flow Charts](#flow-charts)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Features
 
-### `npm test`
+### Quiz Game
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Three game modes
+  - Normal
+  - Time challenge
+  - Competition
+    - Competition mode allows user to invite others into the room and compete against each other in real time.
+- Three Question Types
 
-### `npm run build`
+  - Single
+  - Multiple
+  - True False
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Animal introduction
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Zhuyin (注音, Mandarin Phonetic Symbols)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Provides Zhuyin (Mandarin Phonetic Symbols) for children to read easily.
+- Download Zhuyin BpmfGenSekiGothic-R.ttf file.
+  透過在 slice 上的 isPhonetic boolean state，去控制注音字體是否要套用，
+- With isPhonetic state (boolean) in animalSlice, control font will apply Zhuyin or not.
 
-### `npm run eject`
+### other features
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- When the guest logs in after playing several games, all previous records will be kept to the history of the new login user.
+- 不須登入也可以玩遊戲，且在登入後之前的遊戲紀錄會加進用戶資料中
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Keeps track of ranking results of different modes and displays on leaderboard.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Tech
 
-## Learn More
+### Reselect
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In order to reduce unnecessary render and improve performance, Reselect was used with Redux to solve it.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```TypeScript
+const quizBoxSelector = createStructuredSelector({
+  options: (state) => state.quiz.question.options,
+  questionId: (stat) => state.quiz.question.id,
+});
+function QuestionBox() {
+  const { options, questionId } = useAppSelector(quizBoxSelector);
+  return (
+    ...
+  );
+}
+```
+
+```TypeScript
+const controlBarSelector = createSelector(
+  (state) => state.quiz.mode,
+  (state) => state.quiz.qIdList,
+  ( mode, qIdList) => ({
+    mode,
+    hasNextQuestion: mode !== 'normal' || qIdList.length < 10,
+  }),
+);
+
+function QuestionBox() {
+  const { mode, hasNextQuestion } = useAppSelector(controlBarSelector);
+  return (
+      ...
+  );
+}
+```
+
+### Algolia
+
+The Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine
+
+Instant search and filter
+
+- User can instantly filter and search for animals and seamlessly scroll through results, provides better user experience.
+
+### Infinite scroll
+
+observer
+
+### Framer Motion
+
+Animation package.
+checkbox、O X、hover 時放大
+
+---
+
+## Flow Charts
+
+![alt text](https://i.imgur.com/wrWoe5m.gif)
