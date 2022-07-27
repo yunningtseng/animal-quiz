@@ -18,7 +18,7 @@ function Navigation() {
 
   return (
     <div>
-      <div className="flex items-center w-full h-16 bg-primary fixed top-0 z-20">
+      <div className="flex items-center w-full h-16 bg-primary fixed top-0 z-30">
         <div className="hidden md:flex w-3/4 mx-auto justify-center items-center text-lg text-secondary font-bold">
           <ul className="flex items-center">
             <Link to="/quiz">
@@ -82,7 +82,7 @@ function Navigation() {
       </div>
 
       {expand && (
-        <div className="fixed md:hidden w-full top-16 z-20">
+        <div className="fixed md:hidden w-full top-16 z-30">
           <ul className="bg-light w-full text-center">
             <Link to="/">
               <li

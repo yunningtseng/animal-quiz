@@ -66,8 +66,8 @@ function AnimalBox() {
             <p
               className={`text-center hidden md:block absolute text-secondary font-bold text-lg lg:text-xl top-1/2 ${
                 isPhonetic
-                  ? 'md:left-[1.8rem] lg:left-36 xl:left-52'
-                  : 'md:left-[4.5rem] lg:left-48 xl:left-60'
+                  ? 'md:left-[5rem] lg:left-48 xl:left-60'
+                  : 'md:left-[6rem] lg:left-56 xl:left-60'
               }`}
             >
               牠不喜歡拍照...

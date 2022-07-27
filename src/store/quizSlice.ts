@@ -52,9 +52,9 @@ const quizSlice = createSlice({
 
       let time = 0;
       if (mode === 'time-challenge') {
-        time = 15;
+        time = 30;
       } else if (mode === 'competition') {
-        time = 15;
+        time = 30;
       }
 
       // - 創一個 response，裡面有 responseId userName startTime
@@ -78,11 +78,13 @@ const quizSlice = createSlice({
     },
     // - toggle answer
     toggleAnswer: (state: QuizState, action: PayloadAction<number>) => {
+      // * 在 confirmAnswer 階段無法進行 toggle
       if (!state.canAnswer) return;
 
       const toggleAnswer = action.payload;
       const { type } = state.question;
       if (type === 'multiple') {
+        // - 判斷是否已存在 currentAnswer
         const index = state.currentAnswer.indexOf(toggleAnswer);
         if (index !== -1) {
           state.currentAnswer.splice(index, 1);
@@ -171,7 +173,6 @@ export const {
 export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   quizTimer.resume();
 
-  // * 取 QuizState 中的 qIdList
   const { qIdList } = getState().quiz;
   const max = 19;
   let newQId: string | undefined;
@@ -205,7 +206,6 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
   dispatch(nextQuestion());
 };
 
-// TODO competition 在時間結束要觸發
 export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch, getState) => {
   const userId = user.id;
 
@@ -218,9 +218,9 @@ export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch
 
   response.totalTime = time;
   if (mode === 'time-challenge') {
-    response.totalTime = 15;
+    response.totalTime = 30;
   } else if (mode === 'competition') {
-    response.totalTime = 15;
+    response.totalTime = 30;
     response.roomId = roomId;
   }
 
