@@ -52,9 +52,9 @@ const quizSlice = createSlice({
 
       let time = 0;
       if (mode === 'time-challenge') {
-        time = 15;
+        time = 30;
       } else if (mode === 'competition') {
-        time = 15;
+        time = 30;
       }
 
       // - 創一個 response，裡面有 responseId userName startTime
@@ -218,9 +218,9 @@ export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch
 
   response.totalTime = time;
   if (mode === 'time-challenge') {
-    response.totalTime = 15;
+    response.totalTime = 30;
   } else if (mode === 'competition') {
-    response.totalTime = 15;
+    response.totalTime = 30;
     response.roomId = roomId;
   }
 
