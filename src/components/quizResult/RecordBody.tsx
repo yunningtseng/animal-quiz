@@ -2,6 +2,7 @@ import { Record } from '../../types/response';
 import { Question } from '../../types/question';
 import RecordAnswerBox from './RecordAnswerBox';
 import RecordCorrectAnswerBox from './RecordCorrectAnswerBox';
+import IMG_BASE_URL from '../../api/url';
 
 interface Props {
   record: Record;
@@ -17,6 +18,17 @@ function RecordBody({ record, question }: Props) {
   return (
     <div className="mt-3 border-b border-stone-200 justify-between text-sm sm:text-base">
       <p className="font-bold">{question.title}</p>
+      <div>
+        {question.mainPic === '' ? (
+          <div />
+        ) : (
+          <img
+            src={IMG_BASE_URL + question.mainPic}
+            alt="img"
+            className="w-96 sm:w-100 md:w-112 my-5 rounded-xl shadow-lg"
+          />
+        )}
+      </div>
       <div className="w-16 text-center rounded-full px-1 py-1 text-xs sm:text-sm bg-dark text-white mt-2 sm:mt-3">
         {INPUT_TYPE[question.type]}
       </div>

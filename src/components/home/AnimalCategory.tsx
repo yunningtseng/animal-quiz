@@ -5,8 +5,8 @@ function AnimalCategory() {
 
   return (
     <div className="flex flex-col md:flex-row justify-between max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto mt-5">
-      {animalCategoryList.map((animalCategory) => (
-        <AnimalCategoryBox animalCategory={animalCategory} />
+      {animalCategoryList.map((animalCategory, index) => (
+        <AnimalCategoryBox key={index} animalCategory={animalCategory} />
       ))}
     </div>
   );
