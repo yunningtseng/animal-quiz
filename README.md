@@ -54,7 +54,6 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - True False
 
 ![alt text](https://i.imgur.com/8JWXiVE.gif)
-![alt text](https://i.imgur.com/e2g6rsA.gif)
 
 ### Animal introduction
 
@@ -89,7 +88,7 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 - USerPage
   - Records previous quiz game result.
 
-![alt text](https://i.imgur.com/iSMEs09.gif)
+![alt text](https://i.imgur.com/iiOWLwj.gif)
 
 ---
 
