@@ -62,20 +62,19 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - User can instantly filter and search for animals.
   - With Algolia.
 
-![alt text](https://i.imgur.com/CL7hgGz.gif)
-![alt text](https://i.imgur.com/8JWXiVE.gif)
+![alt text](https://i.imgur.com/tm791ZH.gif)
 
 - Infinite Scroll
 
   - Seamlessly scroll through results, provides better user experience.
 
-![alt text](https://i.imgur.com/euAYmzA.gif)
+![alt text](https://i.imgur.com/e2g6rsA.gif)
 
 - Zhuyin (注音, Mandarin Phonetic Symbols)
 
   - Provides Zhuyin (Mandarin Phonetic Symbols) for children to read easily.
 
-![alt text](https://i.imgur.com/bOySDJx.gif)
+![alt text](https://i.imgur.com/NhbIiWr.gif)
 
 ### Other Features
 
@@ -89,7 +88,7 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 - USerPage
   - Records previous quiz game result.
 
-![alt text](https://i.imgur.com/hByR9sJ.gif)
+![alt text](https://i.imgur.com/iSMEs09.gif)
 
 ---
 
