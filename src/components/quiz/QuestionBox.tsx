@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks/redux';
 import MotionCircle from './MotionCircle';
 import MotionCross from './MotionCross';
 import { RootState } from '../../store/store';
+import IMG_BASE_URL from '../../api/url';
 
 const INPUT_TYPE: { [key: string]: string } = {
   single: '單選題',
@@ -42,7 +43,11 @@ function QuestionBox() {
         {questionMainPic === '' ? (
           <div />
         ) : (
-          <img src={questionMainPic} alt="img" className="w-48" />
+          <img
+            src={IMG_BASE_URL + questionMainPic}
+            alt="img"
+            className="w-96 sm:w-100 md:w-112 my-5 rounded-xl shadow-lg"
+          />
         )}
       </div>
 
