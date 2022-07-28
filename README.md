@@ -62,7 +62,9 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - User can instantly filter and search for animals.
   - With Algolia.
 
-![alt text](https://i.imgur.com/tm791ZH.gif)
+<img
+        src="src/images/Filter.gif"
+      />
 
 - Infinite Scroll
 
