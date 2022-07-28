@@ -61,17 +61,14 @@ export const {
 } = authSlice.actions;
 
 export const initAuth = (): AppThunk => async (dispatch) => {
-  // - localstorage 取 userId
   let userId = localStorage.getItem('userId');
 
   let user: User | undefined;
 
-  // - 若沒有 userId 就在 firebase 創立，並存進 localstorage
   if (!userId) {
     userId = firestoreApi.generateUniqueId();
     localStorage.setItem('userId', userId);
   } else {
-    // - 確認 firestore 上有沒有這個 user
     // TODO 改 listen
     user = await firestoreApi.getUser(userId);
   }
@@ -112,10 +109,8 @@ export const googleLogin = (): AppThunk => async (dispatch, getState) => {
   }
 
   if (result.uId) {
-    // - query firestore user
     const user = await firestoreApi.findUser(result.uId);
     if (user) {
-      // - 改登舊帳號的 user
       dispatch(setUser(user));
       localStorage.setItem('userId', user.id);
     } else {

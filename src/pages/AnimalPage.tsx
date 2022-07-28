@@ -21,7 +21,6 @@ function AnimalPage() {
   const { isLoading, animalNotFound } = useAppSelector(animalSelector);
   const navigate = useNavigate();
 
-  // - 先確認有沒有 fetch 到動物，若沒有則轉跳到錯誤頁面
   useEffect(() => {
     if (animalNotFound) {
       navigate('/not-found');
@@ -33,7 +32,6 @@ function AnimalPage() {
     dispatch(fetchAnimal(animalId ?? ''));
   }, [dispatch, animalId]);
 
-  // * previousAnimalId !== animalId 只有在剛進入這個頁面時會是 true
   if (previousAnimalId !== animalId || isLoading) {
     previousAnimalId = animalId ?? '';
     return (
