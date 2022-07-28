@@ -34,24 +34,27 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 ### Quiz Game
 
 - Questions generated randomly.
-- Three game modes
+- 3 game modes
 
   - Normal
 
-    - Ten questions in one quiz.
+    - 10 questions
+    - no time limit
 
   - Time challenge
-    - Thirty seconds in one quiz.
+    - no question limit
+    - 30 seconds
   - Competition
 
-    - Thirty seconds in one quiz.
+    - no question limit
+    - 30 seconds
     - Allows user to invite others into the room and compete against each other in real time.
 
-- Three Question Types
+- 3 question types
 
-  - Single
-  - Multiple
-  - True False
+  - single
+  - multiple
+  - true-false
 
 ![alt text](https://i.imgur.com/8JWXiVE.gif)
 
@@ -59,24 +62,21 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 
 - Instant search and filter
 
-  - User can instantly filter and search for animals.
-  - With Algolia.
+  - achieve by [Algolia](#algolia)
 
 <img
         src="src/images/Filter.gif"
       />
 
-- Infinite Scroll
-
-  - Seamlessly scroll through results, provides better user experience.
+- Infinite scroll
+  - use observer
 
 <img
         src="src/images/Scroll.gif"
       />
 
 - Zhuyin (注音, Mandarin Phonetic Symbols)
-
-  - Provides Zhuyin (Mandarin Phonetic Symbols) for children to read easily.
+  - use BpmfGenSekiGothic font from [ButTaiwan/bpmfvs](https://github.com/ButTaiwan/bpmfvs)
 
 <img
         src="src/images/Zhuyin.gif"
