@@ -70,7 +70,9 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 
   - Seamlessly scroll through results, provides better user experience.
 
-![alt text](https://i.imgur.com/e2g6rsA.gif)
+<img
+        src="src/images/Scroll.gif"
+      />
 
 - Zhuyin (注音, Mandarin Phonetic Symbols)
 
