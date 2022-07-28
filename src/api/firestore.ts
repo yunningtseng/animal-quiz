@@ -20,50 +20,41 @@ import { Response, ResponseFS } from '../types/response';
 import { Question } from '../types/question';
 import { User } from '../types/user';
 import { Room } from '../types/room';
-// * docRef 是某個 document 在資料庫中的位置，一般從 doc() 取得
-// * docRef.id 是那個 document 在該 collection 中的 id
-// * docSnap 是某個 document 在某個時間點的截圖
-// * docSnap.data() 取出可使用的資料
-// * docSnap.ref 是那個 document 在資料庫中的位置
-// * querySnap 是某個篩選條件且在某個時間點下，所有 documents 的截圖
-// * querySnap.docs 轉成 array of docSnap
-// * 若要取出 querySnap 中的所有資料，
+
 //  要 querySnap.forEach 分別取出裡面 docSnap.data()，
 //  並存進自訂的 array 中
 const firestoreApi = {
-  // - 產生 firestore 自創的 unique id
   generateUniqueId: () => doc(collection(db, 'users')).id,
-  // - 取得測驗題目
+
   getQuestions: async (idList: string[]): Promise<Question[]> => {
     const results: Promise<Question>[] = [];
     idList.forEach((qId) => results.push(firestoreApi.getQuestion(qId)));
-    // - 待所有題目載入完成才會 return
+
     const questionListLocal = await Promise.all(results);
 
     return questionListLocal;
   },
-  // - 取得特定題目
+
   getQuestion: async (id: string): Promise<Question> => {
     const docRef = doc(db, 'questions', id);
     const docSnap = await getDoc(docRef);
     return docSnap.data() as Question;
   },
-  // - 儲存作答回應
+
   setResponse: async (response: Response): Promise<string> => {
-    // - 創一個空 docRef
     const docRef = doc(collection(db, 'responses'));
-    // - docRef.id 是 firestore 自創的 unique id
+
     const responseId = docRef.id;
     await setDoc(docRef, {
       ...response,
       id: responseId,
-      // * string 轉 Date object 再轉 Timestamp
+
       startTime: Timestamp.fromDate(new Date(response.startTime)),
     });
 
     return responseId;
   },
-  // - 取個人歷史紀錄頁面
+
   getResponses: async (userId: string): Promise<Response[]> => {
     const collectionRef = collection(db, 'responses');
     const q = query(
@@ -82,14 +73,14 @@ const firestoreApi = {
     });
     return list;
   },
-  // - 取得特定作答回應
+
   getResponse: async (id: string): Promise<Response> => {
     const docRef = doc(db, 'responses', id);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data() as ResponseFS;
     return {
       ...data,
-      // * Timestamp 轉 string
+
       startTime: data.startTime.toDate().toISOString(),
     };
   },
@@ -106,7 +97,6 @@ const firestoreApi = {
     return docSnap.data() as User | undefined;
   },
   setUser: async (user: User): Promise<void> => {
-    // - 將 doc 的 id 設為 user.id，非自動產生的 random id
     const docRef = doc(db, 'users', user.id);
     await setDoc(docRef, user);
   },
@@ -145,7 +135,7 @@ const firestoreApi = {
       collectionRef,
       orderBy(`bestRecord.${quizMode}.score`, 'desc'),
       orderBy(`bestRecord.${quizMode}.totalTime`),
-      // * 代表必須要有 name
+
       orderBy('name'),
       limit(10),
     );
@@ -159,7 +149,7 @@ const firestoreApi = {
     newList = list;
     return newList;
   },
-  // - 創 room
+
   addRoom: async (
     userId: string,
     userName: string | undefined,
@@ -175,12 +165,10 @@ const firestoreApi = {
       pin = String(numNumber).padStart(4, '0');
     }
 
-    // - 更新 roomIsUsed 中的 pin
     await updateDoc(roomIsUsedRef, {
       list: arrayUnion(pin),
     });
 
-    // - 創建 room
     const docRef = doc(collection(db, 'rooms'));
     const roomId = docRef.id;
     const room = {
@@ -195,8 +183,7 @@ const firestoreApi = {
 
     return room;
   },
-  // - 監聽 room doc
-  // * onRoom 是一個 callback function
+
   listenRoom: async (pin: string, onRoom: (room: Room) => void) => {
     const q = query(
       collection(db, 'rooms'),
@@ -212,14 +199,12 @@ const firestoreApi = {
       return undefined;
     }
 
-    // * 只要 query 資料有變化，就會得到新的 querySnapshot 進來
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      // - 取得最新的 room 並觸發 callback，去 setRoom
       const room = docSnap.data() as Room;
       onRoom(room);
 
       // TODO 要等 onRoom 執行完再取消
-      // - 取消監聽
+
       if (room.status === 'start') {
         unsubscribe();
       }
@@ -241,7 +226,6 @@ const firestoreApi = {
     const querySnap = await getDocs(q);
     const docRef = querySnap.docs[0].ref;
 
-    // - 更新 user 到 room
     await updateDoc(docRef, {
       [`userMap.${userId}`]: userName,
     });
@@ -265,7 +249,7 @@ const firestoreApi = {
       where('roomId', '==', roomId),
       orderBy('score', 'desc'),
     );
-    // * 第一個位置放要監聽的東西
+
     const unsubscribe = onSnapshot(q, (querySnap) => {
       const list: Response[] = [];
       querySnap.forEach((docSnap) => {
@@ -278,7 +262,7 @@ const firestoreApi = {
     const q = query(collection(db, 'users'), where('uId', '==', uId), limit(1));
     const querySnap = await getDocs(q);
     const docSnap = querySnap.docs[0];
-    // - docSnap 可能是 undefined
+
     const user = docSnap?.data() as User | undefined;
     return user;
   },

@@ -7,9 +7,9 @@ interface Props {
 
 function ResponseBox({ response }: Props) {
   const navigate = useNavigate();
-  // * string 轉 Date object
+
   const date = new Date(response.startTime);
-  // * 使用 Date 的 method，根據當地時區進行轉換
+
   const dateStr = date.toLocaleDateString();
   const timeStr = date.toLocaleTimeString([], {
     hour: '2-digit',

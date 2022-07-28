@@ -57,7 +57,7 @@ export const fetchAnimal = (animalId: string): AppThunk => async (dispatch) => {
   dispatch(clearState());
   dispatch(setIsLoading(true));
   const data = await firestoreApi.getAnimal(animalId);
-  // - 先確認 data 有沒有 fetch 到動物
+
   if (data) {
     dispatch(setAnimalNotFound(false));
     dispatch(setAnimal(data));

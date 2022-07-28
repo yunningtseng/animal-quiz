@@ -13,7 +13,6 @@ function CurrentFilterBox() {
             type="button"
             className="font-bold px-2 py-0.5 bg-primary rounded-xl"
             key={index}
-              // * 執行 refine，清空篩選
             onClick={() => {
               refine(e);
             }}

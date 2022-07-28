@@ -17,7 +17,6 @@ function UserAccount() {
 
   return (
     <div className="mt-3">
-      {/* - google 綁定 */}
       <div className="flex items-center">
         {!uId && <FcGoogle className="text-xl mr-2" />}
 
@@ -25,9 +24,7 @@ function UserAccount() {
 
         {uId ? (
           <div className="flex items-center">
-            <span className="ml-1 text-dark font-bold">
-              {email ?? ''}
-            </span>
+            <span className="ml-1 text-dark font-bold">{email ?? ''}</span>
             <BsFillCheckCircleFill className="ml-3 text-green-600 text-lg" />
           </div>
         ) : (

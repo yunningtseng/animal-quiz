@@ -3,9 +3,8 @@ import { useSearchBox } from 'react-instantsearch-hooks-web';
 import { preprocessQuery } from '../../utils/algolia';
 
 function SearchAnimalBox() {
-  // * query: 上一次 query 的東西，refine: 觸發搜尋，queryHook: 觸發搜尋的前處理，並控制是否要搜尋
   const { query, refine } = useSearchBox({ queryHook: preprocessQuery });
-  // * value: 現在輸入要搜尋的文字
+
   const [value, setValue] = useState(query);
   const inputRef = useRef<HTMLInputElement>(null);
 

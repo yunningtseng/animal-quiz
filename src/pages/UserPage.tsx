@@ -29,7 +29,6 @@ function UserPage() {
   } = useAppSelector(userSelector);
 
   useEffect(() => {
-    // - initAuth 還沒結束
     if (!initState) return;
 
     if (isLogin) {
@@ -39,7 +38,6 @@ function UserPage() {
     }
   }, [dispatch, user.id, initState, isLogin, navigate]);
 
-  // - 控制顯示 loading
   if (isLoading) {
     return (
       <div className="flex justify-center mt-60">
