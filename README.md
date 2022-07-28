@@ -2,7 +2,7 @@
 
 A Multiplayer Animal Quiz Game with Animal Introduction
 
-`https://animal-quiz-4be2f.web.app/`
+<https://animal-quiz-4be2f.web.app/>
 
 ## Table of Contents
 
