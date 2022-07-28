@@ -105,12 +105,12 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 - In order to reduce unnecessary render and improve performance, Reselect was used with Redux to solve it.
 
 ```TypeScript
-const quizBoxSelector = createStructuredSelector({
+const selector = createStructuredSelector({
   options: (state) => state.quiz.question.options,
   questionId: (stat) => state.quiz.question.id,
 });
 function QuestionBox() {
-  const { options, questionId } = useAppSelector(quizBoxSelector);
+  const { options, questionId } = useAppSelector(selector);
   return (
     ...
   );
@@ -118,7 +118,7 @@ function QuestionBox() {
 ```
 
 ```TypeScript
-const controlBarSelector = createSelector(
+const selector = createSelector(
   (state) => state.quiz.mode,
   (state) => state.quiz.qIdList,
   ( mode, qIdList) => ({
@@ -128,7 +128,7 @@ const controlBarSelector = createSelector(
 );
 
 function QuestionBox() {
-  const { mode, hasNextQuestion } = useAppSelector(controlBarSelector);
+  const { mode, hasNextQuestion } = useAppSelector(selector);
   return (
       ...
   );
@@ -138,11 +138,21 @@ function QuestionBox() {
 ### Algolia
 
 - Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine.
+- <https://www.algolia.com/products/search-and-discovery/hosted-search-api/>
 
 ### Framer Motion
 
 - A animation package.
+- <https://www.framer.com/motion/>
 
 ---
 
 ## Flow Charts
+
+- Quiz Game Flow Chart
+
+![alt text](https://i.imgur.com/SYiRRj0.png)
+
+- Animal Information Flow Chart
+
+![alt text](https://i.imgur.com/zq5pH9X.png)
