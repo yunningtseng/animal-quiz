@@ -74,7 +74,9 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 
   - Provides Zhuyin (Mandarin Phonetic Symbols) for children to read easily.
 
-![alt text](https://i.imgur.com/NhbIiWr.gif)
+<img
+        src="src/images/Zhuyin.gif"
+      />
 
 ### Other Features
 
