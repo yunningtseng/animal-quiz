@@ -132,7 +132,7 @@ const quizSlice = createSlice({
       if (correct) {
         state.score += 10;
       }
-      if (state.qIdList.length === 19) {
+      if (state.qIdList.length === 337) {
         state.quizIsOver = true;
       }
     },
@@ -174,7 +174,7 @@ export const nextQuestion = (): AppThunk => async (dispatch, getState) => {
   quizTimer.resume();
 
   const { qIdList } = getState().quiz;
-  const max = 19;
+  const max = 337;
   let newQId: string | undefined;
   while (qIdList.length !== max) {
     const numNumber = Math.floor(Math.random() * max + 1);
