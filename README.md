@@ -63,6 +63,7 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - With Algolia.
 
 ![alt text](https://i.imgur.com/CL7hgGz.gif)
+![alt text](https://i.imgur.com/8JWXiVE.gif)
 
 - Infinite Scroll
 
@@ -73,9 +74,6 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 - Zhuyin (注音, Mandarin Phonetic Symbols)
 
   - Provides Zhuyin (Mandarin Phonetic Symbols) for children to read easily.
-
-<img src="https://i.imgur.com/bOySDJx.gif"
-              />
 
 ![alt text](https://i.imgur.com/bOySDJx.gif)
 
