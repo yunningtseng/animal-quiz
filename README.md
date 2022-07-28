@@ -88,7 +88,7 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 - USerPage
   - Records previous quiz game result.
 
-![alt text](https://i.imgur.com/iiOWLwj.gif)
+![alt text](https://i.imgur.com/z7U2kaY.gif)
 
 ---
 
