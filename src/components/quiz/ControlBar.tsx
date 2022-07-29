@@ -32,6 +32,11 @@ function ControlBar() {
           className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
           onClick={() => {
             dispatch(confirmAnswer());
+            window.scroll({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
           }}
         >
           確認
@@ -44,6 +49,11 @@ function ControlBar() {
           className="w-40 tracking-[.5rem] text-lg font-bold border rounded-2xl px-3 py-2 bg-primary text-secondary hover:bg-dark hover:text-white"
           onClick={() => {
             dispatch(nextQuestion());
+            window.scroll({
+              top: 0,
+              left: 0,
+              behavior: 'smooth',
+            });
           }}
         >
           下一題
