@@ -22,7 +22,7 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - [Reselect](#reselect)
   - [Algolia](#algolia)
   - Tailwind
-  - Framer Motion
+  - [Framer Motion](#framer-motion)
   - Firebase:
     Authentication, Firestore, Storage, Hosting
 - [Flow Charts](#flow-charts)
