@@ -56,7 +56,9 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - multiple
   - true-false
 
-![alt text](https://i.imgur.com/8JWXiVE.gif)
+<img
+        src="src/images/quiz.gif"
+      />
 
 ### Animal introduction
 
@@ -65,21 +67,21 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - achieve by [Algolia](#algolia)
 
 <img
-        src="src/images/Filter.gif"
+        src="src/images/filter.gif"
       />
 
 - Infinite scroll
   - use observer
 
 <img
-        src="src/images/Scroll.gif"
+        src="src/images/scroll.gif"
       />
 
 - Zhuyin (注音, Mandarin Phonetic Symbols)
   - use BpmfGenSekiGothic font from [ButTaiwan/bpmfvs](https://github.com/ButTaiwan/bpmfvs)
 
 <img
-        src="src/images/Zhuyin.gif"
+        src="src/images/zhuyin.gif"
       />
 
 ### Other Features
@@ -137,8 +139,9 @@ function QuestionBox() {
 
 ### Algolia
 
-- Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine.
 - <https://www.algolia.com/products/search-and-discovery/hosted-search-api/>
+- Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine.
+- Algolia is used in [multiple packages' document page](https://docsearch.algolia.com/) like React, Redux, TypeScript, Tailwind, Bootstrap, Material UI, GraphQL.
 
 ### Framer Motion
 
