@@ -17,7 +17,7 @@ function ChooseQuiz({ index }: Props) {
   return (
     <Link to={`/quiz/${linkList[index]}`}>
       <motion.div
-        className="flex-col border rounded-xl w-44 h-48 cursor-pointer mt-5 sm:mt-0"
+        className="flex-col border rounded-xl w-44 h-48 cursor-pointer mt-5 md:mt-0"
         aria-hidden="true"
         whileHover={{ scale: 1.1 }}
       >
