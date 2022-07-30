@@ -67,21 +67,21 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - achieve by [Algolia](#algolia)
 
 <img
-        src="src/images/filter.gif"
+        src="src/images/searchFilter.gif"
       />
 
 - Infinite scroll
   - use observer
 
 <img
-        src="src/images/scroll.gif"
+        src="src/images/infiniteScroll.gif"
       />
 
 - Zhuyin (注音, Mandarin Phonetic Symbols)
   - use BpmfGenSekiGothic font from [ButTaiwan/bpmfvs](https://github.com/ButTaiwan/bpmfvs)
 
 <img
-        src="src/images/zhuyin.gif"
+        src="src/images/phoneticSymbols.gif"
       />
 
 ### Other Features
