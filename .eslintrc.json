@@ -25,8 +25,6 @@
   "rules": {
     "linebreak-style": "off",
     "max-len": "off",
-    "react/jsx-filename-extension": 0,
-    "react/react-in-jsx-scope": 0,
     "no-param-reassign": [
       "error",
       { "props": true, "ignorePropertyModificationsFor": ["state"] }
