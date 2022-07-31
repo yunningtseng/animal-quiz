@@ -4,10 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#F8F0DF', //淺背景色
-        secondary: '#A64B2A', //深文字色
-        dark: '#766161', //內文文字
-        light: '#F0EBE3', // 其他淺背景色
+        primary: "var(--color-bg-primary)", //淺背景色
+        secondary: "var(--color-primary)", //深文字色
+        dark: "var(--color-secondary)", //內文文字
+        light: "var(--color-bg-secondary)", // 其他淺背景色
       },
       width: {
         22: '5.5rem', //88

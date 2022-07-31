@@ -7,7 +7,7 @@ interface Props {
 
 function Layout({ children }: Props) {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen theme-light">
       <Navigation />
       <main className="mt-24 pb-36">{children}</main>
       <Footer />
