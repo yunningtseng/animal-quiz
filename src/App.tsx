@@ -51,6 +51,7 @@ function App() {
           <Route path="/user" element={<UserPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/not-found" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ScrollToTop>
     </Layout>
