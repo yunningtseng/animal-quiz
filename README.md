@@ -1,19 +1,22 @@
-# Animal Quiz
+# Animal Exploring & Quiz
 
-A Multiplayer Animal Quiz Game with Animal Introduction
+Use TypeScript, React, Redux, Tailwind and Firebase to build a website consisting of an animal exploring page and a quiz game.
 
 <https://animal-quiz-4be2f.web.app/>
 
 ## Table of Contents
 
 - [Features](#features)
+  - [Animal Exploring Page](#animal-exploring)
+    - Collecting 250+ animal data that originated from Taipei Zoo open data.
+    - Powered by Algolia API, users can instantly search for animals on every keystroke and seamlessly scroll through search results.
+    - Zhuyin (Mandarin Phonetic Symbols, 注音) is available for children to read easily.
+
   - [Quiz Game](#quiz-game)
-    - Game Modes
-    - Question Types
-  - [Animal Introduction](#animal-introduction)
-    - Instantly Filter and Search
-    - Infinite Scroll
-    - Zhuyin (注音, Mandarin Phonetic Symbols)
+    - There’re 3 game modes: normal, time challenge and competition mode, along with 300+ animal questions and the leaderboard feature.
+    - In competition mode, users can invite others into the room and compete against each other in real time.
+    - All game records are kept in the database, so the logged-in users can view their previous records in game history.
+
   - [Other Features](#other-features)
 - [Tech](#tech)
   - TypeScript
@@ -22,7 +25,7 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - [Reselect](#reselect)
   - [Algolia](#algolia)
   - Tailwind
-  - Framer Motion
+  - [Framer Motion](#framer-motion)
   - Firebase:
     Authentication, Firestore, Storage, Hosting
 - [Flow Charts](#flow-charts)
@@ -30,6 +33,30 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 ---
 
 ## Features
+
+### Animal Exploring
+
+- Instant search and filter
+
+  - achieve by [Algolia](#algolia)
+
+<img
+        src="src/images/searchFilter.gif" width="600"
+      />
+
+- Infinite scroll
+  - use Intersection Observer API
+
+<img
+        src="src/images/infiniteScroll.gif" width="600"
+      />
+
+- Zhuyin (注音, Mandarin Phonetic Symbols)
+  - use BpmfGenSekiGothic font from [ButTaiwan/bpmfvs](https://github.com/ButTaiwan/bpmfvs)
+
+<img
+        src="src/images/phoneticSymbols.gif" width="600"
+      />
 
 ### Quiz Game
 
@@ -56,30 +83,8 @@ A Multiplayer Animal Quiz Game with Animal Introduction
   - multiple
   - true-false
 
-![alt text](https://i.imgur.com/8JWXiVE.gif)
-
-### Animal introduction
-
-- Instant search and filter
-
-  - achieve by [Algolia](#algolia)
-
 <img
-        src="src/images/Filter.gif"
-      />
-
-- Infinite scroll
-  - use observer
-
-<img
-        src="src/images/Scroll.gif"
-      />
-
-- Zhuyin (注音, Mandarin Phonetic Symbols)
-  - use BpmfGenSekiGothic font from [ButTaiwan/bpmfvs](https://github.com/ButTaiwan/bpmfvs)
-
-<img
-        src="src/images/Zhuyin.gif"
+        src="src/images/quiz.gif" width="600"
       />
 
 ### Other Features
@@ -89,12 +94,16 @@ A Multiplayer Animal Quiz Game with Animal Introduction
 - Leaderboard
   - Keeps track of ranking results of different modes and displays on leaderboard.
 
-![alt text](https://i.imgur.com/KP8Ceif.gif)
+<img
+        src="https://i.imgur.com/KP8Ceif.gif" width="600"
+      />
 
 - USerPage
   - Records previous quiz game result.
 
-![alt text](https://i.imgur.com/z7U2kaY.gif)
+<img
+        src="https://i.imgur.com/z7U2kaY.gif" width="600"
+      />
 
 ---
 
@@ -137,8 +146,9 @@ function QuestionBox() {
 
 ### Algolia
 
-- Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine.
 - <https://www.algolia.com/products/search-and-discovery/hosted-search-api/>
+- Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine.
+- Algolia is used in [multiple packages' document page](https://docsearch.algolia.com/) like React, Redux, TypeScript, Tailwind, Bootstrap, Material UI, GraphQL.
 
 ### Framer Motion
 
@@ -151,8 +161,12 @@ function QuestionBox() {
 
 - Quiz Game Flow Chart
 
-![alt text](https://i.imgur.com/SYiRRj0.png)
+<img
+        src="https://i.imgur.com/SYiRRj0.png" width="600"
+      />
 
 - Animal Information Flow Chart
 
-![alt text](https://i.imgur.com/zq5pH9X.png)
+<img
+        src="https://i.imgur.com/zq5pH9X.png" width="600"
+      />
