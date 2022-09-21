@@ -20,7 +20,6 @@ const rankingSlice = createSlice({
       state: RankingState,
       action: PayloadAction<{ roomId?: string; list: RankItem[] }>,
     ) {
-      // * 因為 action 會傳兩個參數進來，因此要展開才能使用
       const { roomId, list } = action.payload;
       // state.roomId = action.payload.roomId;
       state.roomId = roomId;
@@ -35,7 +34,6 @@ export const fetchRankingList = (mode: string): AppThunk => async (dispatch, get
   const list = await firestoreApi.getRankingList(mode);
   const quizMode = mode === 'time-challenge' ? 'timeChallenge' : 'normal';
 
-  // * 把讀取進來的 User[] 轉成 RankItem[]
   const newList = list.map((user, index) => ({
     userId: user.id,
     rank: index + 1,
@@ -53,7 +51,6 @@ export const fetchRoomRankingList = (roomId: string): AppThunk => (dispatch) => 
 
     const userList = await firestoreApi.getUsers(userIdList);
 
-    // * 把讀取進來的 Response[] 轉成 RankItem[]
     const newList = list.map((response, index) => ({
       userId: response.userId,
       rank: index + 1,

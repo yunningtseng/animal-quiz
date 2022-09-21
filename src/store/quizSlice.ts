@@ -25,13 +25,12 @@ export interface QuizState {
 }
 
 const initialState: QuizState = {
-  // > question
   qIdList: [],
   question: {} as Question,
-  // > answer
+
   currentAnswer: [],
   response: {} as Response,
-  // > status
+
   canAnswer: true,
   score: 0,
   correct: false,
@@ -57,7 +56,6 @@ const quizSlice = createSlice({
         time = 30;
       }
 
-      // - 創一個 response，裡面有 responseId userName startTime
       const response: Response = {
         id: '',
         score: 0,
@@ -68,7 +66,6 @@ const quizSlice = createSlice({
         mode,
       };
 
-      // * return QuizState 會去覆蓋輸出整個 state，只保留 response、mode、time
       return {
         ...initialState,
         response,
@@ -76,15 +73,13 @@ const quizSlice = createSlice({
         time,
       };
     },
-    // - toggle answer
+
     toggleAnswer: (state: QuizState, action: PayloadAction<number>) => {
-      // * 在 confirmAnswer 階段無法進行 toggle
       if (!state.canAnswer) return;
 
       const toggleAnswer = action.payload;
       const { type } = state.question;
       if (type === 'multiple') {
-        // - 判斷是否已存在 currentAnswer
         const index = state.currentAnswer.indexOf(toggleAnswer);
         if (index !== -1) {
           state.currentAnswer.splice(index, 1);
@@ -108,7 +103,7 @@ const quizSlice = createSlice({
         quizTimer.pause();
       }
       const correctAnswer = state.question.answer;
-      // - 判斷回答對錯
+
       let correct = answer.length === correctAnswer.length;
       if (correct) {
         for (let i = 0; i < correctAnswer.length; i += 1) {
@@ -120,7 +115,6 @@ const quizSlice = createSlice({
       }
       state.correct = correct;
 
-      // - 存 record
       const record = {
         answer,
         correct,
@@ -128,7 +122,6 @@ const quizSlice = createSlice({
       };
       state.response.records.push(record);
 
-      // - 計算分數，呈現對錯
       if (correct) {
         state.score += 10;
       }
@@ -142,7 +135,7 @@ const quizSlice = createSlice({
       state.canAnswer = true;
       state.currentAnswer = [];
     },
-    // - 設置當前顯示的時間
+
     setTime: (state: QuizState, action: PayloadAction<number>) => {
       state.time = action.payload;
       if (state.time === 0 && state.mode !== 'normal') {
@@ -195,21 +188,16 @@ export const startQuiz = (mode: string): AppThunk => (dispatch, getState) => {
 
   const { time } = getState().quiz;
 
-  // * 開始 quizTimer 來持續改變當前顯示的 time
-  // * 第一個參數的匿名 function 就是 onTimeChange，每秒會去執行
   quizTimer.start(() => {
-    // * 從 quizTimer 提取當前最新的時間並 setTime
     dispatch(setTime(quizTimer.time));
   }, time);
 
-  // * 載入第一題
   dispatch(nextQuestion());
 };
 
 export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch, getState) => {
   const userId = user.id;
 
-  // * 把 response 重新命名成 oldResponse
   const {
     response: oldResponse, score, mode, time,
   } = getState().quiz;
@@ -225,20 +213,16 @@ export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch
   }
 
   const responseId = await firestoreApi.setResponse(response);
-  // * 取得在 firestoreApi.setResponse 得到的 id 再 dispatch 進 redux
+
   response.id = responseId;
 
-  // > 更新個人最佳成績
   if (mode !== 'competition') {
-    // - 從 firestore 取最新的 user 資料
-    // - 如果沒有則讀 store 的資料
     const newUser = (await firestoreApi.getUser(userId)) ?? { ...user };
 
     const quizMode = mode === 'time-challenge' ? 'timeChallenge' : 'normal';
 
     const bestScore = newUser.bestRecord?.[quizMode]?.score;
 
-    // - 若這次的 response 分數比個人最佳成績高，或還沒有個人最佳成績，
     //  就更新 user(最佳成績資訊)
     if (!bestScore || response.score > bestScore) {
       newUser.bestRecord = {
@@ -255,7 +239,7 @@ export const endQuiz = (user: User, roomId: string): AppThunk => async (dispatch
   }
 
   quizTimer.reset();
-  // * 更新 setNavigateToResponseId，使頁面導向 quiz-result/responseId
+
   dispatch(setNavigateToResponseId(responseId));
 
   if (mode === 'competition') {

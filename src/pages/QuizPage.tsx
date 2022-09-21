@@ -10,13 +10,11 @@ import { RootState } from '../store/store';
 const selectNavigateToResponseId = (state: RootState) => state.quiz.navigateToResponseId;
 
 function QuizPage() {
-  // - quiz 的 type
   const { mode } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const navigateToResponseId = useAppSelector(selectNavigateToResponseId);
 
-  // - 作答結束取得 navigateToResponseId 後，會導到 quiz-result
   useEffect(() => {
     if (navigateToResponseId) {
       navigate(`/quiz-result/${navigateToResponseId}`);
@@ -24,7 +22,6 @@ function QuizPage() {
     }
   }, [navigate, navigateToResponseId, dispatch]);
 
-  // - 判斷 quiz 的 type
   useEffect(() => {
     const list = ['normal', 'time-challenge', 'competition'];
     if (list.includes(mode ?? '')) {

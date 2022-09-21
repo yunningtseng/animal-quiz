@@ -17,7 +17,6 @@ const resultSelector = createStructuredSelector({
 let previousResponseId = '';
 
 function QuizResultPage() {
-  // - 從 useParam 抓 responseId，再去 fetch result
   const { responseId } = useParams();
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(resultSelector);
@@ -26,7 +25,6 @@ function QuizResultPage() {
     dispatch(fetchResponseAndQuestions(responseId ?? ''));
   }, [responseId, dispatch]);
 
-  // - 控制顯示 loading
   if (previousResponseId !== responseId || isLoading) {
     previousResponseId = responseId ?? '';
     return (

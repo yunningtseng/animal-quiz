@@ -34,7 +34,6 @@ function LeaderboardBody() {
   return (
     <div className="mt-5">
       <div className="flex justify-between sm:w-112 mx-auto items-end h-64 sm:h-80 mb-10">
-        {/* * 若有兩人以上在排行榜上時才會出現 */}
         {length > 1 && (
           <div>
             <FaCrown className="mx-auto text-zinc-400 text-5xl" />

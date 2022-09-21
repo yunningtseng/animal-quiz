@@ -19,7 +19,6 @@ function LoginPage() {
   const { isLogin } = useAppSelector(userIdSelector);
   const [isSignIn, setIsSignIn] = useState(true);
 
-  // - 如果 isLogin = true 就轉跳到其他頁面
   useEffect(() => {
     if (isLogin) {
       navigate('/user');
@@ -28,7 +27,11 @@ function LoginPage() {
 
   return (
     <div className="flex justify-center mx-auto pt-10">
-      <img src={monkey} alt="img" className="hidden md:block w-[20rem] h-full mt-12" />
+      <img
+        src={monkey}
+        alt="img"
+        className="hidden md:block w-[20rem] h-full mt-12"
+      />
 
       <div className="rounded-xl p-6 bg-light shadow-xl ml-3">
         {isSignIn && <Login />}

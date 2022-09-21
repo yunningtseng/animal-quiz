@@ -27,12 +27,10 @@ const authApi = {
     } catch (e) {
       const err = e as FirebaseError;
 
-      // * auth/popup-closed-by-user
       return { error: err.code };
     }
   },
 
-  // - 註冊
   createWithEmail: async (email: string, password: string) => {
     try {
       const result = await createUserWithEmailAndPassword(
@@ -52,7 +50,6 @@ const authApi = {
     }
   },
 
-  // - 登入
   signInWithEmail: async (email: string, password: string) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
