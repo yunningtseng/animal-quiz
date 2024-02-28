@@ -2,7 +2,7 @@
 
 Use TypeScript, React, Redux, Tailwind and Firebase to build a website consisting of an animal exploring page and a quiz game.
 
-Visit <https://taipei-food-map.web.app/>
+Visit <https://taipei-zoo-explorer.web.app/>
 
 ## Table of Contents
 
