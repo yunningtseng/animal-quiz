@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "taipei-zoo-explorer",
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [

@@ -1,23 +1,27 @@
-# Animal Exploring & Quiz
+# Taipei Zoo Explorer
 
 Use TypeScript, React, Redux, Tailwind and Firebase to build a website consisting of an animal exploring page and a quiz game.
 
-<https://animal-quiz-4be2f.web.app/>
+Visit <https://taipei-food-map.web.app/>
 
 ## Table of Contents
 
 - [Features](#features)
+
   - [Animal Exploring Page](#animal-exploring)
+
     - Collecting 250+ animal data that originated from Taipei Zoo open data.
     - Powered by Algolia API, users can instantly search for animals on every keystroke and seamlessly scroll through search results.
     - Zhuyin (Mandarin Phonetic Symbols, 注音) is available for children to read easily.
 
   - [Quiz Game](#quiz-game)
+
     - There’re 3 game modes: normal, time challenge and competition mode, along with 300+ animal questions and the leaderboard feature.
     - In competition mode, users can invite others into the room and compete against each other in real time.
     - All game records are kept in the database, so the logged-in users can view their previous records in game history.
 
   - [Other Features](#other-features)
+
 - [Tech](#tech)
   - TypeScript
   - React

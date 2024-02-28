@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import { useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { BsCheckLg, BsFillPersonFill } from 'react-icons/bs';
