@@ -1,6 +1,6 @@
 # Taipei Zoo Explorer
 
-Use TypeScript, React, Redux, Tailwind and Firebase to build a website consisting of an animal exploring page and a quiz game.
+An educative website introducing various zoo animals with a multi-mode quiz game.
 
 Visit <https://taipei-zoo-explorer.web.app/>
 
@@ -28,7 +28,7 @@ Visit <https://taipei-zoo-explorer.web.app/>
   - Redux
   - [Reselect](#reselect)
   - [Algolia](#algolia)
-  - Tailwind
+  - Tailwind CSS
   - [Framer Motion](#framer-motion)
   - Firebase:
     Authentication, Firestore, Storage, Hosting
@@ -117,42 +117,11 @@ Visit <https://taipei-zoo-explorer.web.app/>
 
 - In order to reduce unnecessary render and improve performance, Reselect was used with Redux to solve it.
 
-```TypeScript
-const selector = createStructuredSelector({
-  options: (state) => state.quiz.question.options,
-  questionId: (stat) => state.quiz.question.id,
-});
-function QuestionBox() {
-  const { options, questionId } = useAppSelector(selector);
-  return (
-    ...
-  );
-}
-```
-
-```TypeScript
-const selector = createSelector(
-  (state) => state.quiz.mode,
-  (state) => state.quiz.qIdList,
-  ( mode, qIdList) => ({
-    mode,
-    hasNextQuestion: mode !== 'normal' || qIdList.length < 10,
-  }),
-);
-
-function QuestionBox() {
-  const { mode, hasNextQuestion } = useAppSelector(selector);
-  return (
-      ...
-  );
-}
-```
-
 ### Algolia
 
 - <https://www.algolia.com/products/search-and-discovery/hosted-search-api/>
 - Algolia provides search as a service, offering web search across a client's website using an externally hosted search engine.
-- Algolia is used in [multiple packages' document page](https://docsearch.algolia.com/) like React, Redux, TypeScript, Tailwind, Bootstrap, Material UI, GraphQL.
+- Algolia is used in [multiple packages' document page](https://docsearch.algolia.com/) like React, Redux, TypeScript, Tailwind CSS, Bootstrap, Material UI, GraphQL.
 
 ### Framer Motion
 
